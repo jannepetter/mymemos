@@ -1,0 +1,80 @@
+
+
+"console.log()":{
+		"prefix": "cl",
+			"body": [
+				"console.log($1)"
+			],
+		 	"description": "console.log"	
+	},
+"arrayfunction":{
+		"prefix": "aa",
+			"body": [
+				"const $1 =($2)=>{",
+				"$0",
+				"}"
+			],
+		 	"description": "const arrayfunction"	
+	},
+"normalfunction":{
+		"prefix": "ff",
+			"body": [
+				"function $1($2){",
+				"$0",
+				"}"
+			],
+		 	"description": "named function"	
+	},
+
+"anonymousfunction":{
+		"prefix": "cb",
+			"body": [
+				"($1)=>{$0}",
+			],
+		 	"description": "anonymous arrfunction"	
+	},
+"stripped anonymousfunction":{
+		"prefix": "cbb",
+			"body": [
+				"$1=>$0",
+			],
+		 	"description": "stripped anonarrfunc"
+	},
+
+---------------------------------js react-----------------------------------------------------------------
+"function component":{
+		"prefix": "rc",
+			"body": [
+				"import React from 'react';",
+				"",
+				"",
+				"const $1 =(props)=>{",
+				"$2",
+				"return(",
+				"<div>",
+				"$0",
+				"</div>)",
+				"}",
+				"",
+				"export default $1"
+			],
+		 	"description": "new function component"	
+	},
+
+-------------------------------------------typescript react-----------------------------------------------
+"new react function component":{
+		"prefix": "rc",
+			"body": [
+				"import React from 'react'",
+				"",
+				"interface Props {",
+				"",
+				"}",
+				"",
+				"const $1:React.FC<Props> = (props) => {",
+				"return ($2)",
+				"}",
+				"export default $1"
+			],
+		 	"description": "Typescript react function component"	
+	}
