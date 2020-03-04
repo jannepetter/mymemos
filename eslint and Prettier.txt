@@ -1,0 +1,36 @@
+------------------------------------------------------------------------------------------------
+--------------------eslint+prettier-------------------------------------------------------------
+npm install eslint prettier --save-dev
+./node_modules/.bin/eslint --init       -seuraa kysely ja tekee .eslintrc tiedoston
+
+-jos käytät airbnb asetuksia valitse se kyselystä, niin samalla asentaa siihen tarvittavat
+-depencyt. Tarvitaan vielä seuraavat 2 pakettia jotta eslint ja prettier toimivat kunnolla
+
+npm install --save-dev eslint-config-prettier eslint-plugin-prettier
+
+-ensimmäinen kytkee poispäältä eslint rulesit jotka ovat ristiriidassa prettierin kans ja
+-jälkimmäinen yhdistää prettierin säännöt eslintin sääntöihin.
+
+---.eslintrc.json 
+{
+  "extends": ["prettier", "airbnb"],
+
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/jsx-filename-extension": {
+      "extensions": ".js"
+    }
+  }
+}
+
+---.prettierrc  (roottiin ja säännöiksi esim)
+{
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "singleQuote": true
+}
+
+-installoi tai laita päälle vsc eslint ja prettier, jos ei jo ole ja 
+-reload window (ctrl+shift+p) command palettesta
+
