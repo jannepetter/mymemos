@@ -1,0 +1,77 @@
+-----------------------------------------------------------------------------------------------------------------------
+--------------------------Powershell-----------------------------------------------------------------------------------
+dir				            - listaa directoryn
+md kansio			        - tekee kansio nimisen mapin/kansion/hakemiston
+mkdir kansio			    - tekee kansio nimisen mapin/kansion/hakemiston
+type nul > testi.txt		- tekee testi.txt tiedoston huom. välilyönnit
+cp testi.txt uusi.txt		- kopioi testi.txt tiedoston uusi.txt tiedostoksi
+mv testi.txt kansio		    - siirtää testi.txt kansioon (nimeltä kansio)
+mv tisti.txt testi.txt		- voi käyttää myös uudelleennimeämiseen
+rm testi.txt			    - poistaa halutun tiedoston tai kansion
+rd kansio			        - poistaa kansion
+rd kansio -force -recurse	- jos kansio sisältää alikansioita tai tiedostoja, poistaa kyselemättä
+
+-----------------------------------------------------------------------------------------------------------------------
+--------------------------Windows commandline--------------------------------------------------------------------------
+dir				            - listaa directoryn
+md kansio			        - tekee kansio nimisen mapin/kansion/hakemiston
+mkdir kansio			    - tekee kansio nimisen mapin/kansion/hakemiston
+type nul > testi.txt		- tekee testi.txt tiedoston
+copy testi.txt uusi.txt		- kopioi testi.txt tiedoston uusi.txt tiedostoksi
+move testi.txt kansio		- siirtää testi.txt kansioon (nimeltä kansio)
+move tisti.txt testi.txt	- voi käyttää myös uudelleennimeämiseen
+del testi.txt
+rmdir kansio			    -poistaa kansion (jos tyhjä)
+rmdir kansio /q /s		    -poistaa kansion ja sen tiedostot kyselemättä /quietly ja alikansiot /subfolders
+
+
+-----------------------------------------------------------------------------------------------------------------------
+------------------------------git basics-------------------------------------------------------------------------------
+---ssh avain---
+-avaa git bash			-windows searchbar
+
+ssh-keygen -t rsa -b 4096 -C "emailosoitetähän"		(gituseremail)
+
+-tekee avainparin ja naputtele enteriä jos et halua muuttaa avainten paikkoja 
+tai asentaa salasanaa. Seuraavaksi käynnistä ssh agentti:
+
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+
+-kopioi id_rsa.pub sisältö uudeksi avaimeksi githubiin
+-valmis!
+
+-jos haluat muuttaa avainta niin deletoi githubin julkinen avain
+-ja poista avaimet .ssh kansiosta minne ne menivät generoitaessa,
+-toista prosessi
+---------------
+
+git init			            - luo .git kansion hakemistoon jossa olet
+git status			            - kertoo .git kansion tilanteen
+git add .			            - lisää kaikki kansion tiedostot gitin alaisuuteen valmiiksi committoitavaksi
+git commit -m "viesti"		    - committoi jotta voidaan pushata
+git remote -v			        - kertoo mikä nyt on osoite mihin pushataan, tarkista varsinki jos ulisee
+git remote set-url origin https://github.com/username/repository.git	- voit muuttaa osoitteen oikeaksi tai
+git remote set-url origin git@github.com:username/repository.git	    - jos ssh käytetään
+git push -u origin master	    - pushaa paikallisen version etärepoon	
+
+
+
+
+git config --list				- listaa git konfiguraatiot mm. myös email ja username
+git config --global user.name "Your Name"	    - muuttaa git käyttäjänimen "Your Name" muotoon
+git config --global user.email you@example.com	- muuttaa spostin you@example.com muotoon
+git log						    - kertoo mitä kommitteja repositorio sisältää
+gitk						    - GUI gitille käynnistyy
+
+
+
+
+
+
+
+
+
+
+
+
