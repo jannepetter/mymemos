@@ -1,39 +1,45 @@
 -----------------------------------------------------------------------------------------------------------------------
 --------------------------Powershell-----------------------------------------------------------------------------------
-dir				            - listaa directoryn
-md kansio			        - tekee kansio nimisen mapin/kansion/hakemiston
-mkdir kansio			    - tekee kansio nimisen mapin/kansion/hakemiston
-type nul > testi.txt		- tekee testi.txt tiedoston huom. välilyönnit
-cp testi.txt uusi.txt		- kopioi testi.txt tiedoston uusi.txt tiedostoksi
+dir				                - listaa directoryn
+ls                        - listaa directoryn
+dir -force                - näyttää myös hiddenfilut .git ym
+ls  -force                - näyttää myös hiddenfilut .git ym
+md kansio			            - tekee kansio nimisen mapin/kansion/hakemiston
+mkdir kansio			        - tekee kansio nimisen mapin/kansion/hakemiston
+type nul > testi.txt		  - tekee testi.txt tiedoston huom. välilyönnit
+new-item testi.txt        - tekee testi.txt tiedoston
+cp testi.txt uusi.txt	  	- kopioi testi.txt tiedoston uusi.txt tiedostoksi
 mv testi.txt kansio		    - siirtää testi.txt kansioon (nimeltä kansio)
 mv tisti.txt testi.txt		- voi käyttää myös uudelleennimeämiseen
-rm testi.txt			    - poistaa halutun tiedoston tai kansion
-rd kansio			        - poistaa kansion
+rm testi.txt			        - poistaa halutun tiedoston tai kansion
+rd kansio			            - poistaa kansion
 rd kansio -force -recurse	- jos kansio sisältää alikansioita tai tiedostoja, poistaa kyselemättä
 
 -----------------------------------------------------------------------------------------------------------------------
 --------------------------Windows commandline--------------------------------------------------------------------------
-dir				            - listaa directoryn
-md kansio			        - tekee kansio nimisen mapin/kansion/hakemiston
-mkdir kansio			    - tekee kansio nimisen mapin/kansion/hakemiston
-type nul > testi.txt		- tekee testi.txt tiedoston
+dir				                - listaa directoryn
+dir /a                    - näyttää myös hiddenfilut .git ym
+md kansio			            - tekee kansio nimisen mapin/kansion/hakemiston
+mkdir kansio			        - tekee kansio nimisen mapin/kansion/hakemiston
+type nul > testi.txt  		- tekee testi.txt tiedoston
+echo.>testi.txt           - tekee testi.txt tiedoston
 copy testi.txt uusi.txt		- kopioi testi.txt tiedoston uusi.txt tiedostoksi
-move testi.txt kansio		- siirtää testi.txt kansioon (nimeltä kansio)
+move testi.txt kansio	  	- siirtää testi.txt kansioon (nimeltä kansio)
 move tisti.txt testi.txt	- voi käyttää myös uudelleennimeämiseen
 del testi.txt
-rmdir kansio			    -poistaa kansion (jos tyhjä)
+rmdir kansio			        -poistaa kansion (jos tyhjä)
 rmdir kansio /q /s		    -poistaa kansion ja sen tiedostot kyselemättä /quietly ja alikansiot /subfolders
 
 
 -----------------------------------------------------------------------------------------------------------------------
 ------------------------------git basics-------------------------------------------------------------------------------
----ssh avain---
+---ssh avain--------------------------
 -avaa git bash			-windows searchbar
 
 ssh-keygen -t rsa -b 4096 -C "emailosoitetähän"		(gituseremail)
 
 -tekee avainparin ja naputtele enteriä jos et halua muuttaa avainten paikkoja 
-tai asentaa salasanaa. Seuraavaksi käynnistä ssh agentti:
+-tai asentaa salasanaa. Seuraavaksi käynnistä ssh agentti:
 
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/id_rsa
@@ -44,25 +50,125 @@ ssh-add ~/.ssh/id_rsa
 -jos haluat muuttaa avainta niin deletoi githubin julkinen avain
 -ja poista avaimet .ssh kansiosta minne ne menivät generoitaessa,
 -toista prosessi
----------------
+---------------------------------------
 
 git init			            - luo .git kansion hakemistoon jossa olet
 git status			            - kertoo .git kansion tilanteen
 git add .			            - lisää kaikki kansion tiedostot gitin alaisuuteen valmiiksi committoitavaksi
-git commit -m "viesti"		    - committoi jotta voidaan pushata
+                                  ja ne muuttuvat vihreiksi.
+git add tiedosto.txt            - Yksittäisen tiedoston antaminen. Huom jos annat kansion, niin
+                                  kaikki kansion alaiset tiedostot lisätään myös recursiivisesti.
+git commit -m "viesti"		    - committoi jotta voidaan pushata. Kaikki vihreät tiedostot katoavat.
 git remote -v			        - kertoo mikä nyt on osoite mihin pushataan, tarkista varsinki jos ulisee
 git remote set-url origin https://github.com/username/repository.git	- voit muuttaa osoitteen oikeaksi tai
 git remote set-url origin git@github.com:username/repository.git	    - jos ssh käytetään
-git push -u origin master	    - pushaa paikallisen version etärepoon	
+git push -u origin master	    - pushaa paikallisen version etärepon master branchiin
 
+git log                         - näkyy mitä committeja repo sisältää
+git checkout -- filenimi.jotain - peruu tiedostoon tehdyt muutokset ja ne palautuvat tilaan
+                                  jossa ne viimeksi olivat vihreitä (heti edellisen git add:in jälkeen)
 
+---unohdit jotain tai liian aikainen commit:
+-jotta commithistoria pysyy siistimpänä voit lisätä unohtuneen tiedoston/tiedostot vielä samaan committiin
 
+git commit -m 'Initial commit'
+git add forgotten_file
+git commit --amend
 
-git config --list				- listaa git konfiguraatiot mm. myös email ja username
+-päädyt vim:iin. Peruskomennot:
+i                               - näppäin i ->insert mode, voit kirjoittaa tekstiä
+ESC                             - näppäin ESC -> commandmode ja voit antaa seuraavat komennot
+:q!                             - poistuu tallettamatta (jos et halunnut kommentoida lisää unohduksiasi)
+:wq                             - tallentaa viestin commitmessageen (jos kirjoitit)
+
+---vahingossa tuhotun filun palautus:
+- valitse git logista commit jossa file on olemassa (ja sen commithash) myös gitk ja tree toiminto voi auttaa
+git checkout commithash -- filenimi.txt     - tuo filen luoksesi ja voit jatkaa töitäsi
+
+-----------------------------------------
+-vihreän tilan eli staged tilan voi perua siten että vain tila muuttuu punaiseksi, mutta muutokset
+-ovat vielä ennallaan working directoryssä komennolla:
+
+git reset HEAD tiedosto.jotain          - peruu stagin tilan siten että muutokset pysyvät ennallaan tai
+git restore --staged tiedosto.jotain    - peruu stagin tilan siten että muutokset pysyvät ennallaan
+-----------------------------------------
+---restore:
+git restore filenimi.txt                - palauttaa tiedoston muutoksia edeltäneeseen tilaan ja muutokset
+                                          katoavat (punainen katoaa)
+git restore --staged filenimi.txt       - poistaa tiedoston staged (vihreä) tilasta unstaged (punainen).
+                                          muutokset eivät katoa.
+
+-----------------------------------------
+-jos pitää palata aikaisempaan committiin kokonaan, git log: ista haluttu commithash ja:
+-vaihtoehto 1, reset:
+get reset --hard HEAD                   - palaa viimeisimpään committiin, menetät sen jälkeen tehdyt muutokset. 
+git reset --hard commithash             - palaa (ymmärrykseni mukaan) täysin sen hetkiseen kommittoituun
+                                          versioon, menetät kaikki sen jälkeen tehdyt muutokset.
+git reset --soft commithash             - siirtyy haluttuun versioon ja working directoryssä olevat
+                                          muutokset eivät häviä (vissiin! tutki tarkemmin jos harkitset tätä).
+git reset --mixed commithash            - default ja ilmeisemmin jokin sekoitus edellisistä, perehdy kun ehdit.
+
+-vaihtoehto 2., revert:
+git revert HEAD                         - tekee uuden commitin joka vastaa perutun commitin lähtötilaa, mutta
+                                          "huono" commit on kuitenkin mukana historiassa nykyistä edellisenä.
+                                          (edellinen)-(huonocommit)-(revert, samakuin edellinen)
+-vaihtoehto 3:
+git checkout -b uusbranch commithashtähän          - luo branchin lokaalisesti halutusta commitista
+
+(HUOM! git checkout commithash , ilman branchia seurauksena on detached head, jolloin touhuillaan
+kokonaan ilman branchia, joka ei todennäköisesti ole sitä mitä haluat)
+
+-----------------------------------------
+---branches:
+git branches                    - näyttää kaikki repon branchit ja mikä niistä on päällä
+git checkout -b uusbranch       - tekee branchin nimeltä uusbranch ja menee "tsekkaileen" sitä
+git push -u origin uusbranch    - pushaa uusbranch:in etärepoon omaksi branchikseen. Branchin
+                                  nimen vastattava tehtyä, muuten git valittaa.
+
+git branch uusbranch            - pelkästään luo uuden branchin, ei ota käyttöön tai tsekkaile sitä
+git checkout uusbranch          - nyt uusbranch otetaan työnalle (-b merk. tämä ja edellinen tapaht. samalla)
+git switch uusbranch            - samakuin git checkout uusbranch
+git switch -c uusbranch         - samakuin git checkout -b uusbranch
+
+-----------------------------------------
+---merge:
+git checkout master             - jos haluat masteriin mergetä, pitää ensin siirtyä sinne.
+git merge oksa                  - yhdistää oksan masteriin
+(git pull)   huom!              - on yhdistelmä git fetch + git merge ja se hakee viimeisimmän version 
+                                  etäreposta tsekkailun alla olevasta branchistä. git pull kannattaa
+                                  suorittaa ennen mergeämistä, jotta varmasti viimeisin versio etärepon
+                                  branchista (esim master) on käytössä.
+
+---merge conflict:
+- vsc sisältää mergetoolin, joka toimii automaattisesti ja näyttää filen sisällä mitkä osat on conflictissa 
+  ja lisäksi se näyttää missä kaikissa fileissä on conflicteja. Editoi conflictoivat filet kuntoon, git add,
+  commit ja push etärepoon.
+  
+-----------------------------------------
+---delete branch:
+git branch -d branchnimi      - tuhoaa lokaalisesti branchin (ei voi olla sama mitä tsekkailet juuri nyt).
+                                Väittävät että ei voi tuhota branchia jota ei ole pushattu remoteen..
+                                tein sen useampaan otteeseen mutta jos ei onnistu niin
+                                git branch -D branchnimi pitäisi tehota.
+
+git push origin --delete branchnimi     -tuhoaa etärepon branchin
+
+-----------------------------------------
+---stash:
+-jos työstät tiettyä branchia ja joudutkin vaihtamaan toiseen keskenkaiken, eikä commit ole vielä vaihtoehto
+ stash voi pelastaa tilanteen. Git ei myöskään anna vaihtaa branchia jos siinä on committoimattomia muutoksia.
+
+git stash                      - tallettaa tai piilottaa branchissa olevat muutokset ja voit siirtyä työstään
+                                 toista branchia.
+git stash apply                - palauttaa branchin talletetut/piilotetut muutokset ja voit viedä työn loppuun.
+
+-----------------------------------------
+
+git config --list				       - listaa git konfiguraatiot mm. myös email ja username
 git config --global user.name "Your Name"	    - muuttaa git käyttäjänimen "Your Name" muotoon
 git config --global user.email you@example.com	- muuttaa spostin you@example.com muotoon
-git log						    - kertoo mitä kommitteja repositorio sisältää
-gitk						    - GUI gitille käynnistyy
+git log						             - kertoo mitä kommitteja repositorio sisältää
+gitk						               - GUI gitille käynnistyy
 
 
 
