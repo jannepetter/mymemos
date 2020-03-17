@@ -1,0 +1,188 @@
+------------------------------------------------------------------------------------------------
+-----------------------React--------------------------------------------------------------------
+npm install @testing-library/react react-test-renderer @testing-library/jest-dom --save-dev
+(jos käytät snapshotteja nii installoi react-test-renderer sama versio ku react-dom.
+kirjoittamisen hetkellä ei ainakaan onnistunut jos ne ei ollut samat.) Esim jos:
+"react-dom": "^16.8.6", niin
+npm i react-test-renderer@16.8.6 --save-dev
+
+Testit voivat olla joko kaikki samassa kansiossa tai jokaisen testattavan asian yhteydessä
+omassa alikansiossa. Monen ihmisen projektissa valitse se tapa mitä muutkin käyttävät.
+Jest löytää testit yksinomaan .test tai .spec päätteellä esim. Books.test.js. tai Books.spec.js
+Se missä kansiossa ne ovat ei ole väliä.
+
+npm test            //reactissa skripti on jo valmiina ja ajaa testit
+-----------------------------------------------------------------------------------------------
+----------------------Node.js-------------------------------------------------------------------
+npm i jest --save-dev   
+
+tee skripti package.jsonii
+"test":"jest",                      //npm run test ajaa testit kerran 
+"testwatch":"jest --watchAll"       //toimii sitte samallai ku reactissa
+----Huom!---
+Testaus toimii nodessa jestillä muuten samallai ku reactissa mutta importtaus ja exporttaus
+module.exports ja require tyyliin.
+-----------------------------------------------------------------------------------------------
+------------------------------------ esim. komponenttifile TestiButtoni.js---------------------
+const TestiButtoni = ({ label }) => {
+    return (
+        <button data-testid='button'>{label}</button>   //huom data-testid, voit kohdistaa
+    )                                                   //testit nyt tälle komponentille. Myös
+}                                                       //id:llä voi kohdistaa mutta jos joku
+                                                        //muuttaa idtä, niin testit hajoaa.
+---------------------------------------------------------------------------------------------
+---TestiButtoni.test.js             //testifilet voit laittaa minne haluat
+import React from 'react'
+import ReactDOM from 'react-dom'
+import TestiButtoni from '../TestiButtoni'
+import { render, cleanup } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'     //tulee @testing-library/jest-dom mukana
+                                                     //ei tarvi erikseen installoida.
+import renderer from 'react-test-renderer'          //snapshoteille
+
+
+afterEach(cleanup)          //Ei näytä nyt vaativan tätä vaan jest tekee tämän automaattisesti
+                            //, eli ottaa renderöidyn testikomponentin pois ennen seuraavan
+                            //testin aloitusta. Potentiaalinen ongelma ilman tätä on se
+                            //että id:llä haettu (uniikki) lätkäistään vaan jonon jatkoksi
+                            //testDOM:iin ja sitte niitä on monta samalla iidellä testattaessa
+                            //siellä, jos siis samalle elementille on monta testiä.
+                                                    
+it('renders without crashing', () => {                //testit alkavat joko test tai it liitteellä
+    const div = document.createElement('div');        //ei väliä kumpaa käyttää.
+    ReactDOM.render(<TestiButtoni></TestiButtoni>, div)
+})
+//allaoleva pitäis olla paras tapa kohdistaa testit tietylle elementille (ja elementin 
+//data-testid propsi)
+it('renders button correctly', () => {
+    const { getByTestId } = render(<TestiButtoni label='teksti'></TestiButtoni>)
+    expect(getByTestId('button')).toHaveTextContent('teksti')
+})
+
+//tekee __snapshots__ kansion automaattisesti sinne missä testit on ja snapshotin testauksen
+//kohteena olevasta sisällöstä.
+it('snap match', () => {
+    const tree = renderer.create(<TestiButtoni label='teksti'></TestiButtoni>).toJSON();
+    expect(tree).toMatchSnapshot();
+})
+----------------------------utils/functions.js file---------------------------------------------
+import axios from 'axios'
+const functions = {
+    add(a, b) {
+        return a + b
+    },
+    createCow(firstname, lastname) {
+        const cow = {
+            fname: firstname,
+            lname: lastname
+        }
+        return cow
+    },
+    usernames: ['jaska', 'keksa', 'jeba'],
+    getUser() {
+        return axios.get('https://jsonplaceholder.typicode.com/users/1')
+            .then(r => r.data)
+            .catch(error => 'error')
+    }
+}
+export default functions
+------------------------------------------------------------------------------------------------
+---functions.test.js        //säilö testifile minne haluat, jest kaivaa sen esille mistä vaan
+
+import functions from '../../utils/functions'   //koska ei tartte renderöidä mitää (esim node.js)
+                                                //nii testattava asia riittää importiksi
+beforeEach(() => console.log('hiphei'))         //tulostaa hiphei ennen jokaista testiä
+afterEach(cb)                                   //argsina callback funktio
+beforeAll(cb)                                   //tapahtuu yhdesti ennen testejä
+afterAll(cb)                                    //tapahtuu yhdesti testien jälkeen
+
+//toBe on matcher primitiiveille
+it('2+2=4', () => {
+    expect(functions.add(2, 2)).toBe(4)
+})
+it('2+2 is not 6', () => {
+    expect(functions.add(2, 2)).not.toBe(6)
+})
+//toEqual on matcher objecteille ym. deepnested objecteille toStrictEqual
+it('creates matching cow', () => {
+    expect(functions.createCow('tuutikki', 'jebulis')).toEqual({
+        fname: 'tuutikki',
+        lname: 'jebulis'
+    })
+})
+it('keksa in usernames', () => {
+    expect(functions.usernames).toContain('keksa')
+})
+//promise
+it('User fetched over internet (Leanne Graham)', () => {
+    expect.assertions(1);
+    return functions.getUser().then(data => {
+        expect(data.name).toEqual('Leanne Graham')
+    })
+})
+//async-await
+it('User fetched over internet (Leanne Graham)', async () => {
+    expect.assertions(1);
+    const data = await functions.getUser()
+    expect(data.name).toEqual('Leanne Graham')
+})
+
+//tsekkaa jest matchers jos tarttet muita
+--------------------describe-------------------------
+Voit ryhmitellä testit describe lohkoihin ja afterEach, beforeEach ym. funktiot tapahtuvat
+valikoidusti vain kyseisessä describe lohkossa.
+
+describe('testit1', () => {
+    beforeEach(() => console.log('hiphei'))
+  //testit tänne
+})
+describe('testit2', () => {
+    beforeEach(() => console.log('jeba'))
+  //testit tänne
+})
+---------------------mocking-----------------------------
+Mocking tapahtuu tekemällä __mocks__ kansio samaan kansioon missä on mockattava tiedosto. Ei
+ole pakko saada roottiin. app/__mocks__/filu.js mätsää nimeltä app/filu.js ja sisältää halutun
+muotosen mokkitiedoston. Testikansion alkuun jest.mock('./filu.js') ja kaikki toiminnallisuus
+funktioilla ym mitkä normaalisti käyttää filu.js (normi) korvautuukin __mocks__/filu.js.
+Huom globaalit node moduulit kuten axios - jest hakee automaattisesti, jos ne on määritelty
+__mocks__/axios.js ja haluttu mock toiminnallisuus sinne.
+-----esim.-------------------------------------------------
+__mocks__/filu.js
+const jee = () => {
+    return 'mockjee'
+}
+module.exports = jee
+----------------------
+filu.js
+const jee = () => {
+    return 'realjee'
+}
+module.exports = jee
+-----------------------
+---functions.test.js 
+jest.mock('./filu')     
+import functions from '../../utils/functions'   //oletetaan että functions:illa olisi vaikka 
+                                                //functions.hello() ,joka sisäisesti käyttää
+                                                //filun jee:tä
+
+it('says jee',()=>{
+    expect(functions.hello()).toBe('mockjee')
+})
+//samoin jos functions.getName() käyttäisi axiosta, axios voitaisiin mockata. Huom nyt ei
+//tartte ylös laittaa jest.mock('axios') koska jest löysi globaalit node modulet automaattisesti
+it('it gets name from mockaxios',async()=>{
+    expect.assertions(1);
+    const data = await functions.getName()
+    expect(data.name).toBe('JouluPukki')
+})
+-------------vielä axios mock---
+Axios palauttaa promisen, mutta minkämuotonen sieltä tulee riippuu tietenkin käytetystä
+api endpointista. Muokkaa vastaamaan oikeaa dataa.
+__mocks__/axios.js
+const get = (url) => {
+    return Promise.resolve({ data: { name: 'JouluPukki' } })
+}
+module.exports = {
+    get
+}
