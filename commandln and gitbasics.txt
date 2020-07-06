@@ -3,38 +3,38 @@
 -----------------------------------------------------------------------------------------------------------------------
 
 --------------------------Powershell-----------------------------------------------------------------------------------
-dir				           - listaa directoryn
+dir				                       - listaa directoryn
 ls                        		   - listaa directoryn
 dir -force                 		   - näyttää myös hiddenfilut .git ym
-ls  -force             	  	           - näyttää myös hiddenfilut .git ym
-md kansio			           - tekee kansio nimisen mapin/kansion/hakemiston
-mkdir kansio			           - tekee kansio nimisen mapin/kansion/hakemiston
-type nul > testi.txt		  	   - tekee testi.txt tiedoston huom. välilyönnit
+ls  -force             	  	     - näyttää myös hiddenfilut .git ym
+md kansio			                   - tekee kansio nimisen mapin/kansion/hakemiston
+mkdir kansio			               - tekee kansio nimisen mapin/kansion/hakemiston
+type nul > testi.txt		  	     - tekee testi.txt tiedoston huom. välilyönnit
 new-item testi.txt        		   - tekee testi.txt tiedoston
-cp testi.txt uusi.txt	  		   - kopioi testi.txt tiedoston uusi.txt tiedostoksi
+cp testi.txt uusi.txt	  		     - kopioi testi.txt tiedoston uusi.txt tiedostoksi
 mv testi.txt kansio		           - siirtää testi.txt kansioon (nimeltä kansio)
-mv tisti.txt testi.txt			   - voi käyttää myös uudelleennimeämiseen
-rm testi.txt			           - poistaa halutun tiedoston tai kansion
-rd kansio			           - poistaa kansion
-rd kansio -force -recurse		   - jos kansio sisältää alikansioita tai tiedostoja, poistaa kyselemättä
+mv tisti.txt testi.txt			     - voi käyttää myös uudelleennimeämiseen
+rm testi.txt			               - poistaa halutun tiedoston tai kansion
+rd kansio			                   - poistaa kansion
+rd kansio -force -recurse		     - jos kansio sisältää alikansioita tai tiedostoja, poistaa kyselemättä
 
 --------------------------Windows commandline--------------------------------------------------------------------------
-dir				           - listaa directoryn
+dir				                       - listaa directoryn
 dir /a                   	  	   - näyttää myös hiddenfilut .git ym
-md kansio			           - tekee kansio nimisen mapin/kansion/hakemiston
-mkdir kansio			           - tekee kansio nimisen mapin/kansion/hakemiston
+md kansio			                   - tekee kansio nimisen mapin/kansion/hakemiston
+mkdir kansio			               - tekee kansio nimisen mapin/kansion/hakemiston
 type nul > testi.txt  		  	   - tekee testi.txt tiedoston
 echo.>testi.txt           		   - tekee testi.txt tiedoston
-copy testi.txt uusi.txt		           - kopioi testi.txt tiedoston uusi.txt tiedostoksi
-move testi.txt kansio	  		   - siirtää testi.txt kansioon (nimeltä kansio)
-move tisti.txt testi.txt		   - voi käyttää myös uudelleennimeämiseen
+copy testi.txt uusi.txt		       - kopioi testi.txt tiedoston uusi.txt tiedostoksi
+move testi.txt kansio	  		     - siirtää testi.txt kansioon (nimeltä kansio)
+move tisti.txt testi.txt		     - voi käyttää myös uudelleennimeämiseen
 del testi.txt
-rmdir kansio			           -poistaa kansion (jos tyhjä)
+rmdir kansio			               -poistaa kansion (jos tyhjä)
 rmdir kansio /q /s		           -poistaa kansion ja sen tiedostot kyselemättä /quietly ja alikansiot /subfolders
 
 ------------------------------git basics-------------------------------------------------------------------------------
 ---ssh avain--------------------------
--avaa git bash				   -windows searchbar
+-avaa git bash				          -windows searchbar
 
 ssh-keygen -t rsa -b 4096 -C "emailosoitetähän"		(gituseremail)
 
@@ -52,26 +52,26 @@ ssh-add ~/.ssh/id_rsa
 -toista prosessi
 ---------------------------------------
 
-git init			            - luo .git kansion hakemistoon jossa olet
-git status			            - kertoo .git kansion tilanteen
-git add .			            - lisää kaikki kansion tiedostot gitin alaisuuteen valmiiksi committoitavaksi
-                                  	      ja ne muuttuvat vihreiksi.
+git init			                        - luo .git kansion hakemistoon jossa olet
+git status			                      - kertoo .git kansion tilanteen
+git add .			                        - lisää kaikki kansion tiedostot gitin alaisuuteen valmiiksi committoitavaksi
+                                  	    ja ne muuttuvat vihreiksi.
 git add tiedosto.txt           		    - Yksittäisen tiedoston antaminen. Huom jos annat kansion, niin
-                                       	      kaikki kansion alaiset tiedostot lisätään myös recursiivisesti.
+                                       	kaikki kansion alaiset tiedostot lisätään myös recursiivisesti.
 git commit -m "viesti"		      	    - committoi jotta voidaan pushata. Kaikki vihreät tiedostot katoavat.
-git remote -v			            - kertoo mikä nyt on osoite mihin pushataan, tarkista varsinki jos ulisee
+git remote -v			                    - kertoo mikä nyt on osoite mihin pushataan, tarkista varsinki jos ulisee
 git remote set-url origin https://github.com/username/repository.git	    - voit muuttaa osoitteen oikeaksi tai
-git remote set-url origin git@github.com:username/repository.git	    - jos ssh käytetään
+git remote set-url origin git@github.com:username/repository.git	        - jos ssh käytetään
 git push -u origin master	            - pushaa paikallisen version etärepon master branchiin
-git pull   	                            - on yhdistelmä git fetch + git merge ja se hakee viimeisimmän version 
+git pull   	                          - on yhdistelmä git fetch + git merge ja se hakee viimeisimmän version 
                                  	      etäreposta tsekkailun alla olevasta branchistä. git pull kannattaa
-                                              suorittaa ennen pushaamista, jotta sinulla on kaikki uusimmat muutokset omassa 
-				              versiossa ennen kuin pushaat omasi muille. Porukassa työskennellessä tee git pull
-				              useamman kerran päivässä, jotta local on aina ajantasalla.
+                                        suorittaa ennen pushaamista, jotta sinulla on kaikki uusimmat muutokset omassa 
+				                                versiossa ennen kuin pushaat omasi muille. Porukassa työskennellessä tee git pull
+				                                useamman kerran päivässä, jotta local on aina ajantasalla.
 
 git log                         	    - näkyy mitä committeja repo sisältää
 git checkout -- filenimi.jotain 	    - peruu tiedostoon tehdyt muutokset ja ne palautuvat tilaan
-                                              jossa ne viimeksi olivat vihreitä (heti edellisen git add:in jälkeen)
+                                        jossa ne viimeksi olivat vihreitä (heti edellisen git add:in jälkeen)
 
 ---unohdit jotain tai liian aikainen commit:
 -jotta commithistoria pysyy siistimpänä voit lisätä unohtuneen tiedoston/tiedostot vielä samaan committiin
@@ -81,7 +81,7 @@ git add forgotten_file
 git commit --amend
 
 -päädyt vim:iin. Peruskomennot:
-i                                           - näppäin i ->insert mode, voit kirjoittaa tekstiä
+i                                     - näppäin i ->insert mode, voit kirjoittaa tekstiä
 ESC                             	    - näppäin ESC -> commandmode ja voit antaa seuraavat komennot
 :q!                            		    - poistuu tallettamatta (jos et halunnut kommentoida lisää unohduksiasi)
 :wq                             	    - tallentaa viestin commitmessageen (jos kirjoitit)
