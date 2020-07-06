@@ -1,0 +1,593 @@
+----------------------------------------------------------------------------------------------------------
+-----------------react frontend installaatiot--------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+(graphql setup --> ks graphql setuppi)
+npx create-react-app appinnimi --template typescript //uus appi typescriptillä
+npx create-react-app appinnimi	//tekee uuden react appin nimeltä appinnimi omaan kansioonsa.Komento myös
+				// asentaa eslintin valmiiksi, joten tarvitsee vain konfiguroida se 
+				//tiedostoon .eslintrc.js. Myös jest on valmiiksi konfiguroitu
+				//create-react-app:illa luotuihin projekteihin.
+				//eli sitä ei tarvitse erikseen installoida ÄLÄ INSTALLOI JESTIÄ erikseen.
+				//uuden projektin parissa sen installoiminen ei käsittääkseni haittaa, mutta
+				//jos projektia on jo työstetty pitkälle ja menet installoimaan jestin vielä
+				//erikseen niin voi olla työlästä saada homma toimiin taas.
+				//importit frontissa muotoa: import React, { useState } from 'react'
+				//jos olet kloonannut projektin .eslintrc.js voi puuttua ja eslint pitää 
+				//vielä asentaa: npx eslint --init	(seuraa kysely asetuksista)
+npm install --save-dev eslint-plugin-jest 	//asentaa plugin eslint-jest-plugin, jotta päästään eroon 
+				//testissä olevista turhista huomautuksista.
+
+npm install redux --save	//asentaa redux kirjaston. Tilanhallintaratkaisu, jolloin voit importata
+				//import { createStore, combineReducers,applyMiddleware } from 'redux'	
+				//ja luoda storeja
+				//const reducer = combineReducers({
+  						notes: noteReducer,
+ 						 filter: filterReducer
+				//})
+				//const store = createStore(reducer)
+	//thunkilla **		//const store = createStore(reducer, applyMiddleware(thunk)) 
+				//import thunk from 'redux-thunk'	//importti sinne missä store
+				//hyvänkäytännön mukaan src/reducers kansioon reducerit
+npm install --save react-redux	//asentaa react-redux kirjaston (eri kuin redux). Tämän avulla voit yhdistää eri
+				//komponentteja connectin avulla suoraan redux storeen. Tarvit siis reduxin vielä
+				//tämän kaveriksi.
+npm install json-server --save-dev //asentaa "serverin" projektiin, jotta voit testata frontprojektin toimintaa
+				//vaikkei oikeaa serveriä vielä olekaan. Tee JUUREEN (ei src) tiedosto 
+		 		//db.json ja lisää package.json scripteihin "server": "json-server -p3001 db.json",
+(npm run server)		//käynnistää nyt tekaistun väliaikaisen servun scriptien välityksellä portista
+				//http://localhost:3001/  ja sisältö vastaa tiedostoa db.json. Json server
+				//olettaa että tiedoston sisältö on objekti, jonka kentän arvo on taulu esim:
+				// {"numbers":[1,2,3]} taulut voivat tietenkin sisältää myös objekteja.
+npm install axios --save	//jos tarvit hakea serverista dataa tarvitset axios. Hyvän käytännön mukaan
+				//src/services kansioon servicet kuten notes.js. Data storeen actioninavulla
+npm install --save redux-thunk	//** redux-thunk kirjasto mahdollistaa async actioneiden luomisen ja 
+				//keskustelun serverin kanssa. Ilman thunkkia store haluaa vain plain object
+				//actionin. Esim. anecdoteReducerin pari actioncreatoria:
+export const addAne = (data) => {	//plain object action reducerin actioncreatoreista
+  return {
+    type: 'ADDJOTAIN',
+    data
+  }
+}
+export const initializer = () => {	//async actioncreator. Hoitaa samalla keskustelut serverinkanssa.
+  return async (dispatch)=>{
+    const anecdotes= await aneservice.getAll()	//odottaa ensin serveriltä saapuvia tietoja,jonka jälkeen
+    dispatch({					//palauttaa sen mitä redux store odottaa actioncreatorilta
+      type: 'INIT',				//tämä ei onnistu ilman redux-thunk kirjastoa.
+    data:anecdotes
+    })
+  }
+}
+export const vote = (id) => {		//toinen esim. async actioncreatorista. Sille voi antaa parametreja
+  return async (dispatch) => {		//normaalisti. Kätevä esim listojen kanssa.
+    await aneservice.voteAnecdote(id)	//laittaa ensin serverin tietokantaan että on äänestetty.
+    dispatch({				//jonka jälkeen storeen äänestys.
+      type: 'VOTE',
+      data: { id: id }
+    })
+  }
+}
+/* esim aneservicen voteAnecdote metodista
+const voteAnecdote=async(id)=>{
+const url=`${baseurl}/${id}`	//urli muokaataan axios.put:ia varten
+const anecs = await axios.get(baseurl)			//haetaan kaikki anekdootit
+const anecBefore=anecs.data.find(a=>a.id===id)		//joista sitten etsitään param id:tä vastaava
+const anecAfter={...anecBefore,votes:anecBefore.votes+1}//muokataan spread-syntaksilla uusi
+const response=await axios.put(url,anecAfter)		//lähetetään serverille uusi
+return response.data
+}*/
+
+npm install --save react-router-dom	//mahdollistaa navigoinnin singlepageappeissa
+
+import {				
+  BrowserRouter as Router,
+  Route, Link, Redirect, withRouter
+} from 'react-router-dom'
+
+npm outdated --depth 0		//näyttää depencyjen ajantasaisuudet. Current, wanted ja latest versiot
+				//voit päivittää vanhentuneet päivittämällä tiedostoa package.json ja
+				//ajamalla komennon npm install
+---
+npm install --save styled-components	//asentaa styled components kirjaston
+					//import styled from 'styled-components'
+const Container = styled.div`		//voit helposti tehdä tyylejä objekteille ja halutessa vielä
+  margin: .3em;				// käyttää inline tyylejä lisäksi näille custom objekteille
+`					//huomaa backtick lainausmerkit ja puolipisteet!
+const Button = styled.button`
+  color: palevioletred;
+  margin: 0.5em 1em;
+  padding: 0.25em 1em;
+`
+---
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------react--------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------graphql setuppi--------------------------------------------------------
+(perus, installoi nämä myös pohjalle subscriptions pakettiin)
+npm install @apollo/react-hooks
+npm install apollo-client apollo-cache-inmemory apollo-link-http graphql-tag graphql --save
+
+(subscriptionsit lisäksi ja header auth)
+npm install --save apollo-link apollo-link-context
+npm install --save subscriptions-transport-ws apollo-link-ws
+
+---index.js--- (perusconffi ilman subscriptioneita ym)
+import React from 'react'		
+import ReactDOM from 'react-dom'
+import App from './App'  
+
+import { ApolloProvider } from '@apollo/react-hooks'	//baseconfig
+import { ApolloClient } from 'apollo-client'          //baseconfig
+import { InMemoryCache } from 'apollo-cache-inmemory' //baseconfig
+import { createHttpLink } from "apollo-link-http";
+
+const link=createHttpLink({ 
+    uri:'https://api.digitransit.fi/routing/v1/routers/finland/index/graphql'  
+}) 
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache(),
+})
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root')) 
+ 
+
+---index.js--- (jos halutaan subscriptions)
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+import { ApolloProvider } from '@apollo/react-hooks'; //peruskonffi
+import { ApolloClient } from 'apollo-client'; //peruskonffi
+import { InMemoryCache } from 'apollo-cache-inmemory'; //peruskonffi
+import { setContext } from 'apollo-link-context'; //peruskonffi (jos headers auth)
+import { createHttpLink } from 'apollo-link-http';
+
+import { split } from 'apollo-link'; //subscription
+import { WebSocketLink } from 'apollo-link-ws'; //subscription
+import { getMainDefinition } from 'apollo-utilities'; //subscription
+
+const wsLink = new WebSocketLink({
+  uri: `ws://localhost:4000/graphql`,
+  options: { reconnect: true }
+});
+
+const httplink = createHttpLink({
+  uri: 'http://localhost:4000/graphql',
+  credentials: 'include'
+});
+
+const authLink = setContext((_, { headers }) => {
+  /* const token = localStorage.getItem('tokeninnimi') */
+  //jos tokenia säilytetään localstoragessa (ei tartte cookiesseilla)
+  return {
+    headers: {
+      ...headers
+      /* authorization: token ? `bearer ${token}` : null, */
+    }
+  };
+});
+
+const link = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  authLink.concat(httplink)
+);
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
+});
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root')
+);
+
+---App.js---
+import React from 'react';
+
+function App() {
+  
+  return (
+    <div >
+      <p>ja kovaa koodia </p>
+    </div>
+  );
+}
+
+export default App;
+
+-----------------graphql queryt muuttujilla ja ilman ----------
+esimerkkinä jotain hsl digitransitin kyselyitä 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql'
+
+const HSL_REITIT = gql`			(ilman muuttujia)
+{
+agency(id:"HSL:HSL"){			(tässä on nyt staattinen muuttuja mutta sitä ei lasketa)
+  routes{
+    gtfsId
+    longName
+  }
+}
+}
+`
+---käyttö esim app.js:
+
+const reitit = useQuery(HSL_REITIT)
+
+return (
+    <div >
+      <Reitit reitit={reitit}></Reitit>
+    </div>
+  );
+
+---esim2 sisäkomponentissa reitti.js:
+
+const STOPS = gql`			(dynamisilla muuttujilla)
+query route($id:String!){
+    route(id:$id){
+        stops{
+            id
+            name
+        }
+    }
+}
+`
+const [getStops, stops] = useLazyQuery(STOPS)		(lazyquery toimii kuin query mutta hakee vain silloin kun 
+							erikseen halutaan)
+ const getStuff = () => {     
+        getStops({ variables: { id: props.reitti.gtfsId } })
+    }
+   return (
+        <div onClick={() => getStuff()}>			//pelkistetty versio. Gateilla (&&) varmistetaan ettei
+            {stops.data && stops.data.route.stops.map(s =>	//stops ole undefined ennenkuin niitä aletaan mappaan
+                <p key={s.id}>{s.name}</p>)}
+        </div>)
+
+
+---------- rest api endpointin käyttö
+npm install axios --save		//ihan hyvin voi käyttää myös graphql kanssa jos tarvit lisäksi dataa jostai
+					//rest endpointista esim weather api yms.
+
+---services/jokuservice.js---		//hyvä käytäntö on eristää endpointsien käyttö services kansioon ja kukin 
+import axios from 'axios'		    //palvelu omaan fileen. Esim services/weatherapi , services/pokeapi jne.
+
+const url = 'https://restcountries.eu/rest/v2/all'		//countries api endpointti
+
+const getCountries = async () => {
+    try {
+        const countries = await axios.get(url)
+        return countries.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+export default {
+    getCountries
+}
+
+-------------------------------------------redux & react-redux-------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
+
+npm install --save redux		//import { createStore, combineReducers,applyMiddleware } from 'redux'
+					//eli varsinainen redux installoidaan tällä
+npm install --save react-redux		//import { connect } from 'react-redux'. Connectilla yhdistetään komponentit
+					//suoraan storeen ilman että välitetään propseja eteen ja alaspäin. React-redux
+					//Provider komponentilla tarjoillaan connectin välityksellä statet lapsikompo-
+					//nentteihin, kts esimerkit.
+npm install --save redux-thunk		//redux-thunk middleware mahdollistaa async actioneiden luomisen ja 
+					//keskustelun serverin kanssa. Ilman thunkkia store haluaa vain plain object
+					//actionin.Redux Thunk allows you to write action creators that return
+					//a function instead of an action. The thunk can be used to delay the dispatch
+					//of an action, or to dispatch only if a certain condition is met. The inner 
+					//function receives the store methods dispatch and getState as parameters.
+
+npm install --save redux react-redux redux-thunk	//installoi koko roskan kerralla
+
+---index.js---
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import store from './store'
+import { Provider } from 'react-redux'
+
+ReactDOM.render(
+    <Provider store={store}>	//react-reduxin connect funtiolla voidaan yhdistää store helposti kaikkiin
+        <App />			//komponentteihin. Edellytys kuitenkin connectin käytölle on että sovellus
+    </Provider>,		//on määritelty react-redux komponentin Provider lapseksi ja luomamme store
+    document.getElementById('root'))	//annetaan Provider komponentin attribuutiksi store.
+
+
+---index.js--- jos halutaan redux mukaan graphql juttuihin
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+import { Provider } from 'react-redux';			//redux jutskia
+import store from './store'				//redux jutskia
+
+import { ApolloProvider } from '@apollo/react-hooks'	//baseconfig
+import { ApolloClient } from 'apollo-client'         	//baseconfig
+import { InMemoryCache } from 'apollo-cache-inmemory' 	//baseconfig
+import { createHttpLink } from "apollo-link-http";    	//baseconfig
+
+const link = createHttpLink({
+  uri: 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql'
+})
+
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache(),
+})
+
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <Provider store={store}>				//ihan normisti muuten mutta upotetaan react-redux provider
+      <App />						//apolloproviderin sisälle
+    </Provider>
+  </ApolloProvider>,
+  document.getElementById('root'))
+
+
+-----store.js---- blogf appista ------------------------------------------------------------------------
+
+import { createStore, combineReducers,applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import blogReducer from './reducers/blogReducer'
+import userReducer from './reducers/userReducer'
+import notificationReducer from './reducers/notificationReducer'
+import allUsersReducer from './reducers/allUsersReducer'
+const reducer = combineReducers({			//tehdyt reducerit yhdistetään storessa yhdeksi reduceriksi,
+    blogs:blogReducer,					//tarjoillaan react-redux providerilla App komponentille ja
+    user:userReducer,					//yhdistetään halutulle komponentille react-reduxin connectilla
+    notification:notificationReducer,			//jolloin ne on käytettävissä siellä propseina esim:
+    allUsers:allUsersReducer  				//props.blogs, props.user, props.notification jne.
+})                      
+const store=createStore(
+    reducer,
+    applyMiddleware(thunk)
+)
+export default store
+
+---PokemonService.js---				//simppeli service esim.
+import axios from 'axios'
+
+const baseUrl = 'https://pokeapi.co/api/v2/pokemon'
+
+const getPage = async (page) => {
+    const url = `${baseUrl}?offset=${page * 50}&limit=50`	//hakee sivun kerrallaan ja sivulle mahtuu 50kpl
+    try {							//pokemoneja (page on numero)
+        const response = await axios.get(url)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+export default {
+    getPage
+}
+
+---- blogservice services/blogs.js ---- blogf appista 
+
+import axios from 'axios'
+const baseUrl = '/api/blogs'
+let token = null
+const setToken = (value) => {			//tässä ratkaisussa setToken funktio exportataan, jolloin
+  token = `bearer ${value}`			//kirjautumisen yhteydessä tokenin arvoa voidaan muuttaa 
+}						//muualta.
+const getAll = () => {
+  const request = axios.get(baseUrl)
+  return request.then(response => response.data)
+}
+const create = async (newblog) => {
+  const config = {			//huomaa headerssit ja token kirjautumista vaativisa toimissa
+    headers: { Authorization: token }
+  }
+  const request = await axios.post(baseUrl, newblog, config)
+  return request.data
+}
+const like =async (id) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const request = await axios.put(`${baseUrl}/${id}`, config)
+  return request.data
+}
+const remove = async (id) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const request = await axios.delete(`${baseUrl}/${id}`, config)
+  console.log(request.status, 'oujeah let removeit')
+  return request  //jos laitat request.data niin tärkeä request.status jää lähettämättä
+}               //request.data lähettää vain datan requestista eli tarkentaa
+const comment =async(id,comment)=>{
+  const request = await axios.post(`${baseUrl}/${id}/comments`, {comment})
+  return request.data
+}
+export default {
+  getAll: getAll,
+  setToken,
+  create: create,
+  like,
+  remove,
+  comment
+}
+
+----(loginservice)---- services/login.js ---- blogf appista -------------------------------------------
+
+import axios from 'axios'
+const baseurl = '/api/login'
+const login = async (tiedot) => {
+  const response = await axios.post(baseurl, tiedot)
+  return response.data			//paluupostiin laitetaan token, jos tokenperusteinen kirjautuminen
+}					//tsekkaa backendistä tarkemmin mitä response dataan on laitettu
+export default {			//mukaan tai voit tulostaa consoliin. Tässätapauksessa mukana tulee
+  login					//token, user ja username.
+}
+
+---pokemonPageReducer.js--- muistelua appista
+import pokemonService from '../services/PokemonService'
+
+const pokemonPageReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'INIT':
+            state = state.concat({
+                page: action.data.page,
+                pokemons: action.data.pokemons
+            })
+            return state
+        default:
+            return state
+    }
+}
+
+export const getStuff = (page) => {
+    return async (dispatch) => {
+        const pokemons = await pokemonService.getPage(page)
+        dispatch({
+            type: 'INIT',
+            data: {
+                page,
+                pokemons: pokemons.results
+            }
+        })
+    }
+}
+export default pokemonPageReducer 
+
+---- blogReducer.js ---- ----blogf appista ------(skipataan noitten muitten reducerien esittelyt)-------
+
+import blogservice from '../services/blogs'
+const blogReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'ADDBLOG':
+            state=state.concat(action.data)
+            console.log(state,'reducer addblokissa täpähtyy')
+            return state
+        case 'INIT':
+            return state.concat(action.data)
+        case 'LIKEBLOG':
+            const blog = state.find(b => b.id === action.data)
+            const likedBlog = { ...blog, likes: blog.likes + 1 }
+            return state.map(b => b.id !== action.data ? b : likedBlog)
+        case 'COMMENTBLOG':
+            console.log('reducerissa inessä',action.data)
+            state=state.map(b => b.id !== action.data.id ? b : action.data)
+            return state
+        default:
+            return state
+    }
+}
+export const initilizer = () => {		//async actioncreatori tarvitaan thunk ennenkuin näin voi tehdä
+    return async (dispatch) => {
+        const blogs = await blogservice.getAll() //blogservicen getall funktio tekee siinä määritellyn
+        dispatch({				 //axios.get(baseurl) komennon, jossa baseurl on sama
+            type: 'INIT',			 //kuin backendissä oleva controlleri blogrouterilla.
+            data: blogs				 //tähän osoitteeseen tuleva get komento on määritelty
+        })					 //tässä blogrouterissa hakemaan kannasta kaikki blogit
+    }						 //ja lähettämään ne sinne mistä get komento tehtiin vastauksena
+}
+export const addBlogaction = (bloginfo) => {	//async actioncreatori
+    return async (dispatch) => {
+        const blog = await blogservice.create(bloginfo)
+        dispatch({
+            type: 'ADDBLOG',
+            data: blog
+        })
+    }
+}
+export const likeaction = (id) => {		//async actioncreatori
+    return async dispatch => {
+        await blogservice.like(id)
+        dispatch({
+            type: 'LIKEBLOG',
+            data: id
+        })
+    }
+}
+export const commentaction = (id, comment) => {
+    return async (dispatch) => {
+        const commentedBlog = await blogservice.comment(id, comment)
+        dispatch({
+            type: 'COMMENTBLOG',
+            data: commentedBlog
+        })
+    }
+}
+export default blogReducer
+
+---App.js--- (App komponentti ei vaadi mitään erityistoimia)
+importit...
+import { connect, useDispatch } from 'react-redux'	//ei pakollisia ellei App komponenteissa erikseen haluta
+							//jotai storesta esim alustaa jotai tietoja tms.
+import { initilizer } from './reducers/blogReducer'	//importataan actioncreatori reducerista (jos tarttee)
+
+/*(useEffectin toiminnan kootut selitykset alla)
+Kun yhdistät storen connectilla komponentteihin ja alustat tietoja actioncreatoreilla storeen. Eslintti
+valittaa missing depencystä. Et kuitenkaan voi suoraan syöttää propsia depency arrayhin, koska se johtaa
+helposti päättymättömään looppiin, eikä eslinttia kannata hiljentää koska se saattaa kostautua myöhemmin.
+Ratkaisuna laitat komponentissa alustamasi dispatch funktion (käyttää react-reduxin useDispatch funktiota)
+depency arrayhin ja dispatchin mukana actioncreatorit. Alustus tapahtuu vain kerran ja eslin hiljenee.*/
+
+const App = (props) => {
+  const dispatch = useDispatch()	//react-redux useDispatch
+  useEffect(() => {
+    dispatch(initilizer())	//vaan näin! (perinteisempi ratkaisu ks. ---huom---- )
+    //props.initilizer()	//ei näin (useEffectissä) koska eslint huutaa depencyä tauluun
+    				//normaalisti muualla käyttettynä ihan oikea ratkaisu
+  }, [dispatch])	//dispatch depency tauluun, jolloin alustus tapahtuu uudestaan kun dispatch muuttuu 
+			//eli ei koskaan ellet mene sitä härppiin.
+
+  return (		
+    <div>
+    <Jokukomponentti><Jokukomponentti/>
+    </div>
+  )
+}
+const mapDispatchToProps = {			//määritellään actioncreator funtiot jotka annetaan yhdistetylle
+  initilizer,					//komponentille(tässätapauksessa app) propseina.
+  jokuactioncreator
+}
+const mapStateToProps = (state) => {		//määritellään mitä komponentti tarvitsee storen statesta
+  return {					//jolloin komponentista voidaan kutsua tarvittavan tilan 
+    user: state.user,				//arvoa esim. props.user
+    users: state.allUsers
+
+  }							 
+}							  //connectin avulla app tai mikä vaan komponentti
+export default connect(mapStateToProps, mapDispatchToProps)(App) //voidaan yhdistää suoraan storeen.
+
+---huom----
+/*								//useDispatch ei ole ainoa keino. Tässä perinteisempi
+const [pokemons, setPokemons] = useState([])			//ratkaisu. getStuff() on async actioncreatori. Jolla
+useEffect(() => {						//esimerkinomaisesti alustetaan tässä 1 sivu pokemoneja.
+         const page = props.pokemons.find(p => p.page === 1)	//Propsit on laitettu depency arrayhin mutta nyt ei
+         if (page) {						//seuraa päättymätön looppi, koska sivu haetaan vain
+             setPokemons(page.pokemons)				//jos sitä ei jo ole storessa.
+         } else {
+             props.getStuff(1)
+         }
+     }, [props]) */
+*/
+-------------
+          
