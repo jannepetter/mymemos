@@ -99,6 +99,14 @@ const Button = styled.button`
   padding: 0.25em 1em;
 `
 ---
+npm i shortid --save
+    -import shortid from "shortid";
+    -const iidee = shortid.generate()
+    -helppo tapa luoda uniikki key, jos pitää listata itemssejä eikä niillä ole uniikkeja
+    ominaisuuksia.
+---
+
+
 
 
 

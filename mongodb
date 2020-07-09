@@ -1,0 +1,177 @@
+---
+npm install mongoose --save
+---
+npm install mongoose-unique-validator --save
+    -paremmat error messaget?
+----------------yhdistäminen db-----------------
+const mongoose = require('mongoose');
+const MONGODB_URI = yourMongoUrl;
+const MONGOCONFIG = {
+  useNewUrlParser: true,      
+  useFindAndModify: false,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+};
+-perussetti, selitykset sivulta mongoosejs.com ja lisäasetuksia jos tarttee.
+
+mongoose
+  .connect(MONGODB_URI,MONGOCONFIG)
+  .then(() => {
+    console.log('connected to MongoDB');
+  })
+  .catch((error: any) => {
+    console.log('error connection to MongoDB:', error.message);
+  });
+
+
+----------------schema esim1-------------------
+export { };
+const mongoose = require('mongoose');
+
+const schema = new mongoose.Schema({
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    minlength: 2
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    minlength: 2
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 2
+  },
+  userrecipes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recipe'
+    }
+  ],
+  role: {
+    type: String,
+    required: true
+  },
+  likeArr: [
+    {
+      type: String
+    }
+  ],
+  reportArr: [
+    {
+      type: String
+    }
+  ]
+});
+
+module.exports = mongoose.model('User', schema);
+
+-------------------schema esim2-------------------
+export { };
+import mongoose = require('mongoose');
+
+const schema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    minlength: 2
+  },
+  description: {
+    type: String
+  },
+  imageUrl: {
+    type: String
+  },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  ingredients: [{ type: String }],
+  tags: [{ type: String }],
+  instructions: {
+    type: String
+  },
+  reports: {
+    type: Object,
+    default: {}
+  },
+  reportsCount: {
+    type: Number,
+    default: 0
+  },
+  likes: {
+    type: Object,
+    default: {}
+  },
+  likesCount: {
+    type: Number,
+    default: 0
+  }
+});
+
+module.exports = mongoose.model('Recipe', schema);
+
+--------------------------------------------
+const users = await User.find({})
+    -hakee kaikki userit
+const users = await User.find({}).limit(20)
+    -hakee vain 20 ensiksi löytynyttä
+const recipes = await Recipe.find({}).sort({ reportsCount: -1 }).limit(10)
+    -hakee kaikki reseptit ja järjestää ne suurimmasta reportCountista alkaen pienimpään,
+    näyttää vain 10 ensimmäistä.
+---
+const users = await User.find({ _id: { '$in': idArray } })
+    -hakee id: perusteella kaikki käyttäjät jota löytyy idArraystä
+---
+const likedRecipe = await Recipe.findOneAndUpdate({ _id: args.id },
+          {
+            $set: {
+              likes: recipe.likes,
+              likesCount: recipe.likesCount
+            }
+          }, { new: true })
+    -päivittää kannassa olevan reseptin suoraan. Tehokkaampi kuin ensin haettu respa
+    jota sitten muutetaan ja sen jälkeen päivitetään, sillä siinä tarvitaan 2 hakua kannasta.
+    Kohta new:true tarkoittaa että likedRecipe on nyt se päivitetty versio. Jos sen unohtaa
+    laittaa, liked respa on versio ennen päivitystä/liketysta.
+---
+const user= await User.find({_id:jokuiidee})    
+    -perushaku id:perusteella
+const user= await User.find({username:keke})
+    -perushaku username perusteella
+
+-userin ominaisuuksia voi muutella, jonka jälkeen sen voi tallettaa esim:
+const updatedUser = await user.save()
+    -Huomaa kuitenkin kaksi tietokantahakua, ensin etsittiin käyttäjä, jonka jälkeen talletus
+---
+const recipe = await Recipe.findOne({ _id: jokuiidee }).populate('creator')
+    -huomaa schemassa kenttä creatorissa on ref User ja kentän tyyppi on 
+    mongoose.Schema.Types.ObjectId. Ilman populatea creator kentässä olisi vain object id,
+    nyt mongoose on liittänyt recipen creatorin kohdalle object id:tä vastaavan userin.
+
+---
+const searchArr = hakulause.split(' ')  //hakulause pilkotaan sanalistaksi
+        .slice(0, 3)                    //otetaan vain 3 ensimmäistä (0,1,2, indeksi 3 ei mukana)
+        .sort()                         //halutessa voidaan järkätä
+        .map((n: string) => new RegExp(n, 'i')) //i flag tarkoittaa ignore case
+
+const recipes = await Recipe.find({
+        tags: { '$all': searchArr }
+      }).limit(20);
+    -haku tagien perusteella. $all tarkoittaa että kaikkiin searchArr stringItemeihin
+    on löydyttävä vastaavuus haettavan kohteen tageista. Se miksi tässä on käytetty regexejä
+    eikä normisanoja on että pehmennetään hakukriteerejä. Esimerkiksi regexillä suklaa
+    löytyy esimerkiksi suklaakakku tai maitosuklaa, kun tavallisella hakusanalla suklaa
+    löytyy vain suklaa tagi.
+
+const searchregex = new RegExp(hakusanaString, 'i')
+const users = await User.find({ username: { '$in': searchregex } })
+    -regexillä voidaan hakea esimerkiksi kaikki 'le' päätteiset käyttäjät
+    Ville, Kalle, Polle tai nimet jotka sisältävät 'le' esim. Kalevi.
+---
+
+

@@ -30,6 +30,9 @@ halutaan muokata. Aluksi scripti poistaa backendista build kansion /s tarkoittaa
 string ja erikoismerkki. /e tarkoittaa että kopioi kansiot ja niiden alikansiot vaikka olisivat tyhjiä
 */
 
+-node filen voit ajaa paitsi käyttämällä skriptiä, myös komennolla node index.js. Tarkemmin
+sanottuna js filen voi ajaa terminaalissa node filennimi.js
+
 npm install express --save
     -express on node web framework, esim rest api endpointtien luomiseksi express routerien avulla
     -tai middlewareksi erilaisten utilssien tai tokenvalidaatioiden kaveriksi ks. EXPRESS ESIM
@@ -128,6 +131,12 @@ npm install dotenv --save
     -muista gitignorata .env kansio
     esim utils/config alhaalla
 ---	
+npm i shortid --save
+    -const shortid = require('shortid');
+    -const iidee = shortid.generate()
+    -helppo tapa luoda uniikki key, jos pitää listata itemssejä eikä niillä ole uniikkeja
+    ominaisuuksia.
+---
 npm install cookie-parser --save
     -const cookieParser = require('cookie-parser')
     -käyttö expressissä, app.use(cookieParser())
