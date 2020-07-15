@@ -626,7 +626,7 @@ const Page = (props) => {
 function App() {
   const itemAnimations = () => {
     const items = document.querySelectorAll('.anim')  //valitsee kaikki elementit joiden
-    //className sisältää anim css luokan 
+    //className sisältää anim css luokan
     const options = {}    //optionsilla voi säätää olosuhteita miten animaatiot käynnistyy
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
