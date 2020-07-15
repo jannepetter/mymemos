@@ -597,5 +597,58 @@ useEffect(() => {						//esimerkinomaisesti alustetaan tässä 1 sivu pokemoneja
          }
      }, [props]) */
 */
--------------
+----------------------------------------------------------------------------------
+sekalaista:
+--- 
+IntersectionObserver:
+    -Eloa sivuihin. Idea kun elementit osuvat ruudulle sivua selattaessa, elementtien css
+    classlistaan (className) lisätään vielä yksi css class, joka on animaatio. Kun elementin ohi
+    selataan tämä css class sitten poistetaan listalta. Tieto siitä mikä animaatio elementin pitää
+    suorittaa talletetaan kyseisen elementin dataset:iin data- attribuutilla. Esimerkissä 
+    dataset:iin talletetaan data-anim={elementin saama propsi} ,joka saadaan sitten esiin 
+    dataset.anim. Voisi olla yhtä hyvin data-joku={props.animaatioInfoPropsi} ja sitten
+    dataset.joku.
+
+const ItemCard = (props) => {
+    return (
+        <div className='itemCardContainer anim' data-anim={props.dataAnim}>
+            <img className='itemCardImage' src={props.image} alt='none'></img>
+            <p className='itemCardText'>{props.text}</p>
+        </div>)
+}
+const Page = (props) => {
+    return (
+        <div className='pageComponentbase'>
+            <ItemCard dataAnim='rightSlideanim' image={eggs} text='jotai'></ItemCard>
+            <ItemCard dataAnim='leftSlideanim' image={chicken} text='muuta'></ItemCard>
+        </div>)
+}
+function App() {
+  const itemAnimations = () => {
+    const items = document.querySelectorAll('.anim')
+    const options = {}    //optionsilla voi säätää olosuhteita miten animaatiot käynnistyy
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add(e.target.dataset.anim)
+          //ikäänkuin lisää className='itemCardContainer anim animaatioLuokanNimi'
+        } else {
+          e.target.classList.remove(e.target.dataset.anim)  //joka sitten otetaan pois
+        }
+      })
+    }, options)
+    items.forEach(item => {
+      obs.observe(item)
+    })
+  }
+  window.addEventListener('DOMContentLoaded', () => {   //animaatioita suoritetaan vasta kun
+    itemAnimations()                                    //sivu on ladannut.
+  })
+  return (
+    <div >
+      <Page></Page>
+    </div>
+  );
+}
+
           
