@@ -49,10 +49,17 @@ npm install cors --save
 ---
 npm install --save-dev nodemon
     -nodemon kehitysaikaiseksi riippuvuudeksi, server päivittyy muutoksesta
-		-"watch": "nodemon index.js" scripteihin (package.json)
+		-"watch": "nodemon index.js" scripteihin (package.json)   //ei toimi windows
 		-todennäköistä on että tarvit erilaisia suoritusympäristojä kuten development,test,production.
 		-skripti "watch": "NODE_ENV=development nodemon index.js" ei toimi suoraan windowsilla joten tarvit
      jos työskentelet windowsilla cross-env:in.
+    -typescriptillä (js ei tartte) työskennellessä tee lisäksi juureen file nodemon.json:
+    {
+    "watch": ["./"],
+    "ext": ".ts,.js",
+    "ignore": [],
+    "exec": "ts-node ./index.ts"
+  }
 ---
 npm install --save-dev cross-env
     -asentaa cross-env,(windosilla välttämätön NODE_ENV lennosta vaihtamiseen)
@@ -111,14 +118,14 @@ npm install apollo-server-express --save
     tämä, koska depth, speed ja ratelimittiä tarttee aina ja siksi myös express.
     -asenna myös express tämän lisäksi.
     -katso perussetuppi apollo-server-express sivuilta. Setuppi kaikilla herkuilla ks. 
-    apollo-server-express ESIM alhaalla.
+    apollo-server-express ESIM alhaalla (graphql-setuppi) .
 
 ---
-npm install --save apollo-server graphql 
+***npm install --save apollo-server graphql 
     -asentaa apollo-server kirjaston qraphql palvelimen rakentamiseen
 		-importit: const uuid = require('uuid/v1')	//jos tarvii tehä unique id
 		-const { ApolloServer, UserInputError, gql } = require('apollo-server')
-    -jos ajattelit että saatat jossain vaiheessa tarvita expressiä, skippaa tämä ja asenna
+    ***jos ajattelit että saatat jossain vaiheessa tarvita expressiä, skippaa tämä ja asenna
     apollo-server-express. Kivuttomammin saa expressin ja kumppanit sen kylkeen.
 
 ---
@@ -213,11 +220,31 @@ npm i graphql-validation-complexity --save
     -jos epäselvää ks. apollo-server-express ESIM
 ---
 npm install file-system --save
-    -jos tarvitsee lukea tiedostoja(sain toimiin tämän vain nodessa)
+    -tiedostojen lukemiseen, kirjoittamiseen, poistamiseen jne. Nodejs.org hyvät dokumentaatiot.
 		-const fs=require('file-system')
-    -esim:
-    let outp=fs.readFileSync('kakka.txt','utf8').split('\n')
-		console.log(outp)
+    -filen poisto asyncronisesti esim:
+    fs.unlink('path/file.txt', (err) => {
+    if (err) throw err;
+    console.log('path/file.txt was deleted');
+    });
+    -filen lukeminen esim:
+    let outp = fs.readFileSync('testi.txt', 'utf8').split('\n')
+    console.log(outp, 'synkroninen luku')
+
+    fs.readFile('testi.txt', 'utf8', (err: any, data: any) => {
+    if (err) throw err;
+    console.log(data, 'asynkroninen luku');
+    });
+    -kirjoittamis esim:
+    fs.writeFile('testi.txt', 'Hello Node.js', 'utf8', (err: any) => {
+    if (err) throw err;
+    console.log('asynkroninen filen päälle kirjoitus');
+    });
+    fs.appendFile('testi.txt', 'lisää tekstiä \n', 'utf8', (err: any) => {
+    if (err) throw err;
+    console.log('asynkroninen filen perään kirjoitus');
+    });
+
 --------------------------------------------------------
 EXPRESS ESIM1 käyttö middlewarena graphql serverissä:
 ---app.js
@@ -248,7 +275,7 @@ app.use(validateTokensMiddleware);
 module.exports=app
 */
 ----------------------------------------------
-EXPRESS ESIM2 resp api serverinä:
+EXPRESS ESIM2 rest api serverinä:
 ---app.js
 const express = require('express')
 const blogRouter = require('./controllers/blogs') //rakennettu expressin avulla ks. express esim.3
@@ -262,7 +289,7 @@ app.use('/api/users', userRouter)
 module.exports = app
 
 ----------------------------------------------
-EXPRESS ESIM3 resp api serverinä/routterit:
+EXPRESS ESIM3 rest api serverinä/routterit:
 ---controllers/blogs.js
 const Blog = require('../models/blog')      //mongoose model
 const blogRouter = require('express').Router()
@@ -294,7 +321,7 @@ blogRouter.post('/', async (request, response, next) => {   //post komennot /api
 module.exports = blogRouter
 
 -------------------------------------------------
----apollo-server-express ESIM:
+---apollo-server-express (graphql-setuppi) ESIM:
 ---index.js
 const config = require('./utils/config');     //dotenv stuffia omassa config filussa
 const DataLoader = require('dataloader');
@@ -420,4 +447,42 @@ export const delredis = async (key: any) => {
     await removeAsync(key)
 }
 //importtaus: const { client, findredis, setredis, delredis } = require('../utils/redis')
+
 ------------------------------------------------------------
+REST API ENDPOINTSIEN TESTAUS REST TIEDOSTOILLA:
+-jos ei ole fronttia käytettävissä, niin yhtä helppo keino testata endpointseja on rest tiedostot.
+Hyvä käytäntö ilmeisesti on laittaa ne requests kansioon.
+---
+requests/add_blog.rest:
+(send nappi rest tiedostoissa tässä)
+POST http://localhost:3003/api/blogs      (post komennon testaus)
+Content-Type: application/json
+Authorization: tokenitähän, jos tarttee
+
+{
+"title":"oujeah",
+"author":"jesmään",
+"url":"diipa.fi",
+"likes":0
+}
+---
+requests/get_all_blogs.rest:
+(send nappi rest tiedostoissa tässä)
+get http://localhost:3003/api/blogs
+
+-jos ei vaadita kirjautumista, niin ei tarvita Authorizationia ja koska ei lähetetä mitään
+pyynnön mukana niin ei tarvita edes Content-Typeä. Samalla periaatteella myös delete ja put
+komennot. Put komentoa käytetään yleensä update touhuissa.
+-Graphql endpointsin testaus hoituu helposti graphiql:llä.
+------------------------------------------------------------
+-------------------sekalaista-------------------------------
+process.argv
+    -terminaalista voi antaa käynnistyskäskyn yhteydessä argseja node filelle ja niihin
+    pääsee käsiksi nodefilessä process.argv komennolla. Esim käynnistys node index.js,
+    sama argsien kanssa node index.js jippii. console.log(process.argv) node filessä ja
+    argsi jippii näkyy siellä string arrayssä.
+---
+
+---
+reload window
+    -jos on kummallisia ongelmia niin monesti reload window auttaa. Ctrl+shift+p
