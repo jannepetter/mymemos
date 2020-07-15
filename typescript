@@ -1,0 +1,202 @@
+-----------------------------------------------------------------------------------------------------------------------
+------------------------------------- node typescript -----------------------------------------------------------------
+npm init
+	-tyhjään kansioon, tekee package.json
+---
+npm install typescript --save-dev
+	-skripti: "rakenna":"tsc" , rakentaa production buildin tsconfig.jsonissa määrittelemääsi outDir osoitteeseen.
+	Eli käytännössä muuttaa koodin vain javascriptiksi. Järkevä temppu production buildia rakentaessa on poistaa
+	entinen prod buildi ensin. Rimraf paketti on helppo ja nopea keino siihen. Asenna rimraf ja päivitä skripti:
+npm install rimraf --save-dev
+	-rimraf on vain nopea ja helppo keino poistaa tiedostoja ja kansioita, eikä välttämätön ts tai edes js
+	projekteihin. Alla myös aihetta sivuavaa.
+	-skripti: "rakenna": "rimraf ./build && tsc", 
+	(rimraf ./build poistaa build kansion ja tiedostot sieltä ja tsc rakentaa uudet)
+	-tuotantoversion käynnistys skripti: "start": "node build/index.js"
+	-jos haluat käynnistää production ympäristössä "start": "cross-env NODE_ENV=production node build/index.js"
+	(windowsilla tarttee cross-env)
+	-voit myös yhdistää tuotantoversion rakentamisen ja käynnistämisen production tilassa scriptillä:
+	"start": "npm run rakenna && cross-env NODE_ENV=production node build/index.js", jolloin rakenna skriptiä
+	käytetään vanhan poistamiseen ja uuden rakentamiseen, jonka jälkeen tuotantoversio käynnistetään production
+	ympäristössä.
+---
+npm install @types/node --save-dev
+	-noden tyypitykset. Kullekkin paketille on omat tyypityksensä express, mongoose jne.
+	Ks definitelytyped.
+---
+npx tsc --init
+	tekee tsconfig.json kansion, jossa on kommentoituna ulos asetuksia. Tai voit
+	vaan tehdä itse uuden tiedoston esim. vsc new Filen avulla ja lisätä halutut asetukset.
+	tsconfig.json avulla voi säätää miten tiukasti tsc compiler tulkkaa koodia,
+	esim. "noImplicitAny": true, ja any tyypit pitää itse naputella paikoilleen. Perusasetuksina voisi toimia:
+	"target": "es5",                        
+	"module": "commonjs",		//standardi Node module homma 2019             
+	"lib": ["es6"],			//saadaan joitain es6 featureita                    
+	"allowJs": true,		//myös .js filet toimii ts. filejen seassa
+	"outDir": "./build/",		//tänne ts laittaa compiloidun koodin                   
+	"rootDir": "./",		//täältä ts etsii nyt koodia 
+	"strict": true,                          
+	"noImplicitAny": true,		//any typet pitää itse julistaa
+	"esModuleInterop": true,	//jos module on commonjs tämä=true
+	"forceConsistentCasingInFileNames": true
+	//"resolveJsonModule": true	//jos nodemonin kanssa ongelmia, kokeile tätä 	
+---
+npm install --save-dev ts-node
+	-lisää package.json skripti: "skriptinnimi": "ts-node index.ts"
+	-ts-noden avulla käyttää ts koodia ilman kompilointia js. Ts filen ajo tapahtuu
+	npm run skriptinnimi. Jos on muita filejä mitä haluat ajaa erikseen, tee niillekkin skripti esim.
+	"kakkonen":"ts-node diipa.ts" , npm run kakkonen ajaa diipa.ts tiedoston. Jos on monta erikseen ajettavaa
+	filea, eikä kaikille haluta skriptejä tee skripti: "skriptinnimi":"ts-node" ja npm run skriptinnimi filennimi.ts
+	ajaa kyseisen filen. Ps. jossakin mainitaan että skripti
+	pitäisi olla muotoa esim: "skriptinnimi": "ts-node -- index.ts", kokeile jos on hämminkiä.
+	-HUOM! Jos et aio käyttää nodemonia vaan esim ts-node-dev, etkä halua ajaa yksittäisiä 
+	tiedostoja pärjäät ilman tätäkin.
+
+---
+npm install --save-dev nodemon
+	-jos valitset nodemonin, niin tarvitset myös ts-noden (tsekkaa kohta exec nodemon.json) ja lisäksi cross-env
+	jos työskentelet windows koneella (ja tarvitset erilaisia suoritusympäristöjä development/production/test)
+	-perusscripti package.json: "watch": "cross-env NODE_ENV=development nodemon"
+npm install --save-dev cross-env
+	-jos haluat käyttää nodemonia, tee juureen lisäksi nodemon.json tiedosto. Jos haluat käyttää nodemonia 
+	windowsilla, asenna lisäksi cross-env.
+nodemon.json:
+{
+    "watch": ["./"],		//mitä kansiota nodemon seuraa (jos index.ts ei eristetty)
+    "ext": ".ts,.js",
+    "ignore": [],
+    "exec": "ts-node ./index.ts"	//käynnistää uudelleen(ts-nodella) index.ts
+  }
+	-perusscripti package.json: "watch": "cross-env NODE_ENV=development nodemon"
+---
+npm install --save-dev ts-node-dev
+	-nodemonin korvike. Lisää skripti: "dev": "ts-node-dev --respawn index.ts", ja npm run dev käynnistää 
+	autoreload dev ympäristön. (sama periaate kuin nodemon).Samoin kuin nodemonissa jos NODE_ENV pitää vaihtaa
+	lennosta tarttet cross-env (ainakin windowsilla). Kuitenkin skripti: "dev": "ts-node-dev --respawn index.ts"
+	toimii automaattisesti jo valmiiksi development ympäristössä ilman erillisiä määrittelyjä.
+---
+
+----------------------------------------------------------------------------------------------------------------------
+-------------------------------react typescript-----------------------------------------------------------------------
+npx create-react-app appinnimi --template typescript
+	-uus app typecsriptillä. tsconfig.json tulee myös valmiina esiasetuksin. Kirjoittamisen hetkellä esiasetuksissa
+	ei ole määriteltynä "noImplicitAny": true. Tiukempia asetuksia halutessasi lisää se tsconfig.json:in 
+	compilerOptionsii.
+
+	
+
+--------------------------------------------------------------------------------------------------------------
+tyypitykset ja interfacet:
+---
+basic types: boolean, number,string
+ja lisäksi: null, undefined
+
+let name:string='keksa'	
+let numerotaulu: number[]=[1,2,3]	//kaksi tapaa tehdä array tyypitys
+let numerotaulu: Array<number>=[1,2,3]	
+
+let person: [number, string, boolean] = [1, "Steve", true]; //tuple array, nyt arrayn pitää sisältää
+							    //number,string ja boolean (tässä järjestyksessä)
+tai
+let employee: [number, string][];			//eli array of tuples
+employee = [[1, "Steve"], [2, "Bill"], [3, "Jeff"]];
+
+enum Color {Red,Green,Blue,Joku}	//tätä ei pysty tekeen js
+let c: Color = Color.Joku;
+console.log(c)				//tulostaa 3 (koska indeksi on 3)
+-----
+enum Color {Red=4,Green,Blue,Joku}	
+let c: Color = Color.Joku;		
+console.log(c)				//tulostaa 7, koska(red=4,green=5,blue=6,joku=7)
+
+let muuttuja;				//on nyt tyyppiä any ja sille voi antaa minkä tyyppisen arvon haluaa
+
+let muuttuja1=10			//on nyt tyyppiä number ja hyväksyy vain numerot
+let muuttuja2: number;			//voi tehdä myös näin ilman alustusta
+let muuttuja3: number=10;		//toimii myös mutta tyypin julistaminen on turhaa
+
+let muuttuja4: number | boolean;	//muuttuja4 hyväksyy nyt tyypit number ja boolean
+muuttuja4=20				//toimii
+muuttuja4=true				//toimii
+muuttuja4='Kalle'			//ei toimi
+
+const add =(num1:number,num2:number)=>{		//tyypityksen voi antaa funktion muuttujille halutessaan.
+    return num1+num2				//(pakollinen ,jos tsconfig.json:ssa "noImplicitAny": true,)
+ }
+ const je =add(4,'5')			//silloin ilmoittaa virheestä tässä ja säästyy aikaa debuggaukselta
+ console.log(je);
+add()					//bonuksena vsc ilmoittaa heti minkätyyppisiä muuttujia funktio add() 
+					//haluaa eikä sitä tarvitse erikseen käydä katsomassa
+
+const add =(num1:number,num2?:number)=>{	//num2 on nyt optionaalinen, optionaaliset parametrit
+    if(num2)					//pitää asettaa pakollisten jälkeen funktioon
+	return num1+num2			//ja tsekattava onko num2 undefined (eli sitä ei annettu)
+   else
+	return num1				
+ }
+---
+const jokuf = (nimi: string): number => {
+    return nimi.length
+}
+	-jokuf ottaa parametriksi string tyypin nimen ja palauttaa number tyypin arvon.
+---
+type Diipa = 'ykkönen' | 'kakkonen' | 'kolmonen'
+const jokuf = (nimi: string): number | string | Diipa => {
+    return 'ykkönen'
+}
+	-Esimerkkinä funktio palauttaa nyt joko number, string tai itsetehdyn Diipa tyypin arvon.
+---
+interfaceEsim:
+interface Kilpailija {
+    nimi: string
+    sijoitus: Diipa
+    aika?: number		//? tarkoittaa että aika kenttä ei pakollinen
+}
+const mones = (kilpailijaObj: Kilpailija) => {
+    return kilpailijaObj.nimi + " sijoittui " + kilpailijaObj.sijoitus
+}
+const masa: Kilpailija = {	//masa määritellään Kilpailija tyypiksi, jolloin ts valvoo että masa objektissa on
+    nimi: 'Matti',		//tarvittavat interfacessa Kilpailija määritetyt kentät ja niiden arvot ovat oikeaa
+    sijoitus: 'ykkönen',	//tyyppiä.
+}
+console.log(mones(masa))	//Matti sijoittui ykkönen
+-typet ja interfacet kannattaa määritellä yhdessä filessä ja sieltä importata ne tarvittaviin paikkoihin, eikä
+ripotella pitkin appia sinnetänne.
+
+---
+const [count,setCount] =useState(5)	//tyyppi oletetaan nyt number koska alustit sen 5
+					//setCount('5') antaa nyt virheen
+
+jos jostain syystä tarvit että count pitää voida jossain tilanteessa olla myös string
+const [count,setCount] =useState<number|string>(5) //määritellään että tyyppi voi olla myös string
+
+sinne voi laittaa kaikki tyypit mitä tarvitaan esim:
+const [count,setCount] =useState<number|string|undefined|null|boolean>(5)
+
+tai myös objekteja.(huomaa että tässä voitaisiin hyvin käyttää myös interfaceja tyypitykseen)
+const [count,setCount] =useState<{nimi:string}>({nimi:'keksa'})
+
+interface jee{			//sama homma mutta interfacella
+    nimi:string
+}
+const [count,setCount] =useState<jee>({nimi:'keksa'})
+---
+lomakkeet, inputit, napit ym
+let form = document.getElementById('recipe')	//on HTMLElement ja sillä ei ole kaikkia tarvittavia
+if(form) (form as HTMLFormElement).reset();	//metodeita tai funktioita. Se pitää castata tarkemmaksi
+						//as komennolla ja tarkemman castauksen nimen saat selville
+						//leijumalla hiirellä komponentin yllä, jolloin se saa
+						//kullekkin komponentille ominaiset metodit
+
+let inputti= document.getElementById('test') as HTMLInputElement	//castaus myös näin. Huom että nyt
+            if(inputti){						//on kyseessä HTMLInputElement
+                inputti.value=''		//tavallaan resetoi inputin
+            }
+
+ <form id='recipe' onSubmit={handlesubmit}>
+                <input id='test' ></input>                
+ </form>
+-------------------------------------------------------------------------------------------
+sekalaista:
+-jos on kummallisia ongelmia, monesti reload window auttaa. Ctrl+shift+p
+---
