@@ -188,12 +188,14 @@ npm install gh-pages --save-dev
 },
 
 Tee projektille repo githubii ja push projekti sinne (täytyy jotai ainaki kerran pushata ennenku
-voi deployata). Käännä projektin settingsistä gh-pages branch päälle ja npm run deploy 
-terminaalista jolloin pushaa tavallaan prod version gh-pages branchiin ja projekti käynnistyy
-gh-pageseissa. Tämän jälkeen varsinaista pushia ei ole pakko enää tehdä ellet halua esitellä 
-koodiasi githubissa. Jos päivität projektia niin uudestaan vaan npm run deploy ja prod buildi
-päivittyy gh-pages branchissa. Custom domainin voi lisätä settingsistä ja erillisestä boksista
-siellä. Kirjoita vain custom domain sinne ja save. Jos ssh aiheuttaa probleemaa, kokeile https.
+voi deployata. Voi olla esim yhden filen feikkiprojekti , jonka pushaat näytille jonka jälkeen
+oikean projektin npm run deployaat samaan repoon). Käännä projektin settingsistä gh-pages branch
+päälle ja npm run deploy terminaalista jolloin pushaa tavallaan prod version gh-pages branchiin
+ja projekti käynnistyy gh-pageseissa. Tämän jälkeen varsinaista pushia ei ole pakko enää tehdä 
+ellet halua esitellä koodiasi githubissa. Jos päivität projektia niin uudestaan vaan npm run 
+deploy ja prod buildi päivittyy gh-pages branchissa. Custom domainin voi lisätä settingsistä 
+ja erillisestä boksista siellä. Kirjoita vain custom domain sinne ja save. Jos ssh aiheuttaa 
+probleemaa, kokeile https.
 
 
 
