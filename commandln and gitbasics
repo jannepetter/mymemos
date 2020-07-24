@@ -71,6 +71,8 @@ git pull                          - on yhdistelmä git fetch + git merge ja se h
 git log                           - näkyy mitä committeja repo sisältää
 git checkout -- filenimi.jotain   - peruu tiedostoon tehdyt muutokset ja ne palautuvat tilaan
                                     jossa ne viimeksi olivat vihreitä (heti edellisen git add:in jälkeen)
+git clone wwwosoite               -luo projektille kansion ja kloonaa osoitteessa olevan projektin
+                                   kansioon. Muista myös npm install.
 
 ---unohdit jotain tai liian aikainen commit:
 -jotta commithistoria pysyy siistimpänä voit lisätä unohtuneen tiedoston/tiedostot vielä samaan committiin
@@ -185,8 +187,13 @@ npm install gh-pages --save-dev
 "deploy": "npm run build && gh-pages -d build",             -lisää skripti
 },
 
-Senjälkeen npm run deploy ja pushaa githubii. Custom domainin voi lisätä settingsistä ja erillisestä boksista siellä.
-Kirjoita vain custom domain sinne ja save.
+Tee projektille repo githubii ja push projekti sinne (täytyy jotai ainaki kerran pushata ennenku
+voi deployata). Käännä projektin settingsistä gh-pages branch päälle ja npm run deploy 
+terminaalista jolloin pushaa tavallaan prod version gh-pages branchiin ja projekti käynnistyy
+gh-pageseissa. Tämän jälkeen varsinaista pushia ei ole pakko enää tehdä ellet halua esitellä 
+koodiasi githubissa. Jos päivität projektia niin uudestaan vaan npm run deploy ja prod buildi
+päivittyy gh-pages branchissa. Custom domainin voi lisätä settingsistä ja erillisestä boksista
+siellä. Kirjoita vain custom domain sinne ja save. Jos ssh aiheuttaa probleemaa, kokeile https.
 
 
 
