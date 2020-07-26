@@ -1,0 +1,175 @@
+--------------------------webpack quickstarter memo----------------------------------------------
+---create desired folder ---
+npm init 			//creates package.json
+npm install --save react react-dom	
+npm install --save-dev webpack webpack-dev-server webpack-cli html-webpack-plugin --save-dev
+npm install @babel/core babel-loader @babel/preset-env @babel/preset-react @babel/polyfill --save-dev
+npm install style-loader css-loader --save-dev
+
+-----createfile webpack.config.js----------- (to root) and content:
+const path = require('path')
+const htmlWebpackPlugin=require('html-webpack-plugin')
+
+module.exports={
+    entry: ['@babel/polyfill', './src/index.js'],
+    output: {
+        path:path.join(__dirname, '/build'),
+        filename: 'main.js'
+    },
+    module:{
+       rules:[
+        {
+            test: /\.js$/,
+            use: ["babel-loader"]
+        },
+        {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+              ]
+        },
+       ] 
+    },
+    plugins:[
+        new htmlWebpackPlugin({
+            template: './src/index.html'
+        })
+    ]
+}
+
+-----createfile .babelrc ----------- (to root) and content:
+{
+    "presets": ["@babel/preset-env", "@babel/preset-react"]
+}
+
+---create folder& files -------------------------------------
+-----src/index.js----
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+ReactDOM.render(<App />, document.getElementById('root'));              (** id needs to match) 
+---------------------		
+-----src/App.js----
+import React from 'react';
+const App = (props) => {
+    return (
+        <div>
+            hello webpack!
+        </div>)
+}
+export default App
+-----------
+src/index.html		//you can create the needed template with ! 
+                    //remember to add to the body <div id="root"></div>	(** id needs to match)
+
+-------------------------------------------------------------
+add scripts to package.json
+
+"scripts": {
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production"
+  },
+
+(--open makes the app open automatically and --hot makes the application autoreload on save)
+----------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------
+-------------------------webpack typescript-------------------------------------------------------------------------
+---create desired folder ---
+npm init                            //creates package.json
+npm install --save react react-dom	
+npm install --save-dev webpack webpack-dev-server webpack-cli html-webpack-plugin
+npm install style-loader css-loader source-map-loader --save-dev
+npm install @types/react @types/react-dom ts-loader typescript --save-dev
+
+-----createfile webpack.config.js----------- (to root) and content:
+const path = require('path')
+const htmlWebpackPlugin=require('html-webpack-plugin')
+
+module.exports={
+    entry: './src/index.tsx',
+    output: {
+        path:path.join(__dirname, '/build'),
+        filename: 'main.js'
+    },
+    module:{
+       rules:[
+        {
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/
+        },
+        {
+            test: /\.css$/,
+            use: [
+                'style-loader',
+                'css-loader'
+              ]
+        },
+        {
+            enforce: "pre",
+            test: /\.js$/,
+            loader: "source-map-loader"
+        }
+       ] 
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js']
+    },
+    plugins:[
+        new htmlWebpackPlugin({
+            template: './src/index.html'
+        })
+    ]
+}
+
+---------------------------------------------------
+npx tsc --init                  //creates tsconfig.json
+"compilerOptions": {
+"target": "es6", 
+"module": "commonjs", 
+"allowJs": true,
+"jsx": "react",
+"sourceMap": true,
+"outDir": "./build", 
+"strict": true,
+"noImplicitAny": true,
+"esModuleInterop": true,
+"forceConsistentCasingInFileNames": true
+}
+
+---create folder& files -------------------------------------
+-----src/index.tsx----
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+ReactDOM.render(<App />, document.getElementById('root'));          (** id needs to match) 
+---------------------		
+src/App.tsx
+-----------
+index.html		//you can create the needed template with ! 
+			//remember to add to the body <div id="root"></div>     (** id needs to match)
+
+-------------------------------------------------------------
+add scripts to package.json
+
+"scripts": {
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production"
+  },
+
+(--open makes the app open automatically and --hot makes the application autoreload on save)
+----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
