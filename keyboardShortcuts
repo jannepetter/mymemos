@@ -1,0 +1,81 @@
+Ctrl+Z:			Undo
+Ctrl + Y:		Redo
+
+Ctrl+W:			Close, chromella sulkee sivun
+Ctrl+T:			Aukasee uuden sivun
+Ctrl+shift+T:		chromella aukaisee uudestaa edellisen suljetun sivun
+
+Ctrl+A:			Select all
+Ctrl+F:			find, hakusana ja ENTER siirtyy seuraavan kohdalle, SHIFT+ENTER edellisen kohdalle.
+Ctrl+PgUp or PgDn:	voit selata ikkunoita chromessa
+Ctrl+tab:		Siirtyy seuraavaan ikkunaan chromessa.
+Alt+Tab:		Switch apps
+
+Alt+F4:			Close apps, tabs
+Ctrl+f4:		Sulkee vain kohteena olevan tabin/ikkunan
+
+Alt+LeftArrow or RightArrow: selaushistoriassa edellinen tai seuraava
+Win+D: 			Show or hide the desktop
+win+M			Piilottaa kaikki ikkunat (melkein sama kuin win+D)
+win+shift+M		Aukasee kaikki ikkunat
+Win+left arrow or Win+right arrow: Snap windows, eli pienentää ruudut
+Win+Tab:		Open the Task view
+Ctrl+Esc:		Open the Start menu, voit hakea menusta haluamasi appin ym kirjoittamalla.
+	
+F10:			aktivoi menubarin. Voit tabbailla ja enter aukasee halutun kohalla.
+Win+L:			Lock your computer
+Win+I:			Open Settings
+Win+S:			Search Windows	
+Win+PrtScn:		Save a screenshot
+Ctrl+Shift+Esc:		Open the Task Manager, tehtävienhallinta	
+Win+X:			Open the hidden menu	
+Ctrl+Backspace:		pyyhkii koko sanan kerralla
+Ctrl+Left or Right:	hyppii koko sanan kerralla eteen tai taakse
+Win+Ctrl+D:		Add a new virtual desktop, windows hakupalkin vieressä näkymät josta voit siirtyä eestaas
+Ctrl+Alt+Arrow:		Kääntää näkymää
+win+numerot		Käynnistää tehtäväpalkkiin kiinnitetyn appin. 1 käynnistää rivissä ensimmäisen jne.
+win+E			Resurssienhallinta käynnistys (alt+nuolet navigoimiseen)
+win+shift+s		Leiketyökalu. Voit tallettaa näkymästä halutun kohdan		
+win+:			Emojiroska
+
+-------------------------chrome spessut-------------------------------
+Ctrl+L			Kohdistaa urlbariin
+Alt+D			Kohdistaa urlbariin
+F5			Refresh page tai reload
+Ctrl+R			Refresh page tai reload				
+
+
+--------------------------vsc------------------------------------------
+---terminaaliin kohdistettuna---
+Alt+up or down		Jos useampia terminaaleja auki, siirtyy eteen ja taakse
+Ctrl+L:			Tyhjentää terminaalin
+------------------
+Alt+up or down		Voit liikuttaa koko riviä tai maalattua blokkia ylös/alaspäin
+Ctrl+Ö:			Aukaisee terminaalin, jos terminaali on jo auki niin silloin kohdistaa sinne.(myös Ctrl+J)
+Ctrl+1			Jos ruutu on jaettu, kohdistaa 1 ruutuun
+Ctrl+2			Jos ruutu on jaettu, kohdistaa 2 ruutuun jne.
+Ctrl+0			Kohdistaa sivupaneeliin ja pääset aukaisemaan filejä
+alt+left or right	Suoraan pääset liikkuun tabien välillä
+Ctrl+PgUp or PgDn	Kohdistaa myös ruutuun ja voit selata välilehtiä
+Ctrl+g:			Hyppää suoraan halutulle riville
+Ctrl+u:			Hyppää takaisin mistä lähdettiin.
+Ctrl+Enter:		Pääset keskeltä riviä uudelle riville.
+Ctrl+'			Kommentoi koodia/uncommentoi, voit käyttää tätä vaikka keskeltä riviä
+			Myös kommentoi/uncommentoi koko blokin koodia jos se on maalattu
+Ctrl+shift+nuoli:	maalaa samalla ja voit esimerkiksi poistaa nopeasti jotain
+Ctrl+p:			aukasee hakuvalikon objektin kohalla josta pääsee suoraan tiedostoon jossa se on
+ctrl+k+c:		kommentoi blokin koodia, ctrl+k+u uncommentoi
+f2:			antaa nimetä kaikki muuttujat kerralla
+f12:			Voit hypätä suoraan kohtaan missä funktio, muuttuja tai objekti on määritelty
+			Aukaisee uuden filen(jonka voit sitten sulkea (ctrl+f4)
+alt+f12:		Sama kuin f12 mutta vain vilkaisee koodia, ei aukaise omaa ikkunaa.Esc poistuu.
+shift+alt+a:		kommentoi ulos blokin koodia
+ctrl+lclick(mouse):	kohdistaa kohteen syntypaikalle, funktioon, komponenttiin ym
+Ctrl+shift+P:		Aukasee hakubarin ja voi esimerkiksi reload window, ratkaissut jo monta mysteeriä.
+voit sisentää blokin koodia maalamalla sen +tab ja takasinpäin shift+tab	
+Ctrl+k ja Ctrl+s:	Aukaisee keyboard shortcuts valikon josta voit tarkastella niitä tai muuttaa
+#oma keybinding: ctrl+shift+ä		(kill terminal, siihen kohdistettuna)
+#oma keybinding: ctrl+k			(run python file in terminal, eli ajaa aktiivisena olevan filen)
+
+
+								
