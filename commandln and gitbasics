@@ -1,6 +1,39 @@
 -----------------------------------------------------------------------------------------------------------------------
 --------------------------------------commandln and gitbasics----------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------
+--------------------------linux----------------------------------------------------------------------------------------
+pwd                               - print working directoryn
+ls                                - listaa directoryn, ls -l
+cat                               - tulostaa tiedoston sisällön
+more                              - tulostaa tiedoston sisällön
+less                              - tulostaa tiedoston sisällön
+cp                                - kopioi tiedoston
+mv                                - move a file or rename it
+rm                                - remove a file
+clear                             - clear terminal screen
+head                              - näyttää tiedoston 10 ensimmäistä riviä
+tail                              - näyttää tiedoston 10 viimeistä riviä
+nano                              - tekstieditori, käyttö esim: nano tiedosto
+wget                              - download file from url
+touch testi.txt                   - tekee testi.txt tiedoston
+find                              - esim. find /kansio/tiedosto/ -name tiedostonnimi
+grep                              - esim. grep sana /kansio/tiedosto/  ,tulostaa tiedoston 
+                                    rivit missä sana esiintyy.
+ps aux                            -näyttää kaikki järjestelmän prosessit
+komento1 | komento2               -Piping, komento1 tuloste ohjataan komento2 inputiksi.esim:
+                                  ps aux | head
+
+chmod                             -voit muuttaa filejen permissionseja (näkyvät ls -l) esim:
+chmod u+w tämäfile                - owner/user pystyy nyt kirjoittamaan
+chmod g-x tämäfile                - group otetaa pois suoritusoikeus
+chmod o+r tämäfile                - other/muut lisätään lukuoikeus
+chmod -R u=x,g=w,o=r tämäfile     -user vain suoritus, group vain kirjotus, other vain luku
+                                    voi myös antaa muita oikeuksia samalla esim. u=rwx. -R 
+                                    optio rekursiivisesti  myös alitiedostoille/kansioille 
+                                    samat oikeudet.
+
+
+
 
 --------------------------Powershell-----------------------------------------------------------------------------------
 dir                               - listaa directoryn
@@ -59,6 +92,7 @@ git add tiedosto.txt              - Yksittäisen tiedoston antaminen. Huom jos a
                                     kaikki kansion alaiset tiedostot lisätään myös recursiivisesti.
 git commit -m "viesti"            - committoi jotta voidaan pushata.
 git remote -v                     - kertoo mikä nyt on osoite mihin pushataan, tarkista varsinki jos ulisee
+git remote rm origin              - poistaa osoitteen.
 git remote set-url origin https://github.com/username/repository.git      - voit muuttaa osoitteen oikeaksi tai
 git remote set-url origin git@github.com:username/repository.git          - jos ssh käytetään
 git push -u origin master         - pushaa paikallisen version etärepon master branchiin
@@ -170,9 +204,21 @@ git stash apply                 - palauttaa branchin talletetut/piilotetut muuto
 
 -----------------------------------------
 
-git config --list               - listaa git konfiguraatiot mm. myös email ja username
+git config --list                                 - listaa git konfiguraatiot, email ym.
 git config --global user.name "Your Name"         - muuttaa git käyttäjänimen "Your Name" muotoon
 git config --global user.email you@example.com    - muuttaa spostin you@example.com muotoon
+git config user.name "nimi"     -lisää local user nimen nimi
+git config --global --unset user.name             -poistaa globaalin nimen
+git config --unset user.name                      -poistaa lokaalin nimen
+git config --global --unset credential.helper     -poistaa kirjautumisen tallettajan. Jos käytät 
+                                                  https ja ongelmia, kannattaa kokeilla ja laittaa
+                                                  helper päälle uudestaan. Käy ulkona vsc nii toimii.
+git config --global credential.helper cache       -helper päälle (default 15min) turvallinen
+                                                  toimii muistin varassa.
+git config --global credential.helper store       -säilöö salasanat ym. plaintextina
+
+
+
 git log                         - kertoo mitä kommitteja repositorio sisältää
 gitk                            - GUI gitille käynnistyy
 
@@ -194,8 +240,10 @@ päälle ja npm run deploy terminaalista jolloin pushaa tavallaan prod version g
 ja projekti käynnistyy gh-pageseissa. Tämän jälkeen varsinaista pushia ei ole pakko enää tehdä 
 ellet halua esitellä koodiasi githubissa. Jos päivität projektia niin uudestaan vaan npm run 
 deploy ja prod buildi päivittyy gh-pages branchissa. Custom domainin voi lisätä settingsistä 
-ja erillisestä boksista siellä. Kirjoita vain custom domain sinne ja save. Jos ssh aiheuttaa 
-probleemaa, kokeile https.
+ja erillisestä boksista siellä. Kirjoita vain custom domain sinne ja save.
+
+En saanu toimiin ssh yhteydellä, käytä https ja jos tulee yhteyden kans erroria käytä 
+credential.helper pois päältä ja laita takas ja sitte käytä vsc kiinni.
 
 
 
