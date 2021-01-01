@@ -1,0 +1,409 @@
+------------------------------------------------------------------------------------------------------------------------
+----------------------------------------c ohjelmointi-----------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
+editori hommat:
+-codeblocks
+	-lataa versio jossa on myös mingw, ja asenna se
+	-mene ohjauspaneeli/järjestelmä/järjestelmän lisäasetukset/ympäristömuuttujat, valitse PATH ympäristömuuttuja,
+	 klikkaa muokkaa, uusi ja lisää MinGW polku/bin sinne esim. C:\CodeBlocks\MinGW\bin , jos tänne sen asensit.
+-visual studio
+	-lataa mingw setuppi ja asenna. Aukeavasta valikosta mingw32-base-bin ja maybe mingw32-gcc-g++-bin, install ja
+	apply changes.
+	-mene ohjauspaneeli/järjestelmä/järjestelmän lisäasetukset/ympäristömuuttujat, valitse PATH ympäristömuuttuja,
+	klikkaa muokkaa, uusi ja lisää MinGW polku/bin sinne esim. C:\MinGW\bin , jos tänne sen asensit.
+	-asenna vsc extensionsit c c++ (microsoft) ja code runner (jun han)
+	-mene vsc preferences/settings ja extensions/run code configuration. Laita täppi Code-runner:run in terminal
+-compile ja ajo terminaalissa
+gcc filennimi.c					-tekee ajettavan version, windowsilla a.exe
+./a						-ajaa ohjelmasi
+	
+----code formatting:
+	-default format asetukset vsc todennäköisesti ei kauaa kelpaa edes yksin työskennellessä,
+	 tee projektin roottiin .clang-format niminen tiedosto ja sinne tietoa tyyliasetuksista, 
+	 esim Googlen tyyli näyttää jo siistiltä. Filen tietenkin voi gitignorata halutessaan.
+.clang-format
+BasedOnStyle: Google				-Tässä muutama esimerkki miten näitä voi tiukentaa halutessaan.
+ColumnLimit: 0					 BasedOnStyle: Google on jo itsessään riittävän tyylikäs, eikä tartte 
+IndentWidth: 4					 senkummempaa säätöä.
+TabWidth: 4
+-------------tiedosto.h-----refaktorointi------multifilejutut
+funktiot sun muut voi erotella main filestä ja funktiosta omaan tiedosto.h funktioon (teet siis tiedosto.c sijaan
+tiedosto.h ja sinne nakkelet kaikki). Lopuksi vaan importtaat tiedosto.h tuttuun tyyliin main tiedostoon.
+
+#include "tiedosto.h"
+
+------laskuoperaattorit-------------------------
++,-,*,/,%					-yhteenlasku, vähennyslasku, kertolasku, jakolasku, jakojäännös
+(muista nollalla jako=crash)
+#include <math.h>
+luku = roundf(100 * (desimaalikuku) / 100;	-pyöristys, jos haluat 2 desimaalin tarkkuuteen
+
+------------vertailuoperaattorit----------------
+(<,>,<=,>=,==,!=)
+
+------------loogiset operaattorit---------------
+&& || !
+
+------tulostus----------------------------------
+#include <stdio.h>				-importti jolla printf ja scanf tuodaan
+
+int tuntipalkka, tunnit, palkka;
+
+    printf("Anna tuntipalkka > ");			
+    scanf("%d", &tuntipalkka);			-%d , int eli kokonaisluku
+    printf("Tehdyt tunnit > ");
+    scanf("%d", &tunnit);			-& kysely käyttäjältä talletaan kyseiseen muuttujaan
+    palkka = tuntipalkka * tunnit;
+    printf("Bruttopalkkasi on %d euroa", palkka);
+
+%d	int					-printf / scanf
+%f	double					-printf
+%lf	double					-printf / scanf
+%c	char					-printf / scanf
+%s      merkkijono				-printf / scanf
+
+int luku = 13;
+printf("%18d jess\n", luku);			-                 13 jess ,18 spacea vasemmalla
+printf("%-18d jess\n", luku);			-13                  jess ,18 spacea oikealla
+printf("%.8d\n", luku);				-00000013	etunollat
+double luku = 13.123456789;
+printf("%.4f\n", luku); 			-13.1235	eli neljä desimaalia ja pyöristys.
+printf("diipa %-16.4f daapa\n", luku);		-diipa 13.1235          daapa , eli spacea oikealla
+printf("diipa %16.4f daapa\n", luku);		-diipa          13.1235 daapa ,eli spacea vasemmalla		
+
+char nimi[10];
+scanf("%s", nimi);				-HUOM! & merkin puuttuminen.
+printf("%10s niminen opiskelija\n", nimi);	-tulostuskentän leveys nimelle on 10, tasattuna oikeaan reunaan.
+printf("%-10s niminen opiskelija\n", nimi);	-tasattuna vasempaan reunaan
+
+
+int failaskoscan= scanf("%d", &tunnit) == 0;	-voit myös tallettaa tiedon scannauksen onnistumisesta muuttujaan
+						 esim. tähän scanniin muun kuin kokonaisluvun antaminen tarkoittaa että
+						 scanf(%d, jotai) ==0, jolloin failaskoscan arvo on 1
+
+Huom scanf ei voi lukea stringejä joissa on välilyöntejä. Se ottaa vain välilyöntiin asti ja loput menevät puskuriin.
+Sitten jos uudestaan scanffia käytetään siellä on jo valmiina jotakin mitä ei ehkä tarvitsisi olla.
+sellaisiin tilanteisiin missä välilyönteja syötteissä
+fgets						-kirjastossa string.h , HUOM älä käytä gets funktiota!
+char nimi[10];
+fgets(nimi, 20, stdin);				-(muuttuja minne luetaan,maxkoko,tiedosto mistä luetaan)
+						 näppäimistöltä jos luetaan tiedoston kohdalle stdin
+------------types--------------------------------
+short, int, long				-kokonaisluvut. int maxkoko riippuu myös kääntäjästä 16 vs. 32bit
+float,double					-decimaaliluvut hyväksyy myös 1.34e5 tai 1.34E5 joka 134000 jne.
+char						-merkki/kirjain esim 'f' , huomaa '
+bool						-true=1 , false=0
+
+__int8  nSmall;					-Declares 8-bit integer. Microsoft docsista löytyy tarkemmin tietoa.
+__int16 nMedium;				 Voit alustaa muuttujan suoraan riittävän isoksi jos alkaa pelottaa
+__int32 nLarge;					 ettei mahdollisesti koko riitä.				
+__int64 nHuge;     
+
+int luku=10;
+printf("%f\n", (double)luku);			-tyyppimuunnos int -> double
+
+------------string--------------------------------
+--muuntelut:
+atoi()						-ascii to int
+itoa()						-int to asc, itoa ja atoi ei ilmeisesti toimi linux ympäristöissä
+
+char tunnusluku[] = "tunnus";
+char mjono[] = "jea";				-jea, automaattisesti lisätään '\0' string tauluun viimeiseksi
+char mjono2[] = {'j', 'e', 'a', '\0'};		-jea, nul merkintä \0 vie kans yhdenpaikan.
+char mjono3[10] = {'j', 'e', 'a', '\0'};	-jea, sama ku mjono2 mutta perässä on muutama tyhjäpaikka lisää.
+printf("%s %s\n", mjono, mjono2);
+
+char opiskelijat[5][10] = {"keksa", "mauri", "jaska"}; -string array
+---
+fgets						-kirjastossa string.h , HUOM älä käytä gets funktiota!
+char nimi[10];
+fgets(nimi, 20, stdin);				-(muuttuja minne luetaan,maxkoko,tiedosto mistä luetaan)
+						 näppäimistöltä jos luetaan tiedoston kohdalle stdin. fgets lukee
+						 myös enterin painalluksen muuttujaan merkkinä '\n', joka on viisainta
+						 poistaa ennenkuin se aiheuttaa ongelmia
+int pituus=strlen(nimi)				-merkkijonon pituus, loppumerkki '\0' ei lueta pituuteen mukaan.
+
+if( nimi[strlen(nimi)-1] == ’\n’)
+    nimi[strlen(nimi)-1] = ’\0’; 		-vaihdetaan '\n' tilalle '\0'
+ else
+    tyhjennaPuskuri(); 				-tyhjentää lukupuskurin kts. alla
+
+void tyhjennaPuskuri(void){			-puskuri voidaan lukea tyhjäksi syötteiden välillä
+ while( getc(stdin) != '\n');			-getc(stdin) voi korvata getchar() joka automaattisesti valitsee stdin
+}
+---toupper ja tolower
+#include <ctype.h>				-tolower() ja toupper() sijaitsevat täällä.
+char upp=toupper('j');				-Muuttaa vain yhden char kerrallaan, jos tarttee string muuttaa,
+						 käytä looppia. upp='J'
+char low=tolower('K')				-low='k'
+
+
+---string vertailu
+#include <string.h>
+
+if (!strcmp(tunnusluku, "tunnuss")) {		-#include <string.h>, 2 merkkijonon vertailu strcmp:illa
+    printf("oikein\n");				-strcmp palauttaa 0 jos vertailu oikein. HUOM! Ja ilmeisesti negatiiv.
+  } else {					 luvun jos ensimm param. aakkosissa ensimmäinen ja positiivisen toisinpäi.
+    printf("vaarin %s\n", tunnusluku);
+  }
+
+char lukustring[] = "5";
+  int luku = atoi(lukustring) * 5;		-ascii to int, #include <stdlib.h>
+char lukustring2[] = "5.15";
+  double luku2 = atof(lukustring2) * 5;
+
+---tulostus---
+print("jotai");					-voi muotoilla ja tulostaa muutaki ku stringejä
+puts("jotai");					-ei voi muotoilla ja vaan pelkille stringeille
+---str kopiointi---
+char nimi[10] = "keksa";
+char nimi2[10];
+strcpy(nimi2, nimi);				-(mihin,mistä) ,jos kopioitavassa ei ole '\0' seuraa outoa toimintaa
+strncpy(nimi2, nimi, 2);			-viimenen param, montako merkkiä kopioidaan. Muuten sama mutta ei nyt
+						 laita '\0' perään, eli se on laitettava itse.
+strcat(nimi, nimi2);				-concat, yhdistää nimi2 muuttujaan nimi, huomioi nimi pituus
+printf("%s %s\n",nimi, nimi2);
+---
+char* osamerkkijono=strtok(mjono,erotin)	-palauttaa osajonon ensimmäiseen erottimeen asti. Muokkaa alkuperäistä
+						 stringiä. Jos haluat säilyttää alkuperäisen tee kopio. strtok ei
+						 automaattisesti pilko koko stringiä vaan joudut käyttään toistoa.
+char mjono1[] = "tama mjono pilkotaan";		-split() js,python tai strip() python huomattavasti ketterämpiä.
+  char* osa = strtok(mjono1, " ");		 
+  while (osa != NULL) {
+    printf("%s\n", osa);
+    osa = strtok(NULL, " ");			-strtok muistaa sille annetun merkkijonon, arvoksi laitetaan NULL
+  }						 kun kaikki on pilkottu osa==NULL ja keskeytys. 
+
+------------taulukot------------------------------
+tyyppi taulukonnimi[koko];			-tyhjäntaulukon alustus
+int lukutaulukko[]={1,4,2,9,100};
+--
+int taulukko[20] = {0};				-taulukko alustettuna 0, alustus kannattaa tehdä joko näin tai 
+						 esim. loopilla. Muuten arvot ovat jo valmiiksi mitä sattuu.
+int koko = 20;
+int taulukko[koko] = {0};			-Ei toimi, jostain syystä ei hyväksy muuttujaa tähän.
+
+---KOKO koko size sizeof---			------Taulukon koon selvitys------
+int lukuja[] = {5, 7, 3};
+int koko = sizeof(lukuja) / sizeof(lukuja[0]);	-taulukon alkioiden lukumäärä, sizeof(lukuja) antaisi tavujen lkm
+---
+
+void tulosta(const int taulu[], int n) {	-koska taulukko funktion parametrina on muistiosoite, arvoja voidaan
+  for (int i = 0; i < n; i++) {			 funktiossa muuttaa joko tahallaan tai vahingossa. Const sanalla
+    printf("%d\n", taulu[i]);			 kääntäjä saattaa joskus varoittaa, ei ilmeisesti aina.
+  }						 void tulosta(const int* taulu, int n) taulukon osoitteen voi laittaa
+}						 parametriksi myös näin, sama asia pointterilla. 
+int main(void) {
+  int lukuja[] = {5, 7, 3};
+  int koko = sizeof(lukuja) / sizeof(lukuja[0]);
+  tulosta(lukuja, koko);			-sizeof toimii vain siellä missä taulukko on alustettu. Funktion
+  return 0;					 parametrinä välittyy vain muistiosoite.
+}
+--
+#define SARAKKEET 4				-funktiot tarvitsevat tiedot 2d arrayn riveistä ja sarakkeista
+void tulostamatriisi(int taulu[][SARAKKEET], int n) {		tässä sarakkeet määritelty definen avulla. Toinen
+  for (int i = 0; i < n; i++) {					vaihtoehto on kovakoodata sarakkeiden lkm. Riviin 
+    for (int j = 0; j < 4; j++) {				riittää esim. muuttuja n käyttö funktion määrittelyssä.
+      printf("%d\n", taulu[i][j]);
+    }
+  }
+}
+
+int main(void) {
+  int matriisi[][SARAKKEET] = {{1, 2, 3, 4}, {5, 6, 7, 8}};
+  tulostamatriisi(matriisi, 2);			-kutsuttaessa ei hakasulkeita, kuten ei yksiulotteisessakaan taulussa.
+  return 0;
+}
+---erikoista:
+c:ssä funktiot eivät ainakaan suoraan pysty palauttaan taulukoita. Vinkki! Laita funktion parametriksi myös työstettävä
+taulukko(tai sen osoite),jonka nakuttelet kuntoon funktion sisällä, niin sen ei tarttekkaan palauttaa.
+------------funktio-----------------------------
+Jos main funktion tiedostossa on muita funktioita, laita ne main funktion alapuolelle ja esittele
+niiden prototyypit main funktion yläpuolella. Silloin niiden käyttöjärjestyksellä main funktiossa ei ole väliä
+void jokuHomma(int n);			
+int toinenHomma(int k);				-funktion prototyypin esittely esim.
+---
+tyyppi nimi(tyyppi param){			-funktion muuttujat ovat käytössä vain funktion sisällä ja vain
+sisältö						 suorituksen ajan.
+return jotai
+}
+
+char* operaattoriValikko(void) {		-stringin palauttava funktio
+    return "saunalahti";
+}
+int tulosta(int *taulu, int n) {		-taulukon voi myös syöttää näin parametriksi, vrt. int taulu[]
+  for (int i = 0; i < n; i++) {			 pointterin käyttö ei taulukoissa ole pakollista koska taulukon
+    printf("%d\n", taulu[i]);			 nimi viittaa jo valmiiksi muistipaikkaan.
+  }
+  return 0;
+}
+
+/* function documenttikenttä */			-funktion yläpuolella oleva kommentti näkyy funktiota kutsuttaessa
+int tulostaRivit(int rivit[][7], int y) {	-2d array parametrina, huomaa kovakoodattu param arvo 7, muuttujat
+  for (int i = 0; i < y; i++) {			 ei toimi tässäkohtaa ja rivit pituuskin pitää antaa erillisenä y.
+    for (int j = 0; j < 7; j++) {
+      printf("%4d", rivit[i][j]);
+    }
+  }
+  return 0;
+}
+
+----pointers
+---esim1:
+void kysySyote(int* arvo) {			-parametrina pyydetään nyt pointteria eli osoiteparametria
+  int luku;
+  scanf("%d", &luku);				-scanf toimii samallai, haluaa osoiteparametrin johon tallettaa arvo.
+  printf("funktiossa %d\n", luku);
+  *arvo = luku;					-scannattu luku talletetaan nyt argsina saatuun muistipaikkaan
+}
+int main(void) {
+  int numero;
+  kysySyote(&numero);				-kysySyote haluaa parametriksi muistipaikan osoitteen (int* arvo).
+  printf("number %d\n", numero);		  &-operaattorilla viitataan muuttujan muistipaikkaan.
+  return 0;
+}
+---esim2.
+void kysySyote(char arvo[], char viesti[]) {
+  printf("%s\n", viesti);			-tulostus muistipaikasta
+  scanf("%s", arvo);				-kirjoitus suoraan muistipaikkaan, ei tarvita & stringin kanssa.
+}
+int main(void) {
+  char kuka[10];
+  char viesti[30] = "tama on viesti";
+  kysySyote(kuka, viesti);			-huomaa & operaattorin puuttuminen, koska string (kuka) jo itse viittaa
+  printf("kuka %s\n", kuka);			 suoraan muistipaikkaan.
+  return 0;
+}
+------------ehtolauseet--------------------------
+---conditional operator / ternary operator
+int luku = muuttuja1 > muuttuja2 ? muuttuja1:muuttuja2;		-samallai ku js
+---
+
+int luku = 5;
+if (luku<5){
+	printf("pienempi ku viis\n");
+}else if (luku>5){
+	printf("suurempi ku viis\n");       
+}else{
+	printf("tasan viis\n");
+}
+
+ int lampunTeho = 81;
+  int elinIka;
+  switch (lampunTeho) {				-HUOM! ei toimi samallai ku esimerkiksi js.. Pitää olla kokonaisluku
+    case 40:					 tai char
+      elinIka = 2400;				-tehon pitää olla tasan 40 että tämä haara ajetaan
+      break;
+
+    case 60:					
+    case 70:
+      elinIka = 2000;				-tehon pitää olla 60 tai 70 että tämä haara ajetaan
+      break;
+
+    case 80 ... 100:
+      elinIka = 1800;				-tehon pitää olla 80-100
+      break;
+
+    default:
+      elinIka = 1500;				
+      break;
+  }
+
+------------toistorakenteet----------------------
+ int i = 0;
+  while (i < 10) {
+    printf("%d\n", i);
+    i++;
+  }
+
+do{
+jotain()
+}while(ehto);
+
+ for (int i = 0; i < 10; i++) {
+    printf("%d\n", i);
+  }
+
+ for (int i = 0, j = 0; i < 10; i++, j++) {
+    printf("ii %d ja jii %d\n", i, j);
+  }
+-----------tietue--- struct---objekti---olio------------
+						-voit palauttaa taulukon piilotettuna structin sisään funktiossa.
+
+typedef struct {				-tietueen julistus ulona mainista
+char nimi [NIMEN_PITUUS];			-kenttä nimelle 
+double hinta;					-kenttä hinnalle
+
+} TuoteTietue;					-tietueen nimi isolla (käytäntö)
+
+Tuotetietue tuote, tuote2;
+  strcpy(tuote.nimi, "jebulis");		-string kentän määräys tapahtuu kopioimalla haluttu arvo sinne.
+  tuote.hinta = 100;				-kokonaisluvut voi määrätä sinne normaalisti.
+tuote2=tuote;					-kaikki tuotteen arvot kopioituvat tuote2 arvoiksi
+------------stdlib kirjasto------------------------
+#include <stdlib.h>
+#include <time.h>				-time kirjastosta time funktiota tarvitaan randomin alustamiseen.
+
+--random luku
+srand(time(NULL));				-random luvun alustus, ilman tätä tulee kokoajan samat "randomit"
+int luku = rand() % 10;				-luku väliltä 0-9
+int noppa1 = rand() % 6 + 1;			-1-6
+
+------------tiedostot------------------------------
+FILE -tietorakenne löytyy <stdio.h>		-isot kirjaimet
+
+FILE* inp;
+FILE* outp;
+
+inp = fopen("tiedosto.txt", "r");		-avaa tiedosto.txt luku moodissa. Tiedoston nimeksi voi antaa
+						 suhteellisen polun, tai absoluuttisen c:\\joku\\teksti.txt,
+						 huomaa windowsissa \\ , muissa ympäristöissä / 
+outp =fopen("toinen.txt","w");			-avaa tiedoston toinen.txt kirjoitus moodissa. Vanha sisältö tuhoutuu.
+outp =fopen("toinen.txt","a");			-append, lisää tiedostoon. Jos tiedostoa ei ole niin se luodaan
+						- muita moodeja r+,w+,a+ ja ne on edellisten sekoituksia.
+------(teksti) tiedoston käsittely:
+fgetc, fputc					-merkeittäin
+fgets, fputs					-riveittäin
+fscanf, fprintf					-formatoidusti, tai sana kerralla eli katkiaa välilyöntiin.
+-------(binaari) tiedoston käsittely:
+FILE *binfile;
+int i=0;
+binfile = fopen ("nums.bin", "wb");		-windows systeemeillä wb , write binaries
+fwrite(&i, sizeof(int), 1, binfile);		-mistä,alkion koko, kerralla kirjoitettavien alkioiden lkm (1),minne
+fclose (binfile);
+--esim. kerralla koko taulukon sisältö binaaritiedostoon:
+int score[10]={1,2,3,4,5,6,7,8,9,0};
+fwrite(score,sizeof(int),10,binfile);
+--luku:
+fread(minne talletetaan, alkion koko, kerrallaluettavien max määrä, mistä luetaan);
+-- 
+if (inp == NULL) {				-tiedoston käsittelyä ennen tarkistus ettei NULL, jos sattuu oleen
+    printf("Tapahtui virhe\n");			 NULL ja käsittelet sitä niin ohjelma kaatuu.			
+} else {
+char teksti[20];
+char teksti2[20];
+fgets(teksti, 20, inp);				-(mihin talletetaan, maxkoko, mistä haetaan) käsittely riveittäin
+printf("%s \n", teksti);
+--monirivinen filu:
+while (!feof(inp)) {				-feof funktio, kun inp kahvan käsittelyssä päästään eof (endOfFile)
+      fgets(teksti, 20, inp);			merkkiin toisto lopetetaan.
+      printf("%s", teksti);
+    }
+-
+while (!feof(inp)) {				-Ja sama fscanffilla. 
+      fscanf(inp, "%s %s", teksti, teksti2);
+      printf("%s %s\n", teksti, teksti2);
+    }
+fprintf(inp, "%s %s %s", "tama", "tallettuu", "fileen\n"); -sama toisinpäi, ikäänkuin tulostetaan fileen.
+						-edellyttää että filen moodi on sopiva, esim "a" tai "w"
+--
+fclose(inp);					-tiedostot on suljettava lopuksi
+fclose(outp);
+
+tiedostosta tavara tulee stringeina, jos haluat niistä numeroita niin ne pitää muuttaa erikseen, esim atoi().
+Jos haluat tallettaa numeroita tiedostoon, niin niitä ei tartte erikseen kääntää ennen talletusta
+fprintf(inp, "%d", luku);			-tallettaa luvun tiedostoon, jossa se on sitten stringinä
+fprintf(inp, "%c", '\n');			-Jos tarvit useamman numeron tiedostoon nii ne pitää erotella jotenki.
+						 Esimerkiksi '\n' rivinvaihto, '\s' välilyönti, tai joku muu.
+
+

@@ -1,0 +1,90 @@
+------------------------------------Pyside2----Qt for python----------------------------------------------------------
+-Toimintaidea on laittaa layoutteja, joita löytyy useita eri malleja Qwidgettien sisälle ja layoutteihin lyödä lisää
+layoutteja tai Qwidgettejä tarpeen mukaan. Layoutteja joita täytyy muutella ohjelman eri vaiheissa kannattaa sijoittaa
+oman Qwidgettinsä sisälle, joilloin niitä on helppo näyttää/piilottaa jokuwidget.show() jokuwidget.hide(). Layoutteja
+on erikseen hankala tuhota, eikä siihen ole edes omaa funktiota pysidellä vaan tuhoaminen hoituu kohdistamalla se 
+layoutin isäntäwidgettiin joku.removeWidget(jokuwidgetti) ja jokuwidgetti.deleteLater(). Myös widgetit mitä täytyy
+käsitellä myöhemmin voi tallettaa esim state dict/objectiin, mistä ne näppärästi saa käsiinsä. Saattaa olla että
+parempiakin keinoja on olemassa, mutta tämä ainakin oli helpoin. Monesti tuli myös ongelmia jonkun widgetin 
+päivittämisessä ja helpoin ratkaisu oli tuhota entinen statesta saatavan tiedon avulla, rakentaa uus ja 
+tallettaa tieto uudesta stateen samaan kohtaan. Yksi vastaantuleva ongelma on kun poistat jonkun widgetin ja haluat
+että appisi reagoi muutokseen muuttamalla ikkunan kokoa sopivaksi, eli tyhjät pois. Kaikki maalaisjärki kannattaa
+heittää pois sillä se ei auta, ratkaisu:
+# SetFixedSize is the key to be able to shrink window accordingly
+collector.setSizeConstraint(QVBoxLayout.SetFixedSize)		#ikkunankoko--adjustsize---supista
+
+-------------minimaalinen qt app:
+import sys
+from PySide2.QtWidgets import (QApplication,QWidget,)
+
+def main():
+	app = QApplication(sys.argv)
+	myWindow = QWidget()
+	myWindow.setWindowTitle("testi")
+	myWindow.show()
+	sys.exit(app.exec_())
+
+if __name__ == "__main__":
+	main()
+
+-----------omat luokat:
+Qt rakentelu funktionaaliseen tyyliin ei onnistu, ainakaan nabieneiltä. Ratkaisuna omat luokat ja niiden metodit
+
+class fieldButton(QPushButton):				#luokka fieldButton luodaan QPushButtonista ja halutaan että se
+	def mousePressEvent(self, event):		#reagoi oikeaan hiirenpainallukseen.
+	if event.button() == Qt.MouseButton.RightButton:
+		print("hiphei")
+
+class menuWidget(QWidget):
+	def __init__(self):
+		super(menuWidget, self).__init__()
+		bWidth = 55
+		layout = QGridLayout()
+		layout.setAlignment(Qt.AlignLeft)
+		self.b1 = QRadioButton("Easy")
+		self.b1.setProperty("difficulty", "easy")	#widgeteille, buttoneille ym. voi mitä tahansa
+		self.b1.setChecked(True)			#propertyä laittaa tagina ja arvona
+		self.b1.toggled.connect(lambda: self.setDifficulty(self.b1))
+		layout.addWidget(self.b1, 0, 0)
+		self.b2 = QRadioButton("Normal")
+		self.b2.setProperty("difficulty", "normal")
+		self.b2.toggled.connect(lambda: self.setDifficulty(self.b2))
+		layout.addWidget(self.b2, 0, 1)
+		self.b3 = QRadioButton("Hard")
+		self.b3.setProperty("difficulty", "hard")
+		self.b3.toggled.connect(lambda: self.setDifficulty(self.b3))
+		layout.addWidget(self.b3, 0, 2)
+	def setDifficulty(self, button):
+		difficulty = button.property("difficulty")	#property tagin alle laitettu tieto voidaan ottaa esiin
+		teejotain()					#joka voi esim olla string, koordinaatti tuple jne.
+        
+class scoreForm(QWidget):
+    def __init__(self):
+        super(scoreForm, self).__init__()
+        layout = QVBoxLayout()
+        self.label = QLabel("New Highscore!")
+        self.label2 = QLabel('Enter your name, max 12 characters, ";" not allowed')
+        self.nameInput = QLineEdit()
+        self.nameInput.setMaxLength(12)
+        self.nameInput.setFixedWidth(120)
+        self.sButton = QPushButton("Submit")
+        self.sButton.setFixedSize(90, 30)
+        self.sButton.clicked.connect(lambda: self.submitScore())
+        layout.addWidget(self.label)
+        layout.addWidget(self.label2)
+        layout.addWidget(self.nameInput)
+        layout.addWidget(self.sButton)
+        self.setLayout(layout)
+
+    def submitScore(self):
+        if ";" in self.nameInput.text():
+            print("soo soo kielletty merkki")
+        else:
+            newHighScore = (self.nameInput.text(), str(state["scoreInfo"]))
+            state["highScores"][state["difficultyInfo"]].append(newHighScore)
+            functions.sortAndCutHighScoreList(state["difficultyInfo"], state)
+            functions.writeFileNewScores(state)
+            functions.initScores(collector)
+            state["scoreInfo"] = 0
+            self.nameInput.clear()
+            self.setDisabled(True)
