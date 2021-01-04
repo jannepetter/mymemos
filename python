@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------Python-------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------
-python --version                    #python versio
+python --version				#python versio
 jos pitää installoida niin valitse add python to PATH, voit myös uninstalloida ja tehdä uudestaan.
 ---vsc
 python extension microsoft
@@ -14,73 +14,112 @@ vsc default shell. Älä laita python filejä venv kansioon ja ilmeisesti tapana
 requirements.txt file ja laita sinne tiedot asennetuista paketeista ja niiden versioista (pip freeze:n avulla). 
 Liitä myös requirements file gitin seurattavaksi ja gittiin.
 
-python -m venv venvvinnimi          #tekee kansioon missä olet venvvinnimi nimisen virtuaaliympäristön
-                                    #tai kansion joka sisältää tietoja kyseisestä venvvistä, configit ym.
-venvvinnimi\Scripts\activate        #(venvvinnimi) D:\VSC\Python projektit\projektinnimi>	
-						            #eli käynnistää local venvvin ja kun asennat 3 osapuolien paketteja
-pip install haluttumoduuli          #ne asentuvat vain tähän local ympäristöön.
-deactivate                          #deaktivoi venv	
-pip list                            #näyttää mitä paketteja asennettu ympäristöön
-pip freeze                          #sama kuin list mutta näyttää projektin paketit	semmoisena kuin
-						            #requirements.txt file ne haluaa
-pip freeze > requirements.txt       #nakkaa suoraan freezen tulostuksen requirements.txt fileen
-pip install -r requirements.txt     #esim jos cloonaat projektin gitistä asenna (lokaalisti!) paketit eli
-						            #tarkasta että virtuaaliympäristö on päällä ensin.
-						            #Tiedot tarvittavista paketeista pitäisi olla requirements.txt filessä.
-pip install pylint                  #(venvviin lintteri) voit seurata vähä koodin laatua 
-(pylint tiedosto.py)                #pylint tiedosto.py  Ilmeisesti flake kans hyvä jos ei pylint nappaa.
-                                    #voi myös reaaliajassa iniseen esim. workspace settings.json:ila
+python -m venv venvvinnimi			#tekee kansioon missä olet venvvinnimi nimisen virtuaaliympäristön
+						#tai kansion joka sisältää tietoja kyseisestä venvvistä, configit ym.
+venvvinnimi\Scripts\activate			#(venvvinnimi) D:\VSC\Python projektit\projektinnimi>	
+						#eli käynnistää local venvvin ja kun asennat 3 osapuolien paketteja
+pip install haluttumoduuli			#ne asentuvat vain tähän local ympäristöön.
+deactivate					#deaktivoi venv	
+pip list					#näyttää mitä paketteja asennettu ympäristöön
+pip freeze					#sama kuin list mutta näyttää projektin paketit	semmoisena kuin
+						#requirements.txt file ne haluaa
+pip freeze > requirements.txt			#nakkaa suoraan freezen tulostuksen requirements.txt fileen
+pip install -r requirements.txt			#esim jos cloonaat projektin gitistä asenna (lokaalisti!) paketit eli
+						#tarkasta että virtuaaliympäristö on päällä ensin.
+						#Tiedot tarvittavista paketeista pitäisi olla requirements.txt filessä.
+pip install pylint				#(venvviin lintteri) voit seurata vähä koodin laatua 
+(pylint tiedosto.py)				#pylint tiedosto.py  Ilmeisesti flake kans hyvä jos ei pylint nappaa.
+						#voi myös reaaliajassa iniseen esim. workspace settings.json:ila
 ctrl+shift+p(jos haluaa heti nähdä lintit)	#select linter -> tekee settings.jsonin kansioon johon voit laittaa
-						            #halutut asetukset. Esim:
-                            "python.linting.pylintEnabled": true,
+						#halutut asetukset. Esim:
+							"python.linting.pylintEnabled": true,
 							"python.linting.enabled": true,
 							"python.linting.pylintArgs": [
 							"--disable=E0611",
 							"--disable=C0103",
 							"--disable=C0116"]
-pip install black                   #(venvvii formatteri) Vsc file -> preferences ->setting
-						            #hakusana formatting provider ja siihen black, ja kaikki toimii,
-						            #ei mitään säätöjä tarvita. Muita potentiaalisia formattereita,
-						            #autopep8, yapf. Mutta black näyttää atm olevan toimivin.
+pip install black				#(venvvii formatteri) Vsc file -> preferences ->setting
+						#hakusana formatting provider ja siihen black, ja kaikki toimii,
+						#ei mitään säätöjä tarvita. Muita potentiaalisia formattereita,
+						#autopep8, yapf. Mutta black näyttää atm olevan toimivin.
  						
 ---pyvenv.cfg
 luomassasi venv kansiossa on pyvenv.cfg tiedosto, jossa asetuksella:
-include-system-site-packages = true #saat myös glob. koneelle asennetut paketit local venvvin käyttöön
-pip list --local                    #jos em asetus on päällä niin tällä näkyy vain lokaalisti asennetut
+include-system-site-packages = true		#saat myös glob. koneelle asennetut paketit local venvvin käyttöön
+pip list --local				#jos em asetus on päällä niin tällä näkyy vain lokaalisti asennetut
 
 --------------komentotulkki---------------------
-vsc terminaalissa komento: python   #käynnistää komentotulkin
-exit()                              #sulkee komentotulkin
-ctrl+Z                              #sulkee komentotulkin
-quit()                              #sulkee komentotulkin
-help(funktio)                       #pikaohje, jos ei jaksa documentteihin asti mennä. 
-dir(objekti)                        #pikakatsaus objektin käytettävissä oleviin metodeihin.
+vsc terminaalissa komento: python		#käynnistää komentotulkin
+exit()						#sulkee komentotulkin
+ctrl+Z						#sulkee komentotulkin
+quit()						#sulkee komentotulkin
+help(funktio)					#pikaohje, jos ei jaksa documentteihin asti mennä. 
+dir(objekti)					#pikakatsaus objektin käytettävissä oleviin metodeihin.
 Voit kirjoittaa rivin koodia kerrallaan joka suoritetaan samantien.
 Helppo tarkistaa esim mitä metodeja milläkin käytössä.
+--------------lambda----------------------------
+pythonin anonyymi funktio, toimii kuin muutkin funktiot. Vähän kuin javascriptin arrowfunktio
+
+def pituus(alkio):				#esim sortter key alkion 1. indeksin pituus ominaisuus
+	return alkio[1]
+lambda alkio:alkio[1]				#sama lambdalla
+
+class Auto:
+    def __init__(self, merkki: str, nopeus: int):
+        self.merkki = merkki
+        self.nopeus = nopeus
+
+a1 = Auto("lada", 150)				#lambdaa voi käyttää sortterina ja myös omien luokkien vertaillussa
+a2 = Auto("mersu", 180)				#esim min tai max funktioissa.
+a3 = Auto("keken fillari", 210)
+autot = [a1, a2, a3]
+print(max(autot, key=lambda a: a.nopeus).merkki)
+
+def teejotain(suorittajafunktio: callable):
+    return suorittajafunktio(5, 3)
+
+print(teejotain(lambda x, y: x * y))		#lambdalle voi antaa useammankin parametrin 
+
+tuotteet = [
+    ("banaani", 5.95, 12),
+    ("omena", 3.95, 3),
+    ("appelsiini", 4.50, 2),
+    ("vesimeloni", 4.95, 22),
+    ("Kaali", 0.99, 1),
+]
+def hinta_alle_4_euroa(tuote):
+    return tuote[1] < 4
+
+def hae(tuotteet: list, kriteeri: callable):
+    return [tuote for tuote in tuotteet if kriteeri(tuote)]	#funktio tungettu koosteeseen
+
+halvat = hae(tuotteet, hinta_alle_4_euroa)			#nimetty funktio kriteerinä
+halvatLambdalla = hae(tuotteet, lambda t: t[1] < 4)		#lambda tekemässä saman
+
 
 --------------tulostus---print------------------
-print('tulosta', end='')            #parametri end tarkoittaa että skipataan rivinvaihto
-print('tämä')                       #tulostuu tulostatämä
+print('tulosta', end='')                #parametri end tarkoittaa että skipataan rivinvaihto
+print('tämä')                           #tulostuu tulostatämä
 
 nimi = "Jaska"
 ika = 40
 print("Hei", nimi, "ikäsi on", ika, "vuotta", sep="")	#HeiJaskaikäsi on40vuotta, sep param poistaa nyt välilyönnit
-print(f'Hei {nimi} ikäsi on {ika} vuotta ')	#fmerkkijono, fmerkkijonon voi laittaa myös str muuttujaan erikseen,
-                                    #joka sitten tulostetaan. Esim nimi=f'keijo'
-lause=f'{"SisennysVas":30}{"SisOikealle":>20}'	#merkkijonojen sisennyslogiikka on päinvastainen lukuihin
-lause2=f'{5:30}{6:<20}'             #vasen ja oikea sisennys luvuilla.
+print(f'Hei {nimi} ikäsi on {ika} vuotta ')             #fmerkkijono, fmerkkijonon voi laittaa myös str muuttujaan erikseen,
+						                                #joka sitten tulostetaan. Esim nimi=f'keijo'
+lause=f'{"SisennysVas":30}{"SisOikealle":>20}'          #merkkijonojen sisennyslogiikka on päinvastainen lukuihin
+lause2=f'{5:30}{6:<20}'                                 #vasen ja oikea sisennys luvuilla.
 
 luku = 1/3
-print(f"Luku on {luku:.2f}")        #Luku on 0.33
+print(f"Luku on {luku:.2f}")                            #Luku on 0.33
 
 nimet =  [ "Antti", "Emilia", "Juha-Pekka", "Maya" ]
 for nimi in nimet:
-  print(f"{nimi:15} keskellä {nimi:>15}")	#nimet tulostettuna sisennyksillä. Vasen ja oikea sisennys
+  print(f"{nimi:15} keskellä {nimi:>15}")               #nimet tulostettuna sisennyksillä. Vasen ja oikea sisennys
 
-print('Koordinaatissa ({}, {}) on {}'.format(x, y, esine))  	//format metodi merkkijonoilla
-print('Koordinaatissa ({aksa}, {yy}) on {joku}'.format(		//ja sama avainsana argumenteillä. Desimaalien määrää
-    aksa=x, yy=y, joku=esine))					//voi säätää esim .2f (kaksi desim jne.) Etunollia
-								//merkkijono.zfill(5). 0-5 etunollaa.					
+print('Koordinaatissa ({}, {}) on {}'.format(x, y, esine))  #format metodi merkkijonoilla
+print('Koordinaatissa ({aksa}, {yy}) on {joku}'.format(     #ja sama avainsana argumenteillä. Desimaalien määrää
+    aksa=x, yy=y, joku=esine))                              #voi säätää esim .2f (kaksi desim jne.) Etunollia
+                                                            merkkijono.zfill(5). 0-5 etunollaa.					
 
 
 --------------Types----------------------------- 
@@ -90,7 +129,7 @@ liukuluku	float esim. 1.5
 merkkijono	str
 
 strluku = '15'
-luku = int(strluku)                 #tyyppimuunnoksia, myös takaisin str(muuKuinString), float()
+luku = int(strluku)                                         #tyyppimuunnoksia, myös takaisin str(muuKuinString), float()
 hexluku = hex(luku)
 print(luku, hexluku)
 
@@ -107,13 +146,13 @@ if not 5 < 3:
 **	potenssi
 --muuta:
 **(1/2) neliöjuuri	esim. 9 ** (1/2)
-round(luku)                         #normaali pyöristys
-round(1.56256, 3)                   #1.563 ,pyöristys halutun desimaalin tarkkuuteen. Tässä 3 desimaalin.
+round(luku)                                     #normaali pyöristys
+round(1.56256, 3)				                #1.563 ,pyöristys halutun desimaalin tarkkuuteen. Tässä 3 desimaalin.
 
 ---if,else, elif----------------------------------
 num = 2
-if luku == 1:                       # huomaa sisennys, kun sisennys päättyy blokki päättyy. Voit myös						
-	print("num on yksi")			# laittaa lisää lohkoja lohkojen sisälle(lisää sisennyksiä)
+if luku == 1:                                   #huomaa sisennys, kun sisennys päättyy blokki päättyy. Voit myös						
+	print("num on yksi")			            #laittaa lisää lohkoja lohkojen sisälle(lisää sisennyksiä)
 elif luku == 2:
 	print("num on kaksi")
 else:
@@ -125,39 +164,39 @@ print(muuttuja)
 -------------while,for loopit---------------------
 i=0
 while i<10:
-	print(i)                        #tulostus 0 ->9. Huomaa taas sisennys ja kun sisennys päättyy lohko
-	i+=1                            #päättyy
+	print(i)				                    #tulostus 0 ->9. Huomaa taas sisennys ja kun sisennys päättyy lohko
+	i+=1					                    #päättyy
 
-for i in range(10):                 #for loop tulostus 0->9
+for i in range(10):                             #for loop tulostus 0->9
 	print(i)
 
-for i in range(5, 10):              #tulostus 5->9
+for i in range(5, 10):                          #tulostus 5->9
 	print(i)
-	input('paina entteriä')         #halutessaan tulostusta voi pätkiä lyhyemmiksi inputilla.
+	input('paina entteriä')                     #halutessaan tulostusta voi pätkiä lyhyemmiksi inputilla.
 
-for i in range(5, 10, 2):           #tulostus 5,7,9 eli kahden välein
+for i in range(5, 10, 2):                       #tulostus 5,7,9 eli kahden välein
 	print(i)
 
 lista = [3, 2, 4, 5, 2]
 for jutska in lista:
     print(jutska)
 
-for avain in sanakirja:             #sanakirjan läpikäynti onnistuu for in loopilla
+for avain in sanakirja:                         #sanakirjan läpikäynti onnistuu for in loopilla
     print(avain, ' on ', sanakirja[avain])
-for avain, arvo in sanakirja.items():		#sama onnistuu myös .items() metodilla
+for avain, arvo in sanakirja.items():           #sama onnistuu myös .items() metodilla
     print(avain, ' on ', arvo)
 
 elaimet = ["koira", "kissa", "lohhari"]
-for i, elain in enumerate(elaimet): #enumerate funktiolla saa indeksitki kätevästi esille. Enumerate 
-    print(i, elain)                 #palauttaa tuplen, joka voidaan destrukturoida kuten edellä tai 
-                                    #vasta kohteessa esim elain[0] ja elain[1]
-for i, elain in enumerate(elaimet,100):		#enumerate ottaa valinnaisena argsina mistä numerosta lähetään
-    print(i, elain)                 #liikkeelle: 100 koira 101 kissa 102 lohhari
+for i, elain in enumerate(elaimet):             #enumerate funktiolla saa indeksitki kätevästi esille. Enumerate 
+    print(i, elain)                             #palauttaa tuplen, joka voidaan destrukturoida kuten edellä tai 
+						                        #vasta kohteessa esim elain[0] ja elain[1]
+for i, elain in enumerate(elaimet,100):         #enumerate ottaa valinnaisena argsina mistä numerosta lähetään
+    print(i, elain)				                #liikkeelle: 100 koira 101 kissa 102 lohhari
 
-for el in lista[:]:                 #hetkellinen kopion luonti listan läpikäymiseen, alkuperäisen listan
-    lista.remove(joku)              #indeksit muuttuvat sieltä poistettaessa mutta ei kopiosta, jolloin		
-						            #ei skippaile alkioita. Kokoajan siis plärätään kopiota ja poistetaan
-						            #alkuperäisestä.
+for el in lista[:]:				                #hetkellinen kopion luonti listan läpikäymiseen, alkuperäisen listan
+    lista.remove(joku)				            #indeksit muuttuvat sieltä poistettaessa mutta ei kopiosta, jolloin		
+						                        #ei skippaile alkioita. Kokoajan siis plärätään kopiota ja poistetaan
+						                        #alkuperäisestä.
 ---------------logical operators-----------------	
 and	(toimii kuin js vastaava &&)
 or	(toimii kuin js vastaava ||)
@@ -169,17 +208,17 @@ if not luku > 10:
 else:
     print('suurempi kuin 10')
 
-if not (luku >= 5 and luku <= 8):           #not operaattorilla voi kääntää yhdistetyn lausekkeen. Arvosta
-    print("Luku ei ole välillä 5..8")       #(true and false) tulee not (false) eli true ja tulostus suoritetaan.
+if not (luku >= 5 and luku <= 8):               #not operaattorilla voi kääntää yhdistetyn lausekkeen. Arvosta
+    print("Luku ei ole välillä 5..8")           #(true and false) tulee not (false) eli true ja tulostus suoritetaan.
 ---------------------input----------------------
-syöte = input('käyttäjän syöte ')   #ohjelma pysähtyy oottamaan käyttäjän syötettä ja käsittelee sen string
-print(syöte)                        #tyyppisenä
+syöte = input('käyttäjän syöte ')	#ohjelma pysähtyy oottamaan käyttäjän syötettä ja käsittelee sen string
+print(syöte)				        #tyyppisenä
 
 toinenSyöte=int(input('käyttäjän syöte '))	#ohjelma pysähtyy oottamaan syötettä joka castataan stringistä int
-                                    #castausta ei ole pakko tehdä tässä vaan myös myöhemmin ok
+						                    #castausta ei ole pakko tehdä tässä vaan myös myöhemmin ok
 
 --------------------merkkijonot-string--------
-pitka='''                           #triple quotella aloitettu merkkijono. Myös """ toimii.
+pitka='''					                #triple quotella aloitettu merkkijono. Myös """ toimii.
 tämä on 
 pitkä stringi
 '''
@@ -188,152 +227,180 @@ newStat = (
         "Game begins: {} , duration: {} min, turns {}, mines flagged"
         " {}/{}, difficulty: {}"
     ).format(pva, dur, turns, flagged, totalMines, diff)
-						            #pitkän stringin voi katkaista laittamalla sulkeet ja pätkimällä
-						            #se lyhemmäksi. Nyt ei formatin kanssa tuu ongelmia.
+						                    #pitkän stringin voi katkaista laittamalla sulkeet ja pätkimällä
+						                    #se lyhemmäksi. Nyt ei formatin kanssa tuu ongelmia.
 
 ----format metodi:
-print(sana.zfill(6))                #000jee ,zfill on siis vain merkkijonoille. etunollat
-print("{tunnit:02}".format(tunnit=9))       #etunollat format metodilla. :-jälkeinen 0 tarkoittaa että halutaan 
+print(sana.zfill(6))				        #000jee ,zfill on siis vain merkkijonoille. etunollat
+print("{tunnit:02}".format(tunnit=9))		#etunollat format metodilla. :-jälkeinen 0 tarkoittaa että halutaan 
 						                    #nollia ja 2 että tulos on vähintään 2 merkkiä pitkä, tässä 09
 print("{matka:.2f}".format(matka=5.2567))	#desimaalien määrä formatilla .-merkki tarkoittaa että käsitellään
 						                    #desimaaleja ja f että puhutaan floateista.
 ---
 sana='jee'
-dir(sana)                           #voit katsoa mitä metodeja stringeillä
-print(len(sana))                    #funktio len() kertoo merkkijonon pituuden, tässä tulostuu 3
+dir(sana)                       #voit katsoa mitä metodeja stringeillä
+print(len(sana))				#funktio len() kertoo merkkijonon pituuden, tässä tulostuu 3
 
 lause='python on jees'
-print(lause[2])                     #tulostuu t
-print(lause[-1])                    #tulostuu merkkijonon viimeinen kirjain eli s
-print(lause[-2])                    #tulostuu merkkijonon toiseksiviimeinen kirjain eli e ja jne..
-print(lause[7:14])                  #tulostuu, on jees, indeksista 7 alkaen idx 14 asti l. loppuun
-print(lause[:9])                    #tulostuu, python on, jos alkuindx puuttuu niin aloittaa idx 0				
-print(lause[7:])                    #tulostuu, on jees, jos loppuidx puuttuu nii tulostaa loppuun asti
-print(lause[::-1])                  #seej no nohtyp, tulostus negatiivisella askeleella l. käänteisesti
-print(lause.find('je'))             #find metodilla voidaan etsiä stringistä osajonoa, jolloin palauttaa
-						            #ensimmäisen idx mistä osajono löytyy tai -1 jos ei löydy.
-						            #tässä tulostuu 10
-t = '\'jes\''                       #erikoismerkkien käyttämisessä merkkijonoissa \ niiden eteen
+print(lause[2])					#tulostuu t
+print(lause[-1])				#tulostuu merkkijonon viimeinen kirjain eli s
+print(lause[-2])				#tulostuu merkkijonon toiseksiviimeinen kirjain eli e ja jne..
+print(lause[7:14])				#tulostuu, on jees, indeksista 7 alkaen idx 14 asti l. loppuun
+print(lause[:9])				#tulostuu, python on, jos alkuindx puuttuu niin aloittaa idx 0				
+print(lause[7:])				#tulostuu, on jees, jos loppuidx puuttuu nii tulostaa loppuun asti
+print(lause[::-1])				#seej no nohtyp, tulostus negatiivisella askeleella l. käänteisesti
+print(lause.find('je'))			#find metodilla voidaan etsiä stringistä osajonoa, jolloin palauttaa
+						        #ensimmäisen idx mistä osajono löytyy tai -1 jos ei löydy.
+						        #tässä tulostuu 10
+t = '\'jes\''					#erikoismerkkien käyttämisessä merkkijonoissa \ niiden eteen
 
 ---string in ja not in
-if sana in lause:                   #sana löytyy lauseesta ja tulostuu
+if sana in lause:				            #sana löytyy lauseesta ja tulostuu
 	print('sana on lauseessa')		
 if sana not in lause:				
-    print('ei päästä tänne asti')   #ei tulosta nyt tätä, koska sana jee löytyy lauseesta
+    print('ei päästä tänne asti')		    #ei tulosta nyt tätä, koska sana jee löytyy lauseesta
 ---
 numero = 5
-print('muuttuja numero on '+str(numero))    #tulostettaessa merkkijonoja ja lukuja luvut pitää castata stringiksi
-print('muuttuja numero on', numero)         #tai erottaa luvut ja merkkijonot toisistaan pilkulla.
+print('muuttuja numero on '+str(numero))	#tulostettaessa merkkijonoja ja lukuja luvut pitää castata stringiksi
+print('muuttuja numero on', numero)		    #tai erottaa luvut ja merkkijonot toisistaan pilkulla.
 
 sana = 'KaiKKiPiEnellä'
-print(sana.lower())                 #kaikkipienellä
-print(sana.upper())                 #KAIKKIPIENELLÄ
-print(dir(sana))                    #saat selville mitä metodeja kullakin objektilla on käytössä
+print(sana.lower())				            #kaikkipienellä
+print(sana.upper())				            #KAIKKIPIENELLÄ
+print(dir(sana))				            #saat selville mitä metodeja kullakin objektilla on käytössä
 
 sana = 'talo'
-lista = list(sana)                  #tekee sanasta listan
-lista.sort()                        #aakkosjärjestys
-uusi = ''.join(lista)               #tekee uuden stringin listan merkeistä
-uusi2 = ', '.join(jokulista)        #voit laittaa halutun separaattorin alkioiden väliin esim. nimilistat
-print(lista, uusi, sana)            #['a', 'l', 'o', 't'] alot talo
+lista = list(sana)				            #tekee sanasta listan
+lista.sort()					            #aakkosjärjestys
+uusi = ''.join(lista)				        #tekee uuden stringin listan merkeistä
+uusi2 = ', '.join(jokulista)		        #voit laittaa halutun separaattorin alkioiden väliin esim. nimilistat
+print(lista, uusi, sana)			        #['a', 'l', 'o', 't'] alot talo
 lause = 'dippaadai dappadai'
-print(lause.count("dai"))           #count() etsii montako kertaa osajono esiintyy merkkijonossa. 
-print(lause.replace('dai', 'oujes'))        #dippaaoujes dappaoujes
+print(lause.count("dai"))			        #count() etsii montako kertaa osajono esiintyy merkkijonossa. 
+print(lause.replace('dai', 'oujes'))		#dippaaoujes dappaoujes
 
 lause = 'Tere tulemast! Kuka on Keijo? Keijo must leave now.'
 lause = lause.replace('! ', '! --').replace('? ', '? --').replace('. ', '. --')
-print(lause)                        #Tere tulemast! --Kuka on Keijo? --Keijo must leave now.
-	                                #replacea voi myös ketjuttaa, nyt olisi helppo split('--') listaksi
+print(lause)					#Tere tulemast! --Kuka on Keijo? --Keijo must leave now.
+						        #replacea voi myös ketjuttaa, nyt olisi helppo split('--') listaksi
 sana=' Oujeah'
-print(sana.strip())                 #Oujeah	, strip() poistaa whitespacet l. tyhjät merkkijonot edestä ja
-						            #takaa. Mukaanlukien (tab) \t ja (rivinvaihto) \n
-sana.lstrip()                       #tekee saman mutta vain merkkijonon vasemmalle puolelle
-sana.rstrip()                       #tekee saman mutta vain merkkijonon oikealle puolelle 
+print(sana.strip())				#Oujeah	, strip() poistaa whitespacet l. tyhjät merkkijonot edestä ja
+						        #takaa. Mukaanlukien (tab) \t ja (rivinvaihto) \n
+sana.lstrip()					#tekee saman mutta vain merkkijonon vasemmalle puolelle
+sana.rstrip()					#tekee saman mutta vain merkkijonon oikealle puolelle 
+------------------regex-------------------------
+import re
+lause = "diipa daapa oujes paras"
+loyty = re.findall("pa[a-z]+|[a-z]+pa", lause)	#['diipa', 'daapa', 'paras']
+muita
+re.match(pattern,teksti)
+re.search(pattern,teksti)
+loyty = re.search("pa[a-z]+", lause)
+print(loyty.group())				#paras
+lisää infoa pythonin docseista
 ------------------Objectit----------------------
-None                                #empty default object, ei {} kuten js.
+None						        #empty default object, ei {} kuten js.
 
 ------------------funktiot----------------------
-def summa(a:int, b:int):            #funktion parametreihin lisätty vihjeet mitä tyyppiä niiden tulee olla.
-    return a+b                      #tämä ei kuitenkaan estä väärän tyypin parametrien käyttöä.
-def erotus(a, b) ->int:             #vihjeen voi myös laittaa mitä tyyppiä funktio palauttaa esim. ->int
+def summa(a:int, b:int):			#funktion parametreihin lisätty vihjeet mitä tyyppiä niiden tulee olla.
+    return a+b					    #tämä ei kuitenkaan estä väärän tyypin parametrien käyttöä.
+def erotus(a, b) ->int:				#vihjeen voi myös laittaa mitä tyyppiä funktio palauttaa esim. ->int
     return a-b
-def tulos(a, b, laskutoimitus):     #funktiolle voi antaa parametriksi myös toisen funktion
+def tulos(a, b, laskutoimitus):			#funktiolle voi antaa parametriksi myös toisen funktion
     return laskutoimitus(a, b)
 print(tulos(5, 2, erotus)
 
-def muutalistaa(muutettavalista):   #functioiden parametreina olevista listoista välitetään vain viitteet
-    apulista = []                   #parametrinä olevaan listaan
+def muutalistaa(muutettavalista):		#functioiden parametreina olevista listoista välitetään vain viitteet
+    apulista = []				        #parametrinä olevaan listaan
     for el in muutettavalista:
         apulista.append(el + 1)
-    #muutettavalista = apulista     #You have failed!! Muutit parametrinä saamaasi viitettä apulistan
-						            #viitteeksi. Ulkona oleva lista kuitenkin viittaa vielä alkuperäiseen.
-    muutettavalista[:] = apulista   #Success!! Myös suoraan muuttaminen toimii käyttäen parametrin viitettä
-						            #tässä vain kärjistetty esimerkki miten python toimii.
+    #muutettavalista = apulista			#You have failed!! Muutit parametrinä saamaasi viitettä apulistan
+						                #viitteeksi. Ulkona oleva lista kuitenkin viittaa vielä alkuperäiseen.
+    muutettavalista[:] = apulista		#Success!! Myös suoraan muuttaminen toimii käyttäen parametrin viitettä
+						                #tässä vain kärjistetty esimerkki miten python toimii.
 lista = [1, 2, 3, 4]
 muutalistaa(lista)
-print(lista)                        #[2, 3, 4, 5]
+print(lista)					        #[2, 3, 4, 5]
 
-def moro(nimi='Keijo'):             #funktiolle voi antaa oletusarvoisia parametrejä
+def moro(nimi='Keijo'):				    #funktiolle voi antaa oletusarvoisia parametrejä
     print('Moro', nimi)
 
 moro()
 moro('Reijo')
 
-def teejotain():                    #docstring näkyy funktion kuvauksessa, ilman että sitä tarttee kaivaa.
-    '''tämä funktio sisältää        #docstringin täytyy olla ensimmäisenä funktion määrittelyrivillä.
+def teejotain():				        #docstring näkyy funktion kuvauksessa, ilman että sitä tarttee kaivaa.
+    '''tämä funktio sisältää 			#docstringin täytyy olla ensimmäisenä funktion määrittelyrivillä.
     docstringin'''
     print('jea')
+---jotain perustyökalufunktioita
+map(funktio, jota kutsutaan alkioille, sarja joille funktiota kutsutaan)
+lista= list(map(int,stringilukulista))		#funktiot joko valmiita työkalufunktioita tai yhtähyvin myös omia
+lista = list(map(lambda x: int(x) * 10, stringilukulista))	#tai lambdalla joku muunnos
+						                    #map funktio luo iteraattori-olion, jos haluat siitä olion joka 
+						                    #käyttäytyy kuin lista, sen voi tehdä list-funktiolla kuten edellä.
+suodatettu=filter(ehtofunktio,sarja/lista)		           #iteraattori-olio, ehtofunktion True arvon toteuttaneet
+suodatettu = list(filter(lambda l: l % 2 == 0, luvut))	#castaa listaksi jos tarttee listan ominaisuuksia
+
+from functools import reduce			    #reduce löytyy täältä
+reduce(funktio joka tekee hommansa kaikille alkioille yksi kerrallaan,läpikäytävälista,alkuarvo)
+luvut = [2, 4, 7, 4, 9]
+def reduuseri(summa, alkio):
+    return summa + alkio
+summa = reduce(reduuseri, luvut, 0)
+summa2 = reduce(lambda yht, alkio: yht + alkio, luvut, 0)	#sama lambdalla
+						#mikään ei estä käsittelemästä myöskään objekteja ja niiden attrib.
+						#reduce(lambda yht, alkio: yht + alkio.jokuattribuutti, luvut, 0)
 ---------------------lista----------------------
 lista = [1, 2, 3, 4, 5]
-eka, toka, *loput = lista           #pythonin destructurointi/spread operaattori
+eka, toka, *loput = lista			        #pythonin destructurointi/spread operaattori
 --muokkaus/filtteröinti/filter/kooste
 merkkilista = [str(luku) for luku in lista]	#listan alkioiden tyyppimuunnos voidaan tehdä myös näin
 kerrotut = [luku * 10 for luku in lista]	#listaa voi myös muokata kertomalla alkiot ja itseasiassa voit käyttää
 						                    #vaikka itsetekemääsi funktiota alkioiden muokkaukseen tai käyttää vain
 						                    #jotain tiettyä objektin attribuuttia jne.
 parilliset=[el for el in lista if el % 2 == 0]	#filtteröinti/filter. [lauseke for alkio in lista if ehto]
-						                        #myös pythonin conditional operator on mahdollinen koosteessa
+						                    #myös pythonin conditional operator on mahdollinen koosteessa
 muokattu = [el * 10 if el % 2 == 0 else el * 100 for el in lista] 
-						            #[lause1 if ehto else lause2 for alkio in sarja]
+						                    #[lause1 if ehto else lause2 for alkio in sarja]
 --						
 
 luvut = [2, 5, 2, 8, 6, 1]
-luvut.index(8)                      #palauttaa indexin mistä 8 löytyy eli 3
-if not luvut                        #HUOM onko lista tyhjä tsek! EI len(luvut)<1 tai vastaavaa
+luvut.index(8)					#palauttaa indexin mistä 8 löytyy eli 3
+if not luvut					#HUOM onko lista tyhjä tsek! EI len(luvut)<1 tai vastaavaa
 
-dir(luvut)                          #voit katsoa mitä metodeja listalla on käytössä
-luvut.sort()                        #tekee alkuperäisestä uuden järjestetyn ja palauttaa None
-						            #tuplelista.sort()  järjestää ensimmäisen tuple alkion mukaan
-						            #esim [(ikä,nimi),(ikä,nimi)] iän perusteella.
-						            #lista sort hommia lisää vielä osion lopussa. comparator/sorter
+dir(luvut)					    #voit katsoa mitä metodeja listalla on käytössä
+luvut.sort()					#tekee alkuperäisestä uuden järjestetyn ja palauttaa None
+						        #tuplelista.sort()  järjestää ensimmäisen tuple alkion mukaan
+						        #esim [(ikä,nimi),(ikä,nimi)] iän perusteella.
+						        #lista sort hommia lisää vielä osion lopussa. comparator/sorter
 print(luvut)
-print(sorted(luvut))                #ei muuta alkuperäistä, palauttaa uuden järjestellyn
-print(len(luvut))                   #tulostuu listan luvut pituus
-print(max(luvut))                   #max arvo
-print(min(luvut))				    #min arvo
-print(sum(luvut))				    #listan alkioiden summa
-luvut.append(9)					    #lisää 9 listan loppuun, lista nyt [2, 5, 2, 8, 6, 1, 9]
-luvut.insert(3,10)				    #lisää 10 listan idx 3 ja siirtää loput luvut askeleen etiä.
-						            #Lista nyt [2, 5, 2, 10, 8, 6, 1, 9]
-alkio=jokulista.pop()				#pop poistaa listan viimeisen alkion defaulttina	
-alkio=jokulista.pop(0)				#sille voi antaa halutun indexin mistä poistetaan
-luku=luvut.pop(3)				    #poistaa listan alkion idx 3 ja palauttaa poistetun luvun.
-						            #Lista nyt [2, 5, 2, 8, 6, 1, 9] ja luku=10
-luvut.remove(2)					    #poistaa listalta ensimmäisen alkion jolla arvo 2.
-						            #lista nyt [5, 2, 8, 6, 1, 9]. Jos listalla ei ole sellaista arvoa,
-						            #tapahtuu virhe. Muista tarkistaa arvon olemassaolo in operaattorilla
-del luvut[2]					    #sama kuin pop mutta ei palauta arvoa, poistaa nyt indx 2 arvon
-del luvut[0:3]					    #voit myös poistaa isomman satsin kerralla. Myös del luvut[:2] jne
-luvut.clear()					    #tyhjentää koko listan. []
-luvut=[]					        #tyhjentää listan
+print(sorted(luvut))			#ei muuta alkuperäistä, palauttaa uuden järjestellyn
+print(len(luvut))				#tulostuu listan luvut pituus
+print(max(luvut))				#max arvo
+print(min(luvut))				#min arvo
+print(sum(luvut))				#listan alkioiden summa
+luvut.append(9)					#lisää 9 listan loppuun, lista nyt [2, 5, 2, 8, 6, 1, 9]
+luvut.insert(3,10)				#lisää 10 listan idx 3 ja siirtää loput luvut askeleen etiä.
+						        #Lista nyt [2, 5, 2, 10, 8, 6, 1, 9]
+alkio=jokulista.pop()			#pop poistaa listan viimeisen alkion defaulttina	
+alkio=jokulista.pop(0)			#sille voi antaa halutun indexin mistä poistetaan
+luku=luvut.pop(3)				#poistaa listan alkion idx 3 ja palauttaa poistetun luvun.
+						        #Lista nyt [2, 5, 2, 8, 6, 1, 9] ja luku=10
+luvut.remove(2)					#poistaa listalta ensimmäisen alkion jolla arvo 2.
+						        #lista nyt [5, 2, 8, 6, 1, 9]. Jos listalla ei ole sellaista arvoa,
+						        #tapahtuu virhe. Muista tarkistaa arvon olemassaolo in operaattorilla
+del luvut[2]					#sama kuin pop mutta ei palauta arvoa, poistaa nyt indx 2 arvon
+del luvut[0:3]					#voit myös poistaa isomman satsin kerralla. Myös del luvut[:2] jne
+luvut.clear()					#tyhjentää koko listan. []
+luvut=[]					    #tyhjentää listan
 lista = [1,2,3,4,5,6,7,8]
-print(lista[0:5])				    #[1, 2, 3, 4, 5] listojen osajonon tulostus toimii samoin kuin
-						            #merkkijonoilla.
-print(lista[::-1])				    #[8, 7, 6, 5, 4, 3, 2, 1] , myös negatiivisella askeleella.
-print(lista[-1])				    #negatiivinen indeksi tarkoitti että lasketaan lopusta. tulostuu 8.
-print(lista[-2])				    #tulostuu toiseksiviimeinen eli 7
-kopio = lista[:]				    #syntyy listan kopio, jolla viittaus omaan muistipaikkaan
-listakopio=lista				    #viittaus samaan muistipaikkaan kuin lista. 		
+print(lista[0:5])				#[1, 2, 3, 4, 5] listojen osajonon tulostus toimii samoin kuin
+						        #merkkijonoilla.
+print(lista[::-1])				#[8, 7, 6, 5, 4, 3, 2, 1] , myös negatiivisella askeleella.
+print(lista[-1])				#negatiivinen indeksi tarkoitti että lasketaan lopusta. tulostuu 8.
+print(lista[-2])				#tulostuu toiseksiviimeinen eli 7
+kopio = lista[:]				#syntyy listan kopio, jolla viittaus omaan muistipaikkaan
+listakopio=lista				#viittaus samaan muistipaikkaan kuin lista. 		
 
 lista = [5, 1, 2, 3, 4, 5, 6, 7, 5]
 print(lista.count(5))				#count() kertoo montako kertaa kysytty alkio esiintyy listassa.
@@ -348,43 +415,43 @@ luvut[:] = [9, 9, 9]				#[9, 9, 9]
 
 aa = [1, 2, 3]
 bee = [4, 5, 6]
-print(aa+bee)					    #listojen yhdistäminen + merkillä [1, 2, 3, 4, 5, 6]
-print(aa)					        #[1, 2, 3]
-aa.append(bee)					    #nakkaa viimeiseen indexiin koko listan bee
-print(aa)					        #[1, 2, 3, [4, 5, 6]]
+print(aa+bee)					#listojen yhdistäminen + merkillä [1, 2, 3, 4, 5, 6]
+print(aa)					    #[1, 2, 3]
+aa.append(bee)					#nakkaa viimeiseen indexiin koko listan bee
+print(aa)					    #[1, 2, 3, [4, 5, 6]]
 aa = [1, 2, 3]
 bee = [4, 5, 6]
-aa.extend(bee)					    #[1, 2, 3, 4, 5, 6] (ei luo uuttalistaa kuitenkaan) esim:
-						            #aa+=bee luo uuden listan [1, 2, 3, 4, 5, 6] 
+aa.extend(bee)					#[1, 2, 3, 4, 5, 6] (ei luo uuttalistaa kuitenkaan) esim:
+						        #aa+=bee luo uuden listan [1, 2, 3, 4, 5, 6] 
 stringiluvut = ['1', '2', '3']
 numbaluvut = list(map(int, stringiluvut))	#mappaus suoraan str -> int
-print(numbaluvut)                   #[1, 2, 3]
+print(numbaluvut)				            #[1, 2, 3]
 lause = 'joku.3.0.2.txt'
-lista = lause.rsplit('.', 1)        #['joku.3.0.2', 'txt'] ,muuten sama kuin split mutta aloittaa oikealta.
-						            #valinnainen arg (myös split:illä) kertoo monesti suoritetaan split.
+lista = lause.rsplit('.', 1)			    #['joku.3.0.2', 'txt'] ,muuten sama kuin split mutta aloittaa oikealta.
+						                    #valinnainen arg (myös split:illä) kertoo monesti suoritetaan split.
 elaimet = ["koira", "kissa", "lohhari"]
-for i, elain in enumerate(elaimet): #enumerate funktiolla saa indeksitki kätevästi esille. Enumerate 
-    print(i, elain)				    #palauttaa tuplen, joka voidaan destrukturoida kuten edellä tai 
-						            #vasta kohteessa esim elain[0] ja elain[1]
+for i, elain in enumerate(elaimet):		    #enumerate funktiolla saa indeksitki kätevästi esille. Enumerate 
+    print(i, elain)				            #palauttaa tuplen, joka voidaan destrukturoida kuten edellä tai 
+						                    #vasta kohteessa esim elain[0] ja elain[1]
 
-for i,el in enumerate(lista):       #yksi enumeraten käyttötapa
-    lista[i] = el.strip()           #poistaa ylimääräiset välilyönnit ja muut strip metodilla
+for i,el in enumerate(lista):	            #yksi enumeraten käyttötapa
+    lista[i] = el.strip()			        #poistaa ylimääräiset välilyönnit ja muut strip metodilla
 
 lista = ['3', '200', '2', '112', '8']
-lista.sort(key=int)                 #lista voidaan järjestellä halutulla tavalla antamalla valinnaiselle
-						            #argsille key, funktio joka joka käsittelee alkion ennen vertailua.
-						            #key=int, muuttaa alkiot kokonaisluvuiksi (vain vertailunajan) tai
-						            #key=str.lower, vertailee piittaamatta isoista kirjaimista.
-student_objects = [                 #järjestelyyn useamman muuttujan perusteella pythonissa on valmiita
-    ['john', 'A', 15],				#funktioita: from operator import itemgetter, attrgetter 
-    ['jane', 'B', 12],				#katso documentistä käyttö.
+lista.sort(key=int)				#lista voidaan järjestellä halutulla tavalla antamalla valinnaiselle
+						        #argsille key, funktio joka joka käsittelee alkion ennen vertailua.
+						        #key=int, muuttaa alkiot kokonaisluvuiksi (vain vertailunajan) tai
+						        #key=str.lower, vertailee piittaamatta isoista kirjaimista.
+student_objects = [				#järjestelyyn useamman muuttujan perusteella pythonissa on valmiita
+    ['john', 'A', 15],			#funktioita: from operator import itemgetter, attrgetter 
+    ['jane', 'B', 12],			#katso documentistä käyttö.
     ['dave', 'B', 10],
 ]
 ---comparator---sort--sorter--lambda
 student_objects.sort(key=lambda s: s[2])	#tässä järjestellään alkio-objektin 2. indeksin perusteella.
-def omasortteri(a):                 #halutessaan järjestely funktion voi kirjoittaa itse. Käyttöesim:
-    return a['nimi']
-
+def omasortteri(a):				            #halutessaan järjestely funktion voi kirjoittaa itse. Käyttöesim:
+    return a['nimi']				        #palauttaa siis itemin tai vastaavan sen osan jonka perusteella 
+						                    #halutaan järjestellä, myös koskee omia luokkia
 from operator import itemgetter, attrgetter
 student_objects = [
     {'nimi': 'jaska'},
@@ -394,35 +461,45 @@ student_objects = [
     {'nimi': 'cecilia'},
 ]
 student_objects.sort(key=omasortteri)
-student_objects.sort(key=itemgetter('nimi'))    #tai käytä operator moduulin itemgetteriä
+student_objects.sort(key=omasortteri, reverse=True)			        #päinvastainen järjestys
+jarkatty = sorted(student_objects, key=omasortteri, reverse=True)	#sama sorted funktiolla
+student_objects.sort(key=lambda s: s["nimi"], reverse=True) 		#sama lambdalla dict
+
+--jos pitää useamman ominaisuuden perusteella järjestellä, laita paluuarvoksi tuple. Tuplet järjestellään
+ensisijaisesti ensimmäisen arvon mukaan, toissijaisesti toisen jne.
+
+def omasortteri(a):				            #kahden arvon perusteella sorting, jos nimi sama sitte iän perusteella
+	return (a['nimi'],a['ika'])
+student_objects.sort(key=lambda s: (s["nimi"],s['ika']), reverse=True)	kahdella arvolla (kuvitellaan että iät olemassa)
+student_objects.sort(key=itemgetter('nimi'))	#tai käytä operator moduulin itemgetteriä
 
 --------------sanakirja-dictionary-map-----------
-{avain : arvo for alkio in sarja}               #listasta/sarjasta dictiksi koosteen avulla. Toimii täysin samoin 
-lista = ["dippa", "dai", "dappa"]               #kuin listakoosteet mutta ympärillä aaltosulkeet ja avaimen ja arvo
-kirja = {sana: len(sana) for sana in lista}     #annetaan vain erikseen						
+{avain : arvo for alkio in sarja}           #listasta/sarjasta dictiksi koosteen avulla. Toimii täysin samoin 
+lista = ["dippa", "dai", "dappa"]		    #kuin listakoosteet mutta ympärillä aaltosulkeet ja avaimen ja arvo
+kirja = {sana: len(sana) for sana in lista}	#annetaan vain erikseen						
 						
 sanakirja = {}
-dir(sanakirja)					    #voit katsoa mitä metodeja sanakirjalla käytössä.
+dir(sanakirja)					            #voit katsoa mitä metodeja sanakirjalla käytössä.
 sanakirja[1] = 'ykköne'
 sanakirja['jee'] = 11
-sanakirja['listani'] = [1, 2, 3, 4, 5]		    #arvona voi olla myös lista, lista ei käy avaimeksi
-print(sanakirja['listani'])			#[1, 2, 3, 4, 5]
-print(sanakirja[1], sanakirja['jee'])		    #ykköne 11
-avaimet=sanakirja.keys()			#avaimet
-arvot=sanakirja.values()			#arvot
-kokoroska=sanakirja.items()			#kokoitemit
+sanakirja['listani'] = [1, 2, 3, 4, 5]		#arvona voi olla myös lista, lista ei käy avaimeksi
+print(sanakirja['listani'])			        #[1, 2, 3, 4, 5]
+print(sanakirja[1], sanakirja['jee'])		#ykköne 11
+avaimet=sanakirja.keys()			        #avaimet
+arvot=sanakirja.values()			        #arvot
+kokoroska=sanakirja.items()			        #kokoitemit
 sanakirja = {}
 sanakirja['koira'] = 'dog'
 sanakirja['kissa'] = 'cat'
 sanakirja[2] = 1
 
-sanakirja['lintu']				    #jos haetaan arvoa jota siellä ei ole seuraa KeyError
-sanakirja.get('lintu')				#get metodilla olemattomalla avaimella haku palauttaa None defaulttina
-sanakirja.get('lintu','lokki')		#get metodin olemattoman avaimen default arvoa voi muuttaa halutuksi
+sanakirja['lintu']				            #jos haetaan arvoa jota siellä ei ole seuraa KeyError
+sanakirja.get('lintu')				        #get metodilla olemattomalla avaimella haku palauttaa None defaulttina
+sanakirja.get('lintu','lokki')			    #get metodin olemattoman avaimen default arvoa voi muuttaa halutuksi
 
-for avain in sanakirja:				#sanakirjan läpikäynti onnistuu for in loopilla
+for avain in sanakirja:				        #sanakirjan läpikäynti onnistuu for in loopilla
     print(avain, ' on ', sanakirja[avain])
-for avain, arvo in sanakirja.items():		    #sama onnistuu myös .items() metodilla
+for avain, arvo in sanakirja.items():		#sama onnistuu myös .items() metodilla
     print(avain, ' on ', arvo)
 
 sanakirja = {}
@@ -430,56 +507,56 @@ lista1 = [1, 2, 3]
 lista2 = [8, 9, 10]
 sanakirja[1] = lista1
 sanakirja[2] = lista2
-sanakirja[1].append(4)				#sanakirjan arvona olevalle listalle lisäys toimii appendilla
-del sanakirja[1]				    #poistaa avaimen ja sitä vastaavan arvon, ei palauta mitään
-poistettulista = sanakirja.pop(2)	#poistaa avaimen ja sitä vastaavan arvon, palauttaa arvon. Samoin kuin
-						            #avaimella hakeminen, myös poistamiset aiheuttavat virheen jos avainta
-						            #ei ole sanakirjassa. Muista tarkistaa, if joku in sanakirja: jne..
+sanakirja[1].append(4)				        #sanakirjan arvona olevalle listalle lisäys toimii appendilla
+del sanakirja[1]				            #poistaa avaimen ja sitä vastaavan arvon, ei palauta mitään
+poistettulista = sanakirja.pop(2)		    #poistaa avaimen ja sitä vastaavan arvon, palauttaa arvon. Samoin kuin
+						                    #avaimella hakeminen, myös poistamiset aiheuttavat virheen jos avainta
+						                    #ei ole sanakirjassa. Muista tarkistaa, if joku in sanakirja: jne..
 poistettulista = sanakirja.pop(3, None)		#pop metodille voi antaa oletusarvoisen palautusarvon esim None jos
-						            #avainta ei löydy. Virheilmoitusta tällöin ei tule.
+						                    #avainta ei löydy. Virheilmoitusta tällöin ei tule.
 sisempikirja = {}
 sisempikirja['jee'] = 111
-sanakirja['toinen'] = sisempikirja		#arvona voi olla myös toinen sanakirja
-print(sanakirja['toinen']['jee'])		#111
-len(sisempikirja)				    #kertoo sanakirjan pituuden, montako avainarvoparia siellä on
+sanakirja['toinen'] = sisempikirja		    #arvona voi olla myös toinen sanakirja
+print(sanakirja['toinen']['jee'])		    #111
+len(sisempikirja)				            #kertoo sanakirjan pituuden, montako avainarvoparia siellä on
 ----------------tuple----------------------------
 tuple on muuttumaton (esim. lista ei) ja sitä voi käyttää esim sanakirjan avaimena
 
-piste = (3, 7)					    #joko suluilla tai ilman
+piste = (3, 7)					            #joko suluilla tai ilman
 piste2 = 10, 15
-print(piste[0])					    #3
-print(piste[1])					    #7
-print(piste2[0])				    #10
-print(piste2[1])				    #15
+print(piste[0])					            #3
+print(piste[1])					            #7
+print(piste2[0])				            #10
+print(piste2[1])				            #15
 
 def hedelma():
-    return 'banaani', 'omena'		#tuple paluuarvona
+    return 'banaani', 'omena'			    #tuple paluuarvona
 lounas = hedelma()
 print(lounas, 'tai', lounas[0], lounas[1])	#('banaani', 'omena') tai banaani omena
 
-lounas1,lounas2=hedelma()			#voit myös destrukturoida suoraan omiksi arvoikseen					
-print(lounas1,lounas2)				#banaani omena
+lounas1,lounas2=hedelma()			        #voit myös destrukturoida suoraan omiksi arvoikseen					
+print(lounas1,lounas2)				        #banaani omena
 
 muuttuja1, muuttuja2 = muuttuja2, muuttuja1	#tuplea voi käyttää kahden muuttujan arvojen päittäin vaihtamiseen.
-						            #ilman tuplea tarvitaan apumuuttujaa.
+						                    #ilman tuplea tarvitaan apumuuttujaa.
 
 tuplelista = [("omena", 8), ("banaani", 1), ("meloni", 4)]
-for nimi, kpl in tuplelista:		#voi joko suoraan loopin määrittelyssä destrukturoida tai kohteessa.
+for nimi, kpl in tuplelista:			    #voi joko suoraan loopin määrittelyssä destrukturoida tai kohteessa.
     print("Hyllyssä {} x {}".format(kpl, nimi))
 -------------tiedoston lukeminen-----------------(kts myös csv moduuli)
 with open("testi.txt") as jokutiedosto:		#avaa testi.txt tiedoston. 
 	teksti = jokutiedosto.read()		    #Tiedosto luetaan merkkijonoksi str muuttujaan teksti
 	print(teksti)				            #merkkijonon sisältö tulostuu
 	
-	for rivi in jokutiedosto:		#tiedosto voidaan käsitellä rivi kerrallaan for in loopilla
-		print(rivi,'lisäys')		#lisää automaattisesti joka rivin perään rivinvaihdon \n jolloin
-						            #'lisäys' tulostuu eririville. Voit tarvittaessa poistaa tämän 
-						            #ylimääräisen esim. rivi=rivi.replace('\n','')
-with open('sala.csv') as filu:		#csv file tarkoittaa Comma Separated Values tiedostoa. Ei muuta 
-    for rivi in filu:				#ihmeellistä kuin arvot eroteltu toisistaan tietyllä merkillä.
+	for rivi in jokutiedosto:		        #tiedosto voidaan käsitellä rivi kerrallaan for in loopilla
+		print(rivi,'lisäys')		        #lisää automaattisesti joka rivin perään rivinvaihdon \n jolloin
+						                    #'lisäys' tulostuu eririville. Voit tarvittaessa poistaa tämän 
+						                    #ylimääräisen esim. rivi=rivi.replace('\n','')
+with open('sala.csv') as filu:			    #csv file tarkoittaa Comma Separated Values tiedostoa. Ei muuta 
+    for rivi in filu:				        #ihmeellistä kuin arvot eroteltu toisistaan tietyllä merkillä.
         rivi = rivi.replace('\n', '')		#poistetaan automaattinen rivinvaihto \n
         osat = rivi.split(';')			    #vaikka tiedosto on csv nii arvot voivat olla muillakin merkeillä
-        nimi = osat[0]				#eroteltuja toisistaan. Tässätapauksessa ;
+        nimi = osat[0]				        #eroteltuja toisistaan. Tässätapauksessa ;
         numbat = osat[1:]
         print('Nimi:', nimi)
         print('Numbat:', numbat)	
@@ -513,14 +590,35 @@ opiskelijat.append(['Masa', 'Tietotekniikka'])
 
 with open('kirjoittelu.csv', 'w') as file:
     for rivi in opiskelijat:
-        rivi = ';'.join(rivi)+'\n'          #listan talletus csv tiedostoksi. Huomaa että join metodi vaatii
+        rivi = ';'.join(rivi)+'\n'		    #listan talletus csv tiedostoksi. Huomaa että join metodi vaatii
         file.write(rivi)			        #että kaikki alkiot ovat string tyyppiä
 
 with open('kirjoittelu.csv', 'w') as file:	#sama kuin yllä mutta jos listan mukana tulee vaikka lukuja
     for rivi in opiskelijat:
         rivi = ';'.join(str(el) for el in rivi)+'\n' #elementtien castaus stringiksi
         file.write(rivi)
+---------------generaattori----generator---------
+def luku(max: int):
+    luku = 0
+    while luku <= max:
+        yield luku				#avainsana yield palauttaa luvun ja kontrollin pääohjelmalle
+        luku += 1				#kun generaattoria kutsutaan uudelleen joko nextillä tai loopilla
+						        #jatketaan siitä mihin jäätiin.
 
+lukugen = luku(2)				#lukugen generaattori
+try:
+    print(next(lukugen))		#kutsutaan seuraavaa arvoa ja printataan se
+    print(next(lukugen))
+    print(next(lukugen))
+    print(next(lukugen))
+except StopIteration:			#kun viimeinen generaattorin luku on pyydetty, seuraavaa pyytäessä
+    print("loppu")				#seuraa StopIteration poikkeus, joka on parempi ottaa kiinni.
+lukugen2 = luku(3)
+for el in lukugen2:				#for loopissa ei tule em poikkeusta, vaan se osaa pysähtyä oikein.
+    print(el)
+
+luku = (x for x in range(1, 20))		    #generaattorikooste
+print(next(luku))
 ---------------virheenkäsittely------------------
 try:
     luku = int(input('anna luku: '))		#koska syöte muutetaan int tyypiksi, syötteet joita ei voi muuntaa
@@ -538,13 +636,13 @@ else:
 print(luku)
 
 --
-try:                                #useamman virhetilanteen erottelu toisistaan
+try:						                #useamman virhetilanteen erottelu toisistaan
     with open('jokutiedosto.txt') as file:
         for rivi in file:
             print(rivi)
-except FileNotFoundError:			#FileNotFoundError
+except FileNotFoundError:			        #FileNotFoundError
     print('Ei ole semmoista tiedostoa')		#voidaan tiedottaa käyttäjää
-except:						        #Mikä tahansa muu errori nyt kuin ylläoleva ohjautuu tänne.
+except:						                #Mikä tahansa muu errori nyt kuin ylläoleva ohjautuu tänne.
     print('joku virhe tapahtui')
 
 --
@@ -557,74 +655,74 @@ FileNotFoundError
 PermissionError
 
 --
-def tulostaPositiivinenLuku(luku):  #raise jokuError tai raise Exeption errori voidaan myös itse 
-    if luku < 0:				    #synnyttää jossakin tapauksessa. 
+def tulostaPositiivinenLuku(luku):		#raise jokuError tai raise Exeption errori voidaan myös itse 
+    if luku < 0:				        #synnyttää jossakin tapauksessa. 
         raise ValueError('luvun pitää olla positiivinen', luku)		
-    print(luku)					    #(ctrl+space intellisense antaa vinkkiä error tyypeistä)
+    print(luku)					        #(ctrl+space intellisense antaa vinkkiä error tyypeistä)
 
-tulostaPositiivinenLuku(3)			#3
-tulostaPositiivinenLuku(-3)			#aiheuttaa errorin
+tulostaPositiivinenLuku(3)			    #3
+tulostaPositiivinenLuku(-3)			    #aiheuttaa errorin
 -------------------------------------Build in moduuleja-------------------------------------------------------------
 -----------------math moduuli--------------------
-from math import sqrt				#pythonin sisäänrakennettu math moduuli, tuodaan neliöjuurifunktio
-dir(math)					        #voit katsoa mitä metodeja math moduulilla on
-print(sqrt(16))					    #tulostaa 4.0
+from math import sqrt				    #pythonin sisäänrakennettu math moduuli, tuodaan neliöjuurifunktio
+dir(math)					            #voit katsoa mitä metodeja math moduulilla on
+print(sqrt(16))                         #tulostaa 4.0
 
 -----------------string moduuli-----------------
 import string
-dir(string)					        #voit tarkastella string moduulin metodeja
-print(string.punctuation)			#!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
-print(' ' in string.whitespace)     #True
-print('\t' in string.whitespace)    #True, kaikki whitespacemerkit penkoo tuolla
+dir(string)					            #voit tarkastella string moduulin metodeja
+print(string.punctuation)			    #!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+print(' ' in string.whitespace)			#True
+print('\t' in string.whitespace)		#True, kaikki whitespacemerkit penkoo tuolla
 -----------------random moduuli------------------
-import random as r                  #käyttö esim r.randint(diipa,daapa)
+import random as r				        #käyttö esim r.randint(diipa,daapa)
 	tai
 import random
-luku = random.randint(0, 3)			#arpoo luvuksi 0,1,2,3
+luku = random.randint(0, 3)			    #arpoo luvuksi 0,1,2,3
 	tai
 from random import randint, shuffle,choice,	#voit myös tuoda suoraan haluamasi funktion.
 sample
-luku = randint(0, 3)				#arpoo luvuksi 0,1,2,3
+luku = randint(0, 3)				    #arpoo luvuksi 0,1,2,3
 lista = [1, 2, 3, 4, 5]
-shuffle(lista)					    #listan järjestys muutuu
-satunnainen = choice(lista)			#choice palauttaa satunnaisen elementin listalta
-satunnaiset = sample(lista, 2)		#sample palauttaa satunnaisesti halutun määrän alkioita listalta,
-						            #tässä 2kpl
+shuffle(lista)					        #listan järjestys muutuu
+satunnainen = choice(lista)			    #choice palauttaa satunnaisen elementin listalta
+satunnaiset = sample(lista, 2)			#sample palauttaa satunnaisesti halutun määrän alkioita listalta,
+						#tässä 2kpl
 ------------------turtle moduuli----------------
 from turtle import *
 
-color('red')                        #valitsee piirtovärin
+color('red')                            #valitsee piirtovärin
 begin_fill()
-left(45)                            #kääntyy 45 astetta vasemmalle
-forward(100)                        #eteenpäin 100 pixeliä
+left(45)                                #kääntyy 45 astetta vasemmalle
+forward(100)                            #eteenpäin 100 pixeliä
 left(90)
 forward(100)
 left(90)
 forward(100)
 left(90)
-forward(100)                        #kun kuvio on umpinainen se täyttyy.. käsittääkseni
+forward(100)                            #kun kuvio on umpinainen se täyttyy.. käsittääkseni
 end_fill()
-done()                              #tämän avulla ohjelma jää auki piirtelyn jälkeen jotta sitä voi katsoa
-						            #ilman vain piirtää ja samantien sulkee.
+done()                                  #tämän avulla ohjelma jää auki piirtelyn jälkeen jotta sitä voi katsoa
+						                #ilman vain piirtää ja samantien sulkee.
 --muita
-up()                                #nostaa "kynän", ei piirrä jälkeä
-down()                              #laskee "kynän"						
-setx(x)                             #piirturi menee kohtaan x
-sety(y)                             #piirturi menee kohtaan y
-circle(sade)                        #piirturi lähtee piirtämään ympyrää vasemmalle kaartaen
+up()						            #nostaa "kynän", ei piirrä jälkeä
+down()						            #laskee "kynän"						
+setx(x)						            #piirturi menee kohtaan x
+sety(y)						            #piirturi menee kohtaan y
+circle(sade)				            #piirturi lähtee piirtämään ympyrää vasemmalle kaartaen
 
 ------------------datetime moduuli---------------
 from datetime import datetime
 
-nyt= datetime.now()                 #nykyhetken vuosi päivämäärä ja kellonaika
-print(nyt.strftime("%d.%m.%Y"))     #strftime metodill voi muotoilla tulostusta jos default ei miellytä
-vuosituhannenvaihde=datetime(2000,1,1)      #ajanhetki määritelty vuosituhannen taitteeseen
-vuosituhannenvaihde.year			        #ajanhetkestä pystyy hakeen osia, mm. day ja month
+nyt= datetime.now()				        #nykyhetken vuosi päivämäärä ja kellonaika
+print(nyt.strftime("%d.%m.%Y"))			#strftime metodill voi muotoilla tulostusta jos default ei miellytä
+vuosituhannenvaihde=datetime(2000,1,1)	#ajanhetki määritelty vuosituhannen taitteeseen
+vuosituhannenvaihde.year			    #ajanhetkestä pystyy hakeen osia, mm. day ja month
 
-aikaaKulunut = nyt-vuosituhannenvaihde		#aikoja voi vertailla vertailuoperaattoreilla <,>,<= jne tai
-						            #myös laskuoperaattoreilla
-print(aikaaKulunut.days)            #vähennyslaskusta syntyy timedelta-olio, jolla joitain ajan yksikköjä
-						            #days,seconds ja microseconds käytössä.
+aikaaKulunut = nyt-vuosituhannenvaihde	#aikoja voi vertailla vertailuoperaattoreilla <,>,<= jne tai
+						                #myös laskuoperaattoreilla
+print(aikaaKulunut.days)			    #vähennyslaskusta syntyy timedelta-olio, jolla joitain ajan yksikköjä
+						                #days,seconds ja microseconds käytössä.
 nytpas = datetime.now()
 ero = nytpas - nyt
 print(ero.microseconds)
@@ -634,21 +732,21 @@ import csv
 		
 with open('joku.csv') as filu:
 	for rivi in csv.reader(filu, delimiter=";"):	#päällisin puolin sama toiminta kuin ilman csv moduulia
-        print(rivi)					#mutta jos arvona on string jonka sisällä on erotusmerkki
-							        #csv.reader ei pätkäise siitä poikki, toisin kuin split
-							        #metodi. Huom merkkijonot pitää olla " tuplahipsuissa että
-							        #csv reader kunnioittaa niitä.
+        print(rivi)					                #mutta jos arvona on string jonka sisällä on erotusmerkki
+							                        #csv.reader ei pätkäise siitä poikki, toisin kuin split
+							                        #metodi. Huom merkkijonot pitää olla " tuplahipsuissa että
+							                        #csv reader kunnioittaa niitä.
 -----------------json moduuli----------------------
 import json
 
 with open('joku.json') as file:			
     data = file.read()
-lista = json.loads(data)            #muuttaa luetun datan merkkijonomuodosta tietorakenteiksi.
+lista = json.loads(data)			#muuttaa luetun datan merkkijonomuodosta tietorakenteiksi.
 print(lista)
 
-with open("joku.json") as filu:     #sama ku edellinen. joku.json niminen file luetaan
+with open("joku.json") as filu:		#sama ku edellinen. joku.json niminen file luetaan
     jeb = json.load(filu)
-    print(jeb)                      #tulostuu samana tietorakenteena ku se on talletettu
+    print(jeb)					    #tulostuu samana tietorakenteena ku se on talletettu
 
 with open("joku.json", "w") as filu:		#kirjoittaa joku.json tiedostoon jokuListaTaiSanakirja tietorakenteen
      json.dump(jokuListaTaiSanakirja, filu)	#sisällön. Tiedosto pystyy sisältään vain yhden tietorakenteen.
@@ -662,65 +760,66 @@ import urllib.request
 import json
 
 haku = urllib.request.urlopen("https://jsonplaceholder.typicode.com/todos")
-lista = json.loads(haku.read())			#haku.read() palauttaa haetun kohteen webscraping tyyliin. 
+lista = json.loads(haku.read())		#haku.read() palauttaa haetun kohteen webscraping tyyliin. 
 						            #Jos kohteena oleva sivu on json muodossa, sen voit 
 						            #muuttaa json.loadsilla takaisin kyseiseksi tietorakenteeksi.
 -----------------oma moduuli--------------------
 import moduulinnimi				
-moduulinnimi.teejotain()            #suoraviivainen importtaus ja käyttö Jotai rajoituksia ilmeisesti, 
+moduulinnimi.teejotain()			#suoraviivainen importtaus ja käyttö Jotai rajoituksia ilmeisesti, 
 						            #mistä asti noita voi importata. Samasta kansioista ainaki onnistuu.					
-print(__name__)                     #__name__ python tallettaa tähän muuttujaan tiedon suoritetaanko
+print(__name__)					    #__name__ python tallettaa tähän muuttujaan tiedon suoritetaanko
 						            #file ,jossa muuttuja on, omanaan eli mainina (tulostus tässä __main__)
 						            #vai importataanko file jonku muun filen käyttöön jolloin 
 						            #__name__ saa filen nimeä vastaavan arvon. Muuttuja ehtolauseen taakse
 						            #ja esimerkisi osa filen toiminnallisuudesta voidaan suorittaa vain 
 						            #kun fileä ajetaan itsenäisenä.
 -----------------kolmansien osapuolien moduulit
-terminaali>> pip install haluttumoduuli     #PypI eli Python Package Index on luotettava lähde.
+terminaali>> pip install haluttumoduuli		#PypI eli Python Package Index on luotettava lähde.
 
 ---------------class-luokka-olio----------------
 class Auto:
+    valmistusnro=1				        #luokka-attribuutti, joka kasvaa aina kun syntyy uusi Auto olio
     def __init__(self, merkki: str, omistaja: str, nopeus:int, valmistusvuosi:int):	#konstruktori
-        self.merkki = merkki        #jos attribuutit ovat samannimisiä kuin metodit tulee typeErroria
-        self.omistaja = omistaja    #metodeja kutsuttaessa (python luulee että yrität kutsua attribuutteja)
+        self.merkki = merkki			#jos attribuutit ovat samannimisiä kuin metodit tulee typeErroria
+        self.omistaja = omistaja		#metodeja kutsuttaessa (python luulee että yrität kutsua attribuutteja)
 	self.nopeus = nopeus
-	self.__valmistusvuosi           #valmistusvuoden kapselointi __ (ei voi muuttaa tai käsitellä tai
-						            #edes nähdä suoraan kapseloitua attribuuttia. Kapseloitua attribuuttia
-						            #käsitellään metodien avulla. Private.
-    def __bensaaKuluu(self):        #piilotettu olion sisäinen metodi, hoitaa olion sisäisiä asioita
-	print("*pyörre käy tankissa..") #ei voida kutsua olion ulkopuolelta
+	self.__valmistusvuosi			    #valmistusvuoden kapselointi __ (ei voi muuttaa tai käsitellä tai
+	self.valmistusnumero=Auto.valmistusnro	#edes nähdä suoraan kapseloitua attribuuttia. Kapseloitua attribuuttia
+	Auto.valmistusnro+=1			    #käsitellään metodien avulla. Private.
+    def __bensaaKuluu(self):			#piilotettu olion sisäinen metodi, hoitaa olion sisäisiä asioita
+	print("*pyörre käy tankissa..")		#ei voida kutsua olion ulkopuolelta
     
-    def kaynnista(self):			#metodi kaynnista
+    def kaynnista(self):			    #metodi kaynnista
         print("brumm! brumm!")
-	self.__bensaaKuluu()			#piilotetun metodin kutsuminen olion sisällä
-    def __str__(self):				#objektin voi suoraan antaa tulostettavaksi
+	self.__bensaaKuluu()			    #piilotetun metodin kutsuminen olion sisällä
+    def __str__(self):				    #objektin voi suoraan antaa tulostettavaksi
         return "muotoile objekti täällä niinkuin halutaan tulostettavaksi"
 
     def __repr__(self):				    #TÄRKEÄ! Jokaiseen itsetehtyyn objektiin tulisi tehdä tämä, jotta 
-        return "objektin muoto tähän"   #tulostaessa näet minkälainen objekti on (debuggaus) print(objekti)
+        return "objektin muoto tähän"	#tulostaessa näet minkälainen objekti on (debuggaus) print(objekti)
 						                #jos objektille on tehty __str__ metodi se ottaa vallan print(objekti)
 						                #mutta __repr__ metodiin päästään vielä käsiksi print(repr(objekti))
 						                #esim. print(lista) -> tulostus jotain [alkio1,alkio2,alkio3] (repr)
     
-    def nopeampiKuin(self, toinen:"Auto"):  #jos parametrin tyyppivihjeenä on saman luokan olio, se pitää antaa
-	if self.nopeus > toinen.nopeus:         #lainausmerkeissä
+    def nopeampiKuin(self, toinen:"Auto"):	#jos parametrin tyyppivihjeenä on saman luokan olio, se pitää antaa
+	if self.nopeus > toinen.nopeus:		#lainausmerkeissä
 		return True
 	return False
     @property					        #@property havainnointimtd/getter määrittely valmistusvuosi-funktiolle
     def valmistusvuosi(self):			#kapseloituun __valmistusvuosi attr. päästään nyt käsiksi 
 	return self.__valmistusvuosi		#jokuauto.valmistusvuosi komennolla, mutta sitä ei esim. voi muuttaa
 						                #getterin ei ole pakko olla samanniminen kuin attribuutti.
-    @valmistusvuosi.setter              #vähän heikko esimerkki setterille mutta nyt valmistusvuoden voi
+    @valmistusvuosi.setter			    #vähän heikko esimerkki setterille mutta nyt valmistusvuoden voi
     def valmistusvuosi(self,vuosi):		#asettaa jokuauto.valmistusvuosi=2001. Eli tietyillä ehdoilla voi
-	if vuosi>2000:                      #nyt kapseloitua attribuuttia muuttaa. Enempi hyötyä esim rahannosto
-		self.__valmistusvuosi=vuosi     #sovelluksissa, missä ei haluta negatiivisia nostoja tms.
+	if vuosi>2000:				        #nyt kapseloitua attribuuttia muuttaa. Enempi hyötyä esim rahannosto
+		self.__valmistusvuosi=vuosi	    #sovelluksissa, missä ei haluta negatiivisia nostoja tms.
 	else:
 		raise ValueError('tsot tsot tämä ei ole sallittua')
 
 kekenKottero = Auto("lada", "keke")
-print(kekenKottero)                     #<object at 0x019274D8> tai vastaava ilman __str__ metodia
+print(kekenKottero)				        #<object at 0x019274D8> tai vastaava ilman __str__ metodia
 						                #__str__ metodilla: "muotoile objekti täällä niinkuin halutaan...
-kuvaus=str(kekenKottero)                #sama homma ku edellisessä, nyt vaan talletettu muuttujaan
+kuvaus=str(kekenKottero)			    #sama homma ku edellisessä, nyt vaan talletettu muuttujaan
 autolista=[]
 autolista.append(kekenKottero)			#listaan talletetaan viittauksia samaan olioon
 autolista.append(kekenKottero)			#listaan talletetaan viittauksia samaan olioon
@@ -729,21 +828,21 @@ lista1 = [1, 2, 3]
 lista2 = [1, 2, 3]
 lista3 = lista1
 						                #is operaattori, onko kyseessä sama olio
-print(lista1 is lista2)                 #False
-print(lista1 is lista3)                 #True
-print(lista2 is lista3)                 #False
+print(lista1 is lista2)				    #False
+print(lista1 is lista3)				    #True
+print(lista2 is lista3)				    #False
 						                #== operaattori, onko oliot saman sisältöisiä
 print(lista1 == lista2)                 #True				
-print(lista1 == lista3)                 #True
-print(lista2 == lista3)                 #True
+print(lista1 == lista3)				    #True
+print(lista2 == lista3)				    #True
 
 class Pankkitili:
-    korko = 0.02                        #luokkamuuttuja siihen voidaan viitata luokan kautta
-    def __init__(self, nimi, saldo):    #Pankkitili.korko=0.1 ja kaikkien olioiden korko=0.1, paitsi jos olet
+    korko = 0.02				        #luokkamuuttuja siihen voidaan viitata luokan kautta
+    def __init__(self, nimi, saldo):	#Pankkitili.korko=0.1 ja kaikkien olioiden korko=0.1, paitsi jos olet
         self.nimi = nimi			    #erikseen muuttanut jonkun olion korkoa esim. jaska.korko=0.01
         self.saldo = saldo
-    @classmethod                        #luokkametodi
-    def tuplaaKorko(cls):               #cls on niinkuin self, mutta viittaa luokkaan kun self viittaa olioon
+    @classmethod				        #luokkametodi
+    def tuplaaKorko(cls):			    #cls on niinkuin self, mutta viittaa luokkaan kun self viittaa olioon
         cls.korko *= 2				    #cls on myös aina luokkametodin parametrinä ja python antaa sen
 						                #automaattisesti käytettäessä niinkuin self käytettäessä metodeja
 						                #luokkametodien käyttöä varten ei tarvitse luoda erillistä oliota
@@ -754,8 +853,8 @@ Pankkitili.korko = 0.03
 print(jaska.korko, keksa.korko)			#0.03 0.03
 
 ---suojatut piirteet HOX-----
-__attribuuttiTaiMetodi                  #kapselointi tai piilotus, ei näy asiakkaille tai aliluokille
-_attribuuttiTaiMetodi                   #yksi alaviiva tarkoittaa suojattua eli attribuuttia tai metodia ei
+__attribuuttiTaiMetodi				    #kapselointi tai piilotus, ei näy asiakkaille tai aliluokille
+_attribuuttiTaiMetodi				    #yksi alaviiva tarkoittaa suojattua eli attribuuttia tai metodia ei
 						                #tulisi käyttää luokan tai aliluokkien ulkopuolella, protected sovittu
 						                #käytäntö eli siis ne näkyvät mutta niitä ei tule käyttää.
 ---perintä--
@@ -770,7 +869,7 @@ class Kulkuneuvo:
 						                #metodeja on, esim. __lt__(self,toinen) lessthan, __ne__() not equal..
 						                #myös muut operaatiot mahdollisia, __add__() addition, __sub__() vähenn.
 class Pyora(Kulkuneuvo):			    #pyora perii luokan kulkuneuvo
-    def __init__(self, merkki, nopeus): #sen konstruktoriin annetaan sen yliluokankin tarvitsemat parametrit
+    def __init__(self, merkki, nopeus):	#sen konstruktoriin annetaan sen yliluokankin tarvitsemat parametrit
         super().__init__(nopeus)		#yliluokan konstruktoriin välitetään tarvittavat, konstruktorissa 
         self.merkki = merkki			#saadut parametrit. Kaikki luokkaan kirjoitetut samannimiset metodit
 						                #kuin yliluokassa ylikirjoittavat yliluokan metodit(tässä luokassa).
@@ -785,7 +884,7 @@ class Jalka(Kulkuneuvo):
         print("kavellaan")
 
 mankeli = Pyora("tuntsa", 60)
-mankeli.ajalujaa()                      #mankeli peri yliluokan metodit, mukaanlukien ajalujaa, nyt liikkuu!
+mankeli.ajalujaa()				        #mankeli peri yliluokan metodit, mukaanlukien ajalujaa, nyt liikkuu!
 
 -----iterointi---omat luokat--
 class Kirja:
@@ -794,9 +893,9 @@ class Kirja:
         self.kirjailija = kirjailija
         self.sivuja = sivuja
 
-class Kirjahylly:                       #kirjat voisi tallettaa tavalliseen listaan ja iteroida se, mutta
-    def __init__(self):                 #jos tarvitaan erillinen luokka kokonaisuuksille ja halutaan että
-        self._kirjat = []               #se on iteroitavissa tarvitaan __iter__() ja __next__() metodit
+class Kirjahylly:				        #kirjat voisi tallettaa tavalliseen listaan ja iteroida se, mutta
+    def __init__(self):				    #jos tarvitaan erillinen luokka kokonaisuuksille ja halutaan että
+        self._kirjat = []			    #se on iteroitavissa tarvitaan __iter__() ja __next__() metodit
     def lisaa_kirja(self, kirja: Kirja):	#HOX self._kirjat on tässä lista (iterointi erillai ku dict)
         self._kirjat.append(kirja)
     def __iter__(self):
@@ -815,7 +914,7 @@ class Kirjahylly:                       #kirjat voisi tallettaa tavalliseen list
             # Ei enempää kirjoja
             raise StopIteration
 
-class Kurssiluettelo:                   #sisäinen luettelo toteutettu dict:illä
+class Kurssiluettelo:				    #sisäinen luettelo toteutettu dict:illä
     def __init__(self):
         self.__kurssilista = {}			#HOX dict
 
@@ -833,7 +932,7 @@ class Kurssiluettelo:                   #sisäinen luettelo toteutettu dict:ill�
             return
         self.__kurssilista[kurssinnimi].korotaArvosana(arvosana)
 
-    def __iter__(self):				#tarttee __iter__() metodin
+    def __iter__(self):				        #tarttee __iter__() metodin
         return iter(self.__kurssilista)		#iter funktio
 
     def items(self):
@@ -845,7 +944,7 @@ class Kurssiluettelo:                   #sisäinen luettelo toteutettu dict:ill�
 self.luettelo=Kurssiluettelo()
 for key, kurssi in self.luettelo.items():	#tätä varten riittää __iter__() ja items() funktiot määriteltynä 
             pojoja += kurssi.opintopisteet	#kurssiluettelossa ja saadaan halutessa destrukturoitua key mukaan
-						#iterointiin
+						                    iterointiin
 
 
 
