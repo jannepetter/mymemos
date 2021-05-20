@@ -71,6 +71,26 @@ numbers.sort()				//[1, 14, 2, 22, 3, 33, 4, 5]
 sort functio hyväksyy parametriksi cb funktion, joka vertailee taulukon kahta peräkkäistä arvoa esim.
 numbers.sort((a,b)=>{return a-b})
 
+---reduce
+const lista = [1, 2, 3, 4, 6]
+uusi = lista.reduce((acc, sum) => acc + sum)	//16
+
+const maara = [{ kpl: 2 }, { kpl: 12 }, { kpl: 21 }, { kpl: 9 }, { kpl: 5 }, { kpl: 7 }]
+const total = maara.reduce((summa, jeb) => summa + jeb.kpl, 0)					//56
+
+const esineet = [
+    { nimi: 'kello', hinta: 10 },
+    { nimi: 'mopo', hinta: 10 },
+    { nimi: 'jopo', hinta: 10 },
+    { nimi: 'diipa', hinta: 10 },
+    { nimi: 'daapa', hinta: 10 }   
+]
+let count = 0
+const uusi = esineet.reduce((arr, item) => {
+    count++
+    return arr.concat({ ...item, id: count })		//id lisäys objektiin countilla tai paremmin esim uuid()
+}, [])							//ja reducen avulla
+
 --Math
 const arr=[10,2,30,4,5]
 
@@ -294,6 +314,37 @@ tyypittänyt sitä oikein. Katso hoverilla valitsemasi elementin tyyppi ja lisä
 
 const elem = document.getElementById('jee123') as HTMLTextAreaElement;
 ---
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       
     
 

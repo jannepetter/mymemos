@@ -1,5 +1,5 @@
 
-
+-----------------------------js---
 "console.log()":{
 		"prefix": "cl",
 			"body": [
@@ -77,4 +77,34 @@
 				"export default $1"
 			],
 		 	"description": "Typescript react function component"	
+	}
+---------------------python
+"Print": {
+		"prefix": "pr",
+		"body": [
+			"print('$1')"
+		],
+		"description": "Print"
+	},
+	"Input string": {
+		"prefix": "inp",
+		"body": [
+			"$1=input('$2')"
+		],
+		"description": "Input in plain string"
+	},
+	"Input int": {
+		"prefix": "inpi",
+		"body": [
+			"$1=int(input('$2'))"
+		],
+		"description": "Input cast as int"
+	},
+	"Function": {
+		"prefix": "ff",
+		"body": [
+			"def $1($2):",
+			"\t$0",
+		],
+		"description": "Function definition"
 	}
