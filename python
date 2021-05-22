@@ -662,6 +662,13 @@ def tulostaPositiivinenLuku(luku):		#raise jokuError tai raise Exeption errori v
 
 tulostaPositiivinenLuku(3)			    #3
 tulostaPositiivinenLuku(-3)			    #aiheuttaa errorin
+-- assert 
+muuttujien ja tulosten tarkistelua varten. Esim rakennellessa uutta funktiota nippu
+assert tarkistuksia reunaehdoille
+
+luku = 3
+assert luku != 3, "luku ei saa olla 3"  // jos luku nyt on 3 niin seuraa virhe
+assert (ehto) , "virheilmoitus"         // jos ehto on False, niin syntyy virhe
 -------------------------------------Build in moduuleja-------------------------------------------------------------
 -----------------math moduuli--------------------
 from math import sqrt				    #pythonin sisäänrakennettu math moduuli, tuodaan neliöjuurifunktio

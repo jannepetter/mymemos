@@ -1,6 +1,9 @@
 ----------------------------------------------------------------------------------------------------------
 ------------------------------------node installaatiot ym--------------------------------------------
 ----------------------------------------------------------------------------------------------------------
+quick start:
+npm install express cors mongoose dotenv --save
+npm install nodemon cross-env rimraf --save-dev
 
 npm init
     -aloittaa uudenprojektin(tekee vain package.json tiedoston kyselyn avulla) 

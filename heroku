@@ -1,0 +1,31 @@
+-------------------heroku
+asenna heroku cli jos ei jo oo. Löytyy herokun sivuilta, esim ku teet uuden appin.
+Siis loggaa herokuun ja tee new app. Sieltä löytyy install heroku cli.
+
+--heroku cli, naputtelet vaan terminaaliin kometoja normisti:
+heroku --version            //näet onko asennettu ja version
+heroku login                //yhdistää herokuun
+heroku git:remote -a herokuremotennimi          //kato appin nimi herokusta
+normi git commit ja:
+git push heroku master      //nakkaa appin herokuun antamaasi remoteen
+git remote -v               //näet osoitteen mihin olet laittamassa (sama ku github)
+
+--.env
+heroku ei hae env muuttujia - ne pitää laittaa herokun appin dashboardissa
+config variableihin
+
+--package.json              //lisää tuonne nodeversio
+ "engines": {
+    "node": "14.x"
+  }
+
+--probleemat
+heroku logs                 //tulostaa roskat
+heroku logs -t              //tulostaa sitä mukaa ku tapahtuu
+
+--Procfile                  //node.js appi tarttee tämännimisen filen että se osaa ajaa sen
+web:node index.js          //procfilen sisältö
+--
+
+
+
